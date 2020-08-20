@@ -221,8 +221,9 @@
                   <table class="table table-hover text-nowrap">
                     <thead>
                       <tr>
-                        <th>ID Stok Masuk</th>
-                        <th>Outlet</th>
+                        <th>Barcode</th>
+                        <th>Produk</th>
+                        <th>Stok</th>
                         <th>Tanggal</th>
                       </tr>
                     </thead>
@@ -234,6 +235,7 @@
                   while ($produk = mysqli_fetch_assoc($result))
                   { ?>
                       <tr>
+                        <td><?php echo "$produk[barcode]"; ?></td>
                         <td><?php echo "$produk[idstokmasuk]"; ?></td>
                         <td><?php echo "$produk[outlet]"; ?></td>
                         <td><?php echo "$produk[tanggal]"; ?></td>

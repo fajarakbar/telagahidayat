@@ -31,30 +31,30 @@
             <th>Add or Remove</th>
           </tr>
           <?php
-$conn = mysqli_connect("localhost","root","","db_tokoretail");
+          $conn = mysqli_connect("localhost","root","","db_tokoretail");
 
-if(isset($_POST['save'])) {
-    $idstokmasuk = $_POST['idstokmasuk'];
-    $outlet = $_POST['outlet'];
-    $tanggal = $_POST['tanggal'];
-    $namaproduk = $_POST['namaproduk'];
-    $jumlah = $_POST['jumlah'];
-    $hargabeliperunit = $_POST['hargabeliperunit'];
-    $totalhargabeli = $_POST['totalhargabeli'];
-    foreach ($namaproduk as $key => $value) {
-        $save = "INSERT INTO inventori(idstokmasuk,outlet,tanggal,namaproduk,jumlah,hargabeliperunit,totalhargabeli) VALUES('".$idstokmasuk."','".$outlet."','".$tanggal."','".$value."','".$jumlah[$key]."','".$hargabeliperunit[$key]."','".$totalhargabeli[$key]."')";
-        $query = mysqli_query($conn, $save);
-    }
-}
-?>
+          if(isset($_POST['save'])) {
+              $idstokmasuk = $_POST['idstokmasuk'];
+              $outlet = $_POST['outlet'];
+              $tanggal = $_POST['tanggal'];
+              $namaproduk = $_POST['namaproduk'];
+              $jumlah = $_POST['jumlah'];
+              $hargabeliperunit = $_POST['hargabeliperunit'];
+              $totalhargabeli = $_POST['totalhargabeli'];
+              foreach ($namaproduk as $key => $value) {
+                $save = "INSERT INTO inventori(idstokmasuk,outlet,tanggal,namaproduk,jumlah,hargabeliperunit,totalhargabeli) VALUES('".$idstokmasuk."','".$outlet."','".$tanggal."','".$value."','".$jumlah[$key]."','".$hargabeliperunit[$key]."','".$totalhargabeli[$key]."')";
+                $query = mysqli_query($conn, $save);
+              }
+          }
+          ?>
           <tr>
             <td><input class="form-control" type="text" name="idstokmasuk" required></td>
             <td><input class="form-control" type="text" name="outlet" required></td>
             <td><input class="form-control" type="text" name="tanggal" required></td>
             <td><input class="form-control" type="text" name="namaproduk[]" required></td>
-            <td><input class="form-control" type="text" name="jumlah[]" required></td>
-            <td><input class="form-control" type="text" name="hargabeliperunit[]" required></td>
-            <td><input class="form-control" type="text" name="totalhargabeli[]" required></td>
+            <td><input class="form-control" type="text" name="jumlah[]" id="jumlah" required></td>
+            <td><input class="form-control" type="text" name="hargabeliperunit[]" id="hargabeliperunit" value></td>
+            <td><input class="form-control" type="text" name="totalhargabeli[]" id="total" disabled></td>
             <td><input class="btn btn-warning" type="button" name="addd" id="add" value="Add"></td>
           </tr>
         </table>
@@ -75,9 +75,10 @@ if(isset($_POST['save'])) {
         <th>Total Harga Beli</th>
       </tr>
       <?php
-$select = "SELECT idstokmasuk, outlet,tanggal, COUNT(idstokmasuk) FROM inventori ORDER BY idstokmasuk DESC";
-$result = mysqli_query($conn, $select);
-while ($row = mysqli_fetch_array($result)) { ?>
+    //   $select = "SELECT idstokmasuk,outlet,tanggal,namaproduk,jumlah,hargabeliperunit,totalhargabeli, COUNT(idstokmasuk) FROM inventori GROUP BY idstokmasuk";
+      $select = "SELECT * FROM inventori";
+    $result = mysqli_query($conn, $select);
+      while ($row = mysqli_fetch_array($result)) { ?>
       <tr>
         <td><?php echo $row['idstokmasuk']; ?></td>
         <td><?php echo $row['outlet']; ?></td>
@@ -88,8 +89,8 @@ while ($row = mysqli_fetch_array($result)) { ?>
         <td><?php echo $row['totalhargabeli']; ?></td>
       </tr>
       <?php
-}
-?>
+      }
+      ?>
     </table>
   </div>
 
@@ -105,7 +106,7 @@ while ($row = mysqli_fetch_array($result)) { ?>
   <script type="text/javascript">
     $(document).ready(function () {
       var html =
-        '<tr><td><input class="form-control" type="text" name="idstokmasuk" required></td><td><input class="form-control" type="text" name="outlet" required></td><td><input class="form-control" type="text" name="tanggal" required></td><td><input class="form-control" type="text" name="namaproduk[]" required></td><td><input class="form-control" type="text" name="jumlah[]" required></td><td><input class="form-control" type="text" name="hargabeliperunit[]" required></td><td><input class="form-control" type="text" name="totalhargabeli[]" required></td><td><input class="btn btn-danger" type="button" name="remove" id="remove" value="Remove"></td></tr>';
+        '<tr><td><input class="form-control" type="text" name="idstokmasuk" required></td><td><input class="form-control" type="text" name="outlet" required></td><td><input class="form-control" type="text" name="tanggal" required></td><td><input class="form-control" type="text" name="namaproduk[]" required></td><td><input class="form-control" type="text" name="jumlah[]" id="jumlah" required></td><td><input class="form-control" type="text" name="hargabeliperunit[]" id="hargabeliperunit" value></td><td><input class="form-control" type="text" name="totalhargabeli[]" id="total" disabled></td><td><input class="btn btn-danger" type="button" name="remove" id="remove" value="Remove"></td></tr>';
       var x = 1;
       $("#add").click(function () {
         $("#table_field").append(html);
@@ -114,6 +115,15 @@ while ($row = mysqli_fetch_array($result)) { ?>
         $(this).closest('tr').remove();
       });
     });
+
+  </script>
+  <script type="text/javascript">
+    $("#hargabeliperunit").keyup(function(){
+        var jumlah  = parseInt($("#jumlah").val());
+        var hargabeliperunit  = parseInt($("#hargabeliperunit").val());
+        var total = jumlah*hargabeliperunit;
+        $("#total").val(total);
+      });
 
   </script>
 </body>

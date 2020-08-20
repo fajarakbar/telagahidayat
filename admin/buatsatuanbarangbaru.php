@@ -28,7 +28,7 @@
         <a href="index.php" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="daftarproduk.php" class="nav-link">Daftar Produk</a>
+        <a href="kategori.php" class="nav-link">Satuan Barang</a>
       </li>
     </ul>
   </nav>
@@ -147,21 +147,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="daftarproduk.php" class="nav-link active">
+                <a href="daftarproduk.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Daftar Produk</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="kategori.php" class="nav-link">
+                <a href="kategori.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="satuanbarang.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Satuan Barang</p>
                 </a>
               </li>
             </ul>
@@ -203,55 +197,22 @@
             <!-- general form elements -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Tambah Produk Baru</h3>
+                <h3 class="card-title">Tambah Satuan Barang</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="prosesproduk.php" method="post">
+              <form action="proseskategori.php" method="post">
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="namaproduk">Nama Produk</label>
-                    <input type="text" name="namaproduk" class="form-control" id="#" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="kategori">Kategori</label>
-                    <select name="kategori" class="form-control select2" style="width: 100%;" required>
-                    <option disabled selected="selected">...</option>
-                    <?php
-                    include '../koneksi.php';
-                    $query = "SELECT * FROM tb_kategori";
-                    $result = mysqli_query($koneksi, $query);
-
-                    while ($kategori = mysqli_fetch_assoc($result)) 
-                    { ?>
-                      <option value="<?php echo "$kategori[kategori]"; ?>"><?php echo "$kategori[kategori]"; ?></option>
-                    <?php
-                    }
-                    ?>
-                  </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="satuanbarang">Satuan Barang</label>
-                    <input type="text" name="satuanbarang" class="form-control" id="#">
-                  </div>
-                  <div class="form-group">
-                    <label for="hargajual">Harga Jual</label>
-                    <input type="text" name="hargajual" class="form-control" id="#" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="sku">SKU</label>
-                    <input type="text" name="sku" class="form-control" id="#">
-                  </div>
-                  <div class="form-group">
-                    <label for="barcode">Barcode</label>
-                    <input type="text" name="barcode" class="form-control" id="#" required>
+                    <label for="namakategori">Nama Satuan Barang</label>
+                    <input type="text" name="namakategori" class="form-control" id="#" required>
                   </div>
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <a href="daftarproduk.php" name="cancel" class="btn btn-secondary">Batal</a>
-                  <button type="submit" name="simpanproduk" class="btn btn-primary">Simpan</button>
+                  <a href="satuanbarang.php" name="cancel" class="btn btn-secondary">Batal</a>
+                  <button type="submit" name="simpankategori" class="btn btn-primary">Simpan</button>
                 </div>
               </form>
             </div>

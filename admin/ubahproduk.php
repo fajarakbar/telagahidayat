@@ -160,6 +160,12 @@
                     <p>Kategori</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="satuanbarang.php" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Satuan Barang</p>
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -242,6 +248,11 @@
                       </select>
                     </div>
                     <div class="form-group">
+                      <label for="satuanbarang">Satuan Barang</label>
+                      <input type="text" name="satuanbarang" class="form-control" id="#"
+                        value="<?php echo $produk['barcode']; ?>" required>
+                    </div>
+                    <div class="form-group">
                       <label for="hargajual">Harga Jual</label>
                       <input type="text" name="hargajual" class="form-control" id="#"
                         value="<?php echo $produk['hargajual']; ?>" required>
@@ -254,16 +265,6 @@
                       <label for="barcode">Barcode</label>
                       <input type="text" name="barcode" class="form-control" id="#"
                         value="<?php echo $produk['barcode']; ?>" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="foto">Foto Produk</label>
-                      <div class="input-group">
-                        <div class="custom-file">
-                          <input type="file" name="fotoproduk" class="custom-file-input" id="#"
-                            value="<?php echo $produk['fotoproduk']; ?>">
-                          <label class="custom-file-label" for="exampleInputFile">Pilih Foto</label>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <!-- /.card-body -->

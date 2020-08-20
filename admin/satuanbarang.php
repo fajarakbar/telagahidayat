@@ -28,7 +28,7 @@
         <a href="index.php" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="daftarproduk.php" class="nav-link">Daftar Produk</a>
+        <a href="satuanbarang.php" class="nav-link">Satuan Barang</a>
       </li>
     </ul>
   </nav>
@@ -147,7 +147,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="daftarproduk.php" class="nav-link active">
+                <a href="daftarproduk.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Daftar Produk</p>
                 </a>
@@ -159,7 +159,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="satuanbarang.php" class="nav-link">
+                <a href="satuanbarang.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Satuan Barang</p>
                 </a>
@@ -176,7 +176,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
+                <a href="stokmasuk.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Stok Masuk</p>
                 </a>
@@ -197,68 +197,60 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-            <!-- general form elements -->
+          <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Tambah Produk Baru</h3>
+                <table>
+                  <td>
+                  <a href="buatsatuanbarangbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Buat Satuan Barang</button></a>
+                  </td>
+                  <td>
+                  <div class="input-group input-group-sm">
+                  <input type="text" class="form-control">
+                  <span class="input-group-append">
+                    <button type="button" class="btn btn-block btn-primary btn-sm"><i class="fas fa-search"></i></button>
+                  </span>
+                </div></td>
+                </table>
               </div>
               <!-- /.card-header -->
-              <!-- form start -->
-              <form action="prosesproduk.php" method="post">
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="namaproduk">Nama Produk</label>
-                    <input type="text" name="namaproduk" class="form-control" id="#" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="kategori">Kategori</label>
-                    <select name="kategori" class="form-control select2" style="width: 100%;" required>
-                    <option disabled selected="selected">...</option>
-                    <?php
-                    include '../koneksi.php';
-                    $query = "SELECT * FROM tb_kategori";
-                    $result = mysqli_query($koneksi, $query);
-
-                    while ($kategori = mysqli_fetch_assoc($result)) 
-                    { ?>
-                      <option value="<?php echo "$kategori[kategori]"; ?>"><?php echo "$kategori[kategori]"; ?></option>
-                    <?php
-                    }
-                    ?>
-                  </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="satuanbarang">Satuan Barang</label>
-                    <input type="text" name="satuanbarang" class="form-control" id="#">
-                  </div>
-                  <div class="form-group">
-                    <label for="hargajual">Harga Jual</label>
-                    <input type="text" name="hargajual" class="form-control" id="#" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="sku">SKU</label>
-                    <input type="text" name="sku" class="form-control" id="#">
-                  </div>
-                  <div class="form-group">
-                    <label for="barcode">Barcode</label>
-                    <input type="text" name="barcode" class="form-control" id="#" required>
-                  </div>
-                </div>
-                <!-- /.card-body -->
-
-                <div class="card-footer">
-                  <a href="daftarproduk.php" name="cancel" class="btn btn-secondary">Batal</a>
-                  <button type="submit" name="simpanproduk" class="btn btn-primary">Simpan</button>
-                </div>
-              </form>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Nama Satuan Barang</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <?php
+                  include '../koneksi.php';
+                  $query = "SELECT * FROM tb_kategori";
+                  $result = mysqli_query($koneksi, $query);
+                  while ($kategori = mysqli_fetch_assoc($result))
+                  { ?>
+                  <tr>
+                      <td><?php echo "$kategori[kategori]"; ?></td>
+                      <td>
+                          <div class="dropdown">
+                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
+                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <a class="dropdown-item" href="ubahkategori.php?id=<?php echo $kategori['id']; ?>">Ubah</a>
+                              <a class="dropdown-item" href="hapuskategori.php?id=<?php echo $kategori['id']?>">Hapus</a>
+                            </div>
+                          </div>
+                        </td>
+                    </tr>
+                  <?php }
+                  ?>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
             </div>
             <!-- /.card -->
           </div>
-          <!--/.col (left) -->
-        </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>

@@ -3,9 +3,9 @@
     if(isset($_POST['login']))
     {
         $username   = $_POST['username'];
-        $password   = $_POST['password'];
+        $password   = sha1($_POST['password']);
 
-        $query  = "SELECT * FROM tb_user WHERE username = '$username' AND password = '$password'";
+        $query  = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
         $result = mysqli_query($koneksi, $query);
 
         if(mysqli_num_rows($result) > 0)
@@ -13,9 +13,17 @@
             while ($row = mysqli_fetch_assoc($result)) 
             {
                 session_start();
-                $_SESSION['nama'] = $row['nama'];
-                header('location:admin/index.php');
+                $_SESSION['userid'] = $row['user_id'];
+                $_SESSION['nama'] = $row['name'];
+                $_SESSION['level'] = $row['level'];
             }
+            echo "
+            <script>
+            alert('Selamat, login berhasil');
+            window.location = 'admin/index.php';
+            </script>
+            
+            ";
         }
         else
         {
