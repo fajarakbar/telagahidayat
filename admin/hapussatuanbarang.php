@@ -168,7 +168,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="kategori.php" class="nav-link ">
+                  <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
@@ -238,68 +238,37 @@
       <section class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-12">
+            <!-- left column -->
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <!-- general form elements -->
               <div class="card">
                 <div class="card-header">
-                  <table>
-                    <td>
-                      <a href="buatsatuanbarangbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Tambah</button></a>
-                    </td>
-                    <td>
-                      <div class="input-group input-group-sm">
-                        <input type="text" class="form-control">
-                        <span class="input-group-append">
-                          <button type="button" class="btn btn-block btn-primary btn-sm"><i
-                              class="fas fa-search"></i></button>
-                        </span>
-                      </div>
-                    </td>
-                  </table>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Satuan Barang</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                  $no = 1;
-                  $query = "SELECT * FROM p_satuanbarang";
-                  $result = mysqli_query($koneksi, $query);
-                  while ($satuanbarang = mysqli_fetch_assoc($result))
-                  { ?>
-                      <tr>
-                        <td style="width:10%"><?php echo $no++; ?></td>
-                        <td><?php echo "$satuanbarang[name]"; ?></td>
-                        <td style="width:15%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a class="dropdown-item"
-                                href="ubahsatuanbarang.php?id=<?php echo $satuanbarang['unit_id']; ?>">Ubah</a>
-                              <a class="dropdown-item"
-                                href="hapussatuanbarang.php?id=<?php echo $satuanbarang['unit_id']?>">Hapus</a>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <?php }
-                  ?>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
+                <!-- form start -->
+                <form action="prosessatuanbarang.php" method="post">
+                  <div class="card-body">
+                    <div class="form-group" style="text-align:center">
+                      <h2>Hapus Data Satuan Barang</h2>
+                      <h3>Apakah Anda Yakin ?</h3>
+                      <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $_GET['id']; ?>">
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+
+                  <div class="card-footer" style="text-align:center">
+                    <a href="satuanbarang.php" name="cancel" class="btn btn-secondary">Batal</a>
+                    <button type="submit" name="hapussatuanbarang" class="btn btn-primary">Hapus</button>
+                  </div>
+                </form>
               </div>
               <!-- /.card -->
             </div>
-            <!-- /.row -->
-          </div><!-- /.container-fluid -->
+            <!--/.col (left) -->
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
     </div>

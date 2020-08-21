@@ -231,47 +231,47 @@
       <!-- /.sidebar -->
     </aside>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <!-- left column -->
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-            <!-- general form elements -->
-            <div class="card">
-              <!-- /.card-header -->
-              <!-- form start -->
-              <form action="prosessupplier.php" method="post">
-                <div class="card-body">
-                  <div class="form-group" style="text-align:center">
-                  <h2>Hapus Data Supplier</h2>
-                  <h3>Apakah Anda Yakin ?</h3>
-                    <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $_GET['id']; ?>">
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- left column -->
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <!-- general form elements -->
+              <div class="card">
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form action="prosessupplier.php" method="post">
+                  <div class="card-body">
+                    <div class="form-group" style="text-align:center">
+                      <h2>Hapus Data Supplier</h2>
+                      <h3>Apakah Anda Yakin ?</h3>
+                      <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $_GET['id']; ?>">
+                    </div>
                   </div>
-                </div>
-                <!-- /.card-body -->
+                  <!-- /.card-body -->
 
-                <div class="card-footer" style="text-align:center">
-                  <a href="suppliers.php" name="cancel" class="btn btn-secondary">Batal</a>
-                  <button type="submit" name="hapussupplier" class="btn btn-primary">Hapus</button>
-                </div>
-              </form>
+                  <div class="card-footer" style="text-align:center">
+                    <a href="suppliers.php" name="cancel" class="btn btn-secondary">Batal</a>
+                    <button type="submit" name="hapussupplier" class="btn btn-primary">Hapus</button>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card -->
             </div>
-            <!-- /.card -->
+            <!--/.col (left) -->
           </div>
-          <!--/.col (left) -->
-        </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <?php
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <?php
 $tanggal = time () ;
 //Untuk mengambil data waktu dan tanggal saat ini dari server 
 $tahun= date("Y",$tanggal);
@@ -280,28 +280,29 @@ echo "Copyright @ 2011 - " . $tahun;
 /* baris ini mencetak rentang copyright,
 Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 ?>
-  <footer class="main-footer">
-    <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1
-    </div>
-  </footer>
+    <footer class="main-footer">
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 1
+      </div>
+    </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../dist/js/demo.js"></script>
+  <!-- jQuery -->
+  <script src="../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../dist/js/demo.js"></script>
 </body>
+
 </html>

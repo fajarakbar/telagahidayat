@@ -1,72 +1,65 @@
 <?php
     include '../koneksi.php';
-    if(isset($_POST['simpanproduk']))
+    if(isset($_POST['simpansupplier']))
     {
-        $namaproduk = $_POST['namaproduk'];
-        $kategori   = $_POST['kategori'];
-        $hargajual  = $_POST['hargajual'];
-        $sku        = $_POST['sku'];
-        $barcode    = $_POST['barcode'];
-        $fotoproduk = $_POST['fotoproduk'];
+        $namasupplier   = $_POST['namasupplier'];
+        $notelepon      = $_POST['notelepon'];
+        $alamat         = $_POST['alamat'];
+        $catatan        = empty($_POST['catatan']) ? NULL : $_POST['catatan'];
 
-        $query  = "INSERT INTO tb_produk VALUES(
-            '',
-            '$namaproduk',
-            '$kategori',
-            '$hargajual',
-            '$sku',
-            '$barcode',
-            '$fotoproduk'
+        $query  = "INSERT INTO supplier(name,phone,address,description) VALUES(
+            '$namasupplier',
+            '$notelepon',
+            '$alamat',
+            '$catatan'
             )";
-        // var_dump ($namaproduk,$kategori,$hargajual,$sku,$barcode,$fotoproduk);
-        if(empty($namaproduk) || empty($kategori) || empty($hargajual) || empty($barcode))
+            
+        if(empty($namasupplier) || empty($notelepon) || empty($alamat))
         {
             echo"
             <script>alert('Data Gagal Ditambahkan');
-            window.location = 'buatprodukbaru.php';</script>
+            window.location = 'buatsupplierbaru.php';</script>
             ";
         }
-        elseif(mysqli_query($koneksi, $query))
+        if(mysqli_query($koneksi, $query))
         {
             echo"
             <script>alert('Data Berhasil Ditambahkan');
-            window.location = 'daftarproduk.php';</script>
+            window.location = 'suppliers.php';</script>
             ";
         }
     }
 
-    elseif(isset($_POST['ubahproduk']))
+    elseif(isset($_POST['ubahsupplier']))
     {
-        $id         = $_POST['id'];
-        $namaproduk = $_POST['namaproduk'];
-        $kategori   = $_POST['kategori'];
-        $hargajual  = $_POST['hargajual'];
-        $sku        = $_POST['sku'];
-        $barcode    = $_POST['barcode'];
-        $fotoproduk = $_POST['fotoproduk'];
+        $id             = $_POST['id'];
+        $namasupplier   = $_POST['namasupplier'];
+        $notelepon      = $_POST['notelepon'];
+        $alamat         = $_POST['alamat'];
+        $catatan        = empty($_POST['catatan']) ? NULL : $_POST['catatan'];
+        $updated        = date('Y-m-d H:i:s');
 
-        $query = "UPDATE tb_produk SET
-        namaproduk  = '$namaproduk',
-        kategori    = '$kategori',
-        hargajual   = '$hargajual',
-        sku         = '$sku',
-        barcode     = '$barcode',
-        fotoproduk  = '$fotoproduk'
-        WHERE id = '$id'
+        // var_dump($id,$namasupplier,$notelepon,$alamat,$catatan,$updated);
+        $query = "UPDATE supplier SET
+        name        = '$namasupplier',
+        phone       = '$notelepon',
+        address     = '$alamat',
+        description = '$catatan',
+        updated     = '$updated'
+        WHERE supplier_id    = '$id'
         ";
-
         if(mysqli_query($koneksi, $query))
         {
             echo"
             <script>alert('Data Berhasil Diubah');
-            window.location = 'daftarproduk.php';</script>
+            window.location = 'suppliers.php';</script>
             ";
         }
         else
         {
             echo"
             <script>alert('Data Gagal Diubah');
-            window.location = 'ubahproduk.php';</script>
+            window.location = 'ubahsupplier.php';</script>
             ";
         }
     }

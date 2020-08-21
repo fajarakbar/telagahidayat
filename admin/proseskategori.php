@@ -4,7 +4,7 @@
     {
         $namakategori   = $_POST['namakategori'];
 
-        $query  = "INSERT INTO tb_kategori VALUES('','$namakategori')";
+        $query  = "INSERT INTO p_kategori(name) VALUES('$namakategori')";
 
         if(empty($namakategori))
         {
@@ -23,12 +23,14 @@
     }
     elseif(isset($_POST['ubahkategori']))
     {
-        $id = $_POST['id'];
-        $namakategori = $_POST['namakategori'];
+        $id             = $_POST['id'];
+        $namakategori   = $_POST['namakategori'];
+        $updated        = date('Y-m-d H:i:s');
 
-        $query = "UPDATE tb_kategori SET 
-        kategori = '$namakategori'
-        WHERE id = '$id'
+        $query = "UPDATE p_kategori SET 
+        name    = '$namakategori',
+        updated = '$updated'
+        WHERE category_id = '$id'
         ";
 
         if(mysqli_query($koneksi, $query))
@@ -49,7 +51,7 @@
     elseif(isset(($_POST['hapuskategori'])))
     {
         $id = $_POST['id'];
-        $query = "DELETE FROM tb_kategori WHERE id = '$id'";
+        $query = "DELETE FROM p_kategori WHERE category_id = '$id'";
         if(mysqli_query($koneksi, $query))
         {
             echo"

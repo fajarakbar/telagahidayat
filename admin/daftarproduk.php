@@ -1,23 +1,41 @@
+<?php
+  session_start();
+  include"../koneksi.php";//cek apakah sudah login
+
+  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+    header("Location: ../index.php");
+    exit;
+  }
+  if ($_SESSION['level'] != '1') {
+    header("Location: ../index.php");
+    exit;
+  }
+?>
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Telaga</title>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Font Awesome -->
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>Telaga</title>
+
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -29,9 +47,6 @@
         <li class="nav-item d-none d-sm-inline-block">
           <a href="index.php" class="nav-link">Home</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="daftarproduk.php" class="nav-link">Daftar Produk</a>
-        </li>
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -42,7 +57,7 @@
       <a href="index3.html" class="brand-link">
         <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
       <!-- Sidebar -->
@@ -54,7 +69,7 @@
           </div>
           <div class="info">
             <!-- nama yang login diambil dari database -->
-            <a href="#" class="d-block"><?php session_start(); echo $_SESSION['nama']; ?></a>
+            <a href="#" class="d-block"><?php echo $_SESSION['nama']; ?></a>
           </div>
         </div>
 
@@ -63,19 +78,19 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            <!-- <li class="nav-item">
-            <a href="index.php" class="nav-link acvtive">
-              <i class="nav-icon far fa-image"></i>
-              <p>
-                Gallery
-              </p>
-            </a>
-          </li> -->
             <li class="nav-item has-treeview">
               <a href="index.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="suppliers.php" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Suppliers
                 </p>
               </a>
             </li>
@@ -172,10 +187,18 @@
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tree"></i>
                 <p>
-                  Inventori
+                  Transaksi
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="kasir.php" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Kasir</p>
+                  </a>
+                </li>
+              </ul>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="stokmasuk.php" class="nav-link">
@@ -184,10 +207,28 @@
                   </a>
                 </li>
               </ul>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="stokkeluar.php" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Stok Keluar</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item has-treeview">
+              <a href="../logout.php" class="nav-link">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>
+                  Log Out
+                </p>
+              </a>
             </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
+
       </div>
       <!-- /.sidebar -->
     </aside>
@@ -204,14 +245,10 @@
                 <div class="card-header">
                   <table>
                     <td>
-                      <a href="buatprodukbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Buat
-                          Produk Baru</button></a>
+                      <a href="buatprodukbaru.php"><button type="button"
+                          class="btn btn-block btn-primary btn-sm">Tambah</button></a>
                     </td>
                     <td>
-                      <button type="button" class="btn btn-block btn-primary btn-sm">Import Massal</button>
-                    </td>
-                    <td>
-
                       <div class="input-group input-group-sm">
                         <input type="text" class="form-control">
                         <span class="input-group-append">
@@ -224,38 +261,33 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap">
+                  <table class="table table-hover text-nowrap" id="#">
                     <thead>
                       <tr>
-                        <th>Barcode</th>
-                        <th>Produk</th>
-                        <th>Kategori</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
+                        <th>#</th>
+                        <th>Nama Kategori</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
-                  include '../koneksi.php';
-                  $query = "SELECT * FROM tb_produk";
+                  $no = 1;
+                  $query = "SELECT * FROM p_kategori";
                   $result = mysqli_query($koneksi, $query);
-                  while ($produk = mysqli_fetch_assoc($result))
+                  while ($kategori = mysqli_fetch_assoc($result))
                   { ?>
                       <tr>
-                        <td><?php echo "$produk[barcode]"; ?></td>
-                        <td><?php echo "$produk[namaproduk]"; ?></td>
-                        <td><?php echo "$produk[kategori]"; ?></td>
-                        <td>Rp. <?php echo "$produk[hargajual]"; ?></td>
-                        <td><?php echo "$produk[jumlah]"; ?></td>
-                        <td>
+                        <td style="width:10%"><?php echo $no++; ?></td>
+                        <td><?php echo "$kategori[name]"; ?></td>
+                        <td style="width:15%">
                           <div class="dropdown">
                             <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
                               id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a class="dropdown-item" href="#">Kelola Stok</a>
-                              <a class="dropdown-item" href="ubahproduk.php?id=<?php echo $produk['id']; ?>">Ubah</a>
-                              <a class="dropdown-item" href="hapusproduk.php?id=<?php echo $produk['id']?>">Hapus</a>
+                              <a class="dropdown-item"
+                                href="ubahkategori.php?id=<?php echo $kategori['category_id']; ?>">Ubah</a>
+                              <a class="dropdown-item"
+                                href="hapuskategori.php?id=<?php echo $kategori['category_id']?>">Hapus</a>
                             </div>
                           </div>
                         </td>
@@ -279,6 +311,10 @@
 $tanggal = time () ;
 //Untuk mengambil data waktu dan tanggal saat ini dari server 
 $tahun= date("Y",$tanggal);
+//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
+echo "Copyright @ 2011 - " . $tahun;
+/* baris ini mencetak rentang copyright,
+Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 ?>
     <footer class="main-footer">
       <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>

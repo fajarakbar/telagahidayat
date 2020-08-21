@@ -85,7 +85,7 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="suppliers.php" class="nav-link">
+              <a href="suppliers.php" class="nav-link active">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Suppliers
@@ -152,8 +152,8 @@
 
               </ul>
             </li>
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
                 <p>
                   Kelola Produk
@@ -168,13 +168,13 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="kategori.php" class="nav-link ">
+                  <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="satuanbarang.php" class="nav-link active">
+                  <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Satuan Barang</p>
                   </a>
@@ -238,68 +238,72 @@
       <section class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-12">
+            <!-- left column -->
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <!-- general form elements -->
               <div class="card">
                 <div class="card-header">
-                  <table>
-                    <td>
-                      <a href="buatsatuanbarangbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Tambah</button></a>
-                    </td>
-                    <td>
-                      <div class="input-group input-group-sm">
-                        <input type="text" class="form-control">
-                        <span class="input-group-append">
-                          <button type="button" class="btn btn-block btn-primary btn-sm"><i
-                              class="fas fa-search"></i></button>
-                        </span>
-                      </div>
-                    </td>
-                  </table>
+                  <h3 class="card-title">Ubah Supplier</h3>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Satuan Barang</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                  $no = 1;
-                  $query = "SELECT * FROM p_satuanbarang";
+                <?php 
+                $id = $_GET['id'];
+                if(!isset($_GET['id']))
+                {
+                  echo "
+                  <script>alert('Tidak ada ID yang terdeteksi');</script>
+                  ";
+                }
+                  $query = "SELECT * FROM supplier WHERE supplier_id = '$id'";
                   $result = mysqli_query($koneksi, $query);
-                  while ($satuanbarang = mysqli_fetch_assoc($result))
+
+                  while ($supplier = mysqli_fetch_assoc($result)) 
                   { ?>
-                      <tr>
-                        <td style="width:10%"><?php echo $no++; ?></td>
-                        <td><?php echo "$satuanbarang[name]"; ?></td>
-                        <td style="width:15%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a class="dropdown-item"
-                                href="ubahsatuanbarang.php?id=<?php echo $satuanbarang['unit_id']; ?>">Ubah</a>
-                              <a class="dropdown-item"
-                                href="hapussatuanbarang.php?id=<?php echo $satuanbarang['unit_id']?>">Hapus</a>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <?php }
-                  ?>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
+                <!-- form start -->
+                <form action="prosessupplier.php" method="post">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="namasupplier">Nama Supplier *</label>
+                      <input type="hidden" name="id" class="form-control" id="#"
+                        value="<?php echo $supplier['supplier_id']; ?>">
+                      <input type="text" name="namasupplier" class="form-control" id="#"
+                        value="<?php echo $supplier['name']; ?>" required>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="notelepon">No Telepon *</label>
+                      <input type="text" name="notelepon" class="form-control" id="#" value="<?php echo $supplier['phone']; ?>" required>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="alamat">Alamat *</label>
+                      <input type="text" name="alamat" class="form-control" id="#" value="<?php echo $supplier['address']; ?>" required>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="catatan">Catatan</label>
+                      <textarea type="text" name="catatan" class="form-control" id="#" value="<?php echo $supplier['description']; ?>"><?php echo $supplier['description']; ?></textarea>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+
+                  <div class="card-footer">
+                    <a href="suppliers.php" name="cancel" class="btn btn-secondary">Batal</a>
+                    <button type="submit" name="ubahsupplier" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
+                <?php } ?>
               </div>
               <!-- /.card -->
             </div>
-            <!-- /.row -->
-          </div><!-- /.container-fluid -->
+            <!--/.col (left) -->
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
     </div>

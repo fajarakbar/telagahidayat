@@ -2,24 +2,22 @@
     include '../koneksi.php';
     if(isset($_POST['simpanproduk']))
     {
-        $namaproduk = $_POST['namaproduk'];
-        $kategori   = $_POST['kategori'];
-        $hargajual  = $_POST['hargajual'];
-        $sku        = $_POST['sku'];
-        $barcode    = $_POST['barcode'];
-        $fotoproduk = $_POST['fotoproduk'];
+        $barcode        = $_POST['barcode'];
+        $namaproduk     = $_POST['namaproduk'];
+        $kategori       = $_POST['kategori'];
+        $satuanbarang   = $_POST['satuanbarang'];    
+        $harga          = $_POST['harga'];
 
-        $query  = "INSERT INTO tb_produk VALUES(
-            '',
+        $query = "INSERT INTO p_item (bacode,name,category_id,unit_id,price) VALUES (
+            '$barcode',
             '$namaproduk',
             '$kategori',
-            '$hargajual',
-            '$sku',
-            '$barcode',
-            '$fotoproduk'
+            '$satuanbarang',
+            '$harga'
             )";
-        // var_dump ($namaproduk,$kategori,$hargajual,$sku,$barcode,$fotoproduk);
-        if(empty($namaproduk) || empty($kategori) || empty($hargajual) || empty($barcode))
+        // var_dump ($barcode,$namaproduk,$kategori,$satuanbarang,$harga);
+        // mysqli_query($koneksi, $query);
+        if(empty($namaproduk) || empty($harga))
         {
             echo"
             <script>alert('Data Gagal Ditambahkan');
@@ -54,7 +52,6 @@
         fotoproduk  = '$fotoproduk'
         WHERE id = '$id'
         ";
-
         if(mysqli_query($koneksi, $query))
         {
             echo"

@@ -29,6 +29,9 @@
   <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -243,7 +246,7 @@
                 <div class="card-header">
                   <table>
                     <td>
-                      <a href="buatkategoribaru.php"><button type="button"
+                      <a href="buatsupplierbaru.php"><button type="button"
                           class="btn btn-block btn-primary btn-sm">Tambah</button></a>
                     </td>
                     <td>
@@ -259,7 +262,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap">
+                  <table class="table table-hover text-nowrap" id="table2">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -358,8 +361,10 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <!-- ChartJS -->
   <script src="../plugins/chart.js/Chart.min.js"></script>
 
+
   <!-- PAGE SCRIPTS -->
   <script src="../dist/js/pages/dashboard2.js"></script>
+
 </body>
 
 </html>
