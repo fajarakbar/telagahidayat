@@ -29,8 +29,6 @@
   <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -240,88 +238,92 @@
       <section class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-12">
+            <!-- left column -->
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <!-- general form elements -->
               <div class="card">
                 <div class="card-header">
-                  <table>
-                    <td>
-                      <a href="buatstokmasukbaru.php"><button type="button"
-                          class="btn btn-block btn-primary btn-sm">Tambah</button></a>
-                    </td>
-                    <td>
-                      <div class="input-group input-group-sm">
-                        <input type="text" class="form-control">
-                        <span class="input-group-append">
-                          <button type="button" class="btn btn-block btn-primary btn-sm"><i
-                              class="fas fa-search"></i></button>
-                        </span>
-                      </div>
-                    </td>
-                  </table>
+                  <h3 class="card-title">Tambah Stok Baru</h3>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap" id="#">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Barcode</th>
-                        <th>Nama</th>
-                        <th>Kategori</th>
-                        <th>Satuan</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                  $no = 1;
+                <!-- form start -->
+                <form action="prosesproduk.php" method="post">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="tanggal">Date *</label>
+                      <input type="date" name="tanggal" value="<?php date('Y-m-d');?>" class="form-control" required>
+                    </div>
+                    <div>
+                      <label for="barcode">Barcode *</label>
+                    </div>
+                    <div class="form-group input-group">
+                      <input type="hidden" name="item_id" id="item_id">
+                      <input type="text" name="barcode" id="barcode" class="form-control" required autofocus>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="modal-item">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="item_name">Nama Produk</label>
+                      <input type="text" name="item_name" class="form-control" readonly>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8">
+                        <label for="unit_name">Satuan Barang</label>
+                        <input type="text" name="unit_name" id="unit_name" value="-" class="form-control" readonly>
+                      </div>
+                      <div class="col-md-4">
+                        <label for="stock">Stok Awal</label>
+                        <input type="text" name="stock" id="stock" value="-" class="form-control" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="detail">Detail *</label>
+                      <input type="text" name="detail" class="form-control" placeholder="tambahan / etc" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="supplier">Supplier</label>
+                      <select name="supplier" class="form-control">
+                        <option value="">- Pilih -</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="qty">Qty *</label>
+                      <input type="number" name="qty" class="form-control" required>
+                    </div>
+                    <!-- /.card-body -->
 
-                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
-                  FROM p_item 
-                  INNER JOIN p_kategori
-                  ON p_kategori.category_id=p_item.category_id
-                  INNER JOIN p_satuanbarang
-                  ON p_satuanbarang.unit_id=p_item.unit_id";
-
-                  $result = mysqli_query($koneksi, $query);
-                  while ($produk = mysqli_fetch_assoc($result))
-                  { ?>
-                      <tr>
-                        <td style="width:10%"><?php echo $no++; ?></td>
-                        <td><?php echo "$produk[barcode]"; ?></td>
-                        <td><?php echo "$produk[name]"; ?></td>
-                        <td><?php echo "$produk[category_name]"; ?></td>
-                        <td><?php echo "$produk[unit_name]"; ?></td>
-                        <td><?php echo "$produk[price]"; ?></td>
-                        <td><?php echo "$produk[stock]"; ?></td>
-                        <td style="width:15%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a class="dropdown-item"
-                                href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Ubah</a>
-                              <a class="dropdown-item"
-                                href="hapusproduk.php?id=<?php echo $produk['item_id']?>">Hapus</a>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <?php }
-                  ?>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
+                    <div class="card-footer">
+                      <a href="stokmasuk.php" name="cancel" class="btn btn-secondary">Batal</a>
+                      <button type="submit" name="simpanstokmasuk" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
               </div>
               <!-- /.card -->
             </div>
-            <!-- /.row -->
-          </div><!-- /.container-fluid -->
+            <!--/.col (left) -->
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
+      <div class="modal fade" id="modal-item">
+        <div class="modal-dialog">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="TRUE">&times;</span>
+            </button>
+            <h4 class="modal-title">Pilih Produk</h4>
+          </div>
+          <div class="modal-body">
+            isi
+          </div>
+        </div>
+      </div>
+
     </div>
     <!-- /.content-wrapper -->
     <?php
