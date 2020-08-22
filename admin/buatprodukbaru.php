@@ -259,16 +259,16 @@
                       <input type="text" name="namaproduk" class="form-control" required>
                     </div>
                     <div class="form-group">
-                      <label for="kategori">Kategori</label>
+                      <label for="kategori">Kategori *</label>
                       <select name="kategori" class="form-control select2" style="width: 100%;" required>
-                        <option disabled selected="selected">- Pilih -</option>
+                      <option disabled selected="selected">- Pilih -</option>
                         <?php
                         $query = "SELECT * FROM p_kategori";
                         $result = mysqli_query($koneksi, $query);
 
                         while ($kategori = mysqli_fetch_assoc($result)) 
                         { ?>
-                        <option value="<?php echo "$kategori[category_id]"; ?>"><?php echo "$kategori[name]"; ?>
+                        <option value="<?php echo "$kategori[category_id]"; ?>"><?php echo "$kategori[name]";?>
                         </option>
                         <?php
                         }
@@ -276,7 +276,7 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="satuanbarang">Satuan Barang</label>
+                      <label for="satuanbarang">Satuan Barang *</label>
                       <select name="satuanbarang" class="form-control select2" style="width: 100%;" required>
                         <option disabled selected="selected">- Pilih -</option>
                         <?php

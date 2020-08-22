@@ -63,7 +63,7 @@
         {
             echo"
             <script>alert('Data Gagal Dihapus');
-            window.location = 'ubahkategori.php';</script>
+            window.location = 'kategori.php';</script>
             ";
         }
     }

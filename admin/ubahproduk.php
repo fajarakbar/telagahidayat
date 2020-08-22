@@ -1,23 +1,39 @@
+<?php
+  session_start();
+  include"../koneksi.php";//cek apakah sudah login
+
+  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+    header("Location: ../index.php");
+    exit;
+  }
+  if ($_SESSION['level'] != '1') {
+    header("Location: ../index.php");
+    exit;
+  }
+?>
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Telaga</title>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Font Awesome -->
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>Telaga</title>
+
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -29,9 +45,6 @@
         <li class="nav-item d-none d-sm-inline-block">
           <a href="index.php" class="nav-link">Home</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="daftarproduk.php" class="nav-link">Daftar Produk</a>
-        </li>
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -42,7 +55,7 @@
       <a href="index3.html" class="brand-link">
         <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
       <!-- Sidebar -->
@@ -54,7 +67,7 @@
           </div>
           <div class="info">
             <!-- nama yang login diambil dari database -->
-            <a href="#" class="d-block"><?php session_start(); echo $_SESSION['nama']; ?></a>
+            <a href="#" class="d-block"><?php echo $_SESSION['nama']; ?></a>
           </div>
         </div>
 
@@ -63,19 +76,19 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            <!-- <li class="nav-item">
-            <a href="index.php" class="nav-link acvtive">
-              <i class="nav-icon far fa-image"></i>
-              <p>
-                Gallery
-              </p>
-            </a>
-          </li> -->
             <li class="nav-item has-treeview">
               <a href="index.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="suppliers.php" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Suppliers
                 </p>
               </a>
             </li>
@@ -172,22 +185,48 @@
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tree"></i>
                 <p>
-                  Inventori
+                  Transaksi
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="pages/UI/general.html" class="nav-link">
+                  <a href="kasir.php" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Kasir</p>
+                  </a>
+                </li>
+              </ul>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="stokmasuk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Masuk</p>
                   </a>
                 </li>
               </ul>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="stokkeluar.php" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Stok Keluar</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item has-treeview">
+              <a href="../logout.php" class="nav-link">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>
+                  Log Out
+                </p>
+              </a>
             </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
+
       </div>
       <!-- /.sidebar -->
     </aside>
@@ -205,75 +244,104 @@
               <!-- general form elements -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Tambah Produk Baru</h3>
+                  <h3 class="card-title">Ubah Produk</h3>
                 </div>
-                <!-- /.card-header -->
                 <?php
-                    include '../koneksi.php';
-                    $id = $_GET['id'];
-                    if(!isset($_GET['id']))
-                    {
-                      echo "
-                      <script>alert('Tidak ada ID yang terdeteksi');</script>
-                      ";
-                    }
-                    $query = "SELECT * FROM tb_produk WHERE id = '$id'";
-                    $result = mysqli_query($koneksi, $query);
-
-                    while ($produk = mysqli_fetch_assoc($result)) 
-                    { ?>
+                $id = $_GET['id'];
+                if(!isset($_GET['id']))
+                {
+                  echo "
+                  <script>alert('Tidak ada ID yang terdeteksi');</script>
+                  ";
+                }
+                $query = "SELECT * FROM p_item WHERE item_id = '$id'";
+                $result = mysqli_query($koneksi, $query);
+                $produk = mysqli_fetch_assoc($result);
+                ?>
+                <!-- /.card-header -->
                 <!-- form start -->
                 <form action="prosesproduk.php" method="post">
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="namaproduk">Nama Produk</label>
-                      <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $produk['id'] ?>">
-                      <input type="text" name="namaproduk" class="form-control" id="#" value="<?php echo $produk['namaproduk']; ?>" required>
+                      <label for="barcode">Barcode *</label>
+                      <input type="hidden" name="id" class="form-control" value="<?php echo $produk['item_id']; ?>">
+                      <input type="text" name="barcode" class="form-control" value="<?php echo $produk['barcode']; ?>">
+                    </div>
+                    <div class="form-group">
+                      <label for="namaproduk">Nama Produk *</label>
+                      <input type="text" name="namaproduk" class="form-control" value="<?php echo $produk['name']; ?>"
+                        required>
                     </div>
                     <div class="form-group">
                       <label for="kategori">Kategori</label>
-                      <select name="kategori" class="form-control select2" style="width: 100%;" required>
-                        <option selected="selected" value="<?php echo $produk['kategori']; ?>"><?php echo $produk['kategori']; ?></option>
-                        <?php
-                    $query1 = "SELECT * FROM tb_kategori";
-                    $result1 = mysqli_query($koneksi, $query1);
 
-                    while ($kategori = mysqli_fetch_assoc($result1)) 
-                    { ?>
-                        <option value="<?php echo "$kategori[kategori]"; ?>"><?php echo "$kategori[kategori]"; ?>
+                      <?php 
+                        $sql = "SELECT p_item.category_id, p_kategori.name AS category_name
+                        FROM p_item INNER JOIN p_kategori ON p_kategori.category_id=p_item.category_id 
+                        WHERE p_item.item_id = '$id'";
+
+                        $result = mysqli_query($koneksi, $sql);
+                        $kategori = mysqli_fetch_assoc($result);?>
+
+                      <select name="kategori" class="form-control select2" style="width: 100%;"
+                        value="<?php echo $kategori['category_id']; ?>" required>
+                        <option value="<?php echo "$kategori[category_id]"; ?>">
+                          <?php echo "$kategori[category_name]"; ?>
+                        </option>
+
+                        <?php
+                        $query = "SELECT * FROM p_kategori";
+                        $result = mysqli_query($koneksi, $query);
+
+                        while ($kategori1 = mysqli_fetch_assoc($result)) 
+                        { ?>
+                        <option value="<?php echo "$kategori1[category_id]"; ?>"><?php echo "$kategori1[name]"; ?>
                         </option>
                         <?php
-                    }
-                    ?>
+                        }
+                        ?>
                       </select>
+
                     </div>
                     <div class="form-group">
                       <label for="satuanbarang">Satuan Barang</label>
-                      <input type="text" name="satuanbarang" class="form-control" id="#"
-                        value="<?php echo $produk['barcode']; ?>" required>
+                      <?php 
+                        $sql1 = "SELECT p_item.unit_id, p_satuanbarang.name AS unit_name
+                        FROM p_item INNER JOIN p_satuanbarang ON p_satuanbarang.unit_id=p_item.unit_id 
+                        WHERE p_item.item_id = '$id'";
+                        $result1 = mysqli_query($koneksi, $sql1);
+                        $satuanbarang = mysqli_fetch_assoc($result1);?>
+                      <select name="satuanbarang" class="form-control select2" style="width: 100%;" required>
+                        <option value="<?php echo "$satuanbarang[unit_id]"; ?>">
+                          <?php echo "$satuanbarang[unit_name]"; ?>
+                        </option>
+
+
+                        <?php
+                        $query = "SELECT * FROM p_satuanbarang";
+                        $result = mysqli_query($koneksi, $query);
+
+                        while ($satuanbarang = mysqli_fetch_assoc($result)) 
+                        { ?>
+                        <option value="<?php echo "$satuanbarang[unit_id]"; ?>"><?php echo "$satuanbarang[name]"; ?>
+                        </option>
+                        <?php
+                        }
+                        ?>
+                      </select>
                     </div>
                     <div class="form-group">
-                      <label for="hargajual">Harga Jual</label>
-                      <input type="text" name="hargajual" class="form-control" id="#"
-                        value="<?php echo $produk['hargajual']; ?>" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="sku">SKU</label>
-                      <input type="text" name="sku" class="form-control" id="#" value="<?php echo $produk['sku']; ?>">
-                    </div>
-                    <div class="form-group">
-                      <label for="barcode">Barcode</label>
-                      <input type="text" name="barcode" class="form-control" id="#"
-                        value="<?php echo $produk['barcode']; ?>" required>
+                      <label for="harga">Harga *</label>
+                      <input type="text" name="harga" class="form-control" value="<?php echo $produk['price']; ?>">
                     </div>
                   </div>
                   <!-- /.card-body -->
+
                   <div class="card-footer">
                     <a href="daftarproduk.php" name="cancel" class="btn btn-secondary">Batal</a>
                     <button type="submit" name="ubahproduk" class="btn btn-primary">Simpan</button>
                   </div>
                 </form>
-                <?php } ?>
               </div>
               <!-- /.card -->
             </div>

@@ -265,19 +265,36 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Nama Kategori</th>
+                        <th>Barcode</th>
+                        <th>Nama</th>
+                        <th>Kategori</th>
+                        <th>Satuan</th>
+                        <th>Harga</th>
+                        <th>Stok</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
                   $no = 1;
-                  $query = "SELECT * FROM p_kategori";
+
+                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                  FROM p_item 
+                  INNER JOIN p_kategori
+                  ON p_kategori.category_id=p_item.category_id
+                  INNER JOIN p_satuanbarang
+                  ON p_satuanbarang.unit_id=p_item.unit_id";
+
                   $result = mysqli_query($koneksi, $query);
-                  while ($kategori = mysqli_fetch_assoc($result))
+                  while ($produk = mysqli_fetch_assoc($result))
                   { ?>
                       <tr>
                         <td style="width:10%"><?php echo $no++; ?></td>
-                        <td><?php echo "$kategori[name]"; ?></td>
+                        <td><?php echo "$produk[barcode]"; ?></td>
+                        <td><?php echo "$produk[name]"; ?></td>
+                        <td><?php echo "$produk[category_name]"; ?></td>
+                        <td><?php echo "$produk[unit_name]"; ?></td>
+                        <td><?php echo "$produk[price]"; ?></td>
+                        <td><?php echo "$produk[stock]"; ?></td>
                         <td style="width:15%">
                           <div class="dropdown">
                             <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
@@ -285,9 +302,9 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                               <a class="dropdown-item"
-                                href="ubahkategori.php?id=<?php echo $kategori['category_id']; ?>">Ubah</a>
+                                href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Ubah</a>
                               <a class="dropdown-item"
-                                href="hapuskategori.php?id=<?php echo $kategori['category_id']?>">Hapus</a>
+                                href="hapusproduk.php?id=<?php echo $produk['item_id']?>">Hapus</a>
                             </div>
                           </div>
                         </td>
