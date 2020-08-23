@@ -1,4 +1,4 @@
-<?php
+<<?php
   session_start();
   include"../koneksi.php";//cek apakah sudah login
 
@@ -29,8 +29,6 @@
   <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -154,8 +152,8 @@
 
               </ul>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-chart-pie"></i>
                 <p>
                   Kelola Produk
@@ -164,7 +162,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="daftarproduk.php" class="nav-link">
+                  <a href="daftarproduk.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Daftar Produk</p>
                   </a>
@@ -183,8 +181,8 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tree"></i>
                 <p>
                   Transaksi
@@ -201,7 +199,7 @@
               </ul>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="stokmasuk.php" class="nav-link active">
+                  <a href="stokmasuk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Masuk</p>
                   </a>
@@ -233,93 +231,49 @@
       <!-- /.sidebar -->
     </aside>
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
 
-      <!-- Main content -->
-      <section class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-header">
-                  <table>
-                    <td>
-                      <a href="buatstokmasukbaru.php"><button type="button"
-                          class="btn btn-block btn-primary btn-sm">Tambah</button></a>
-                    </td>
-                    <td>
-                      <div class="input-group input-group-sm">
-                        <input type="text" class="form-control">
-                        <span class="input-group-append">
-                          <button type="button" class="btn btn-block btn-primary btn-sm"><i
-                              class="fas fa-search"></i></button>
-                        </span>
-                      </div>
-                    </td>
-                  </table>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap" id="#">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Barcode</th>
-                        <th>Produk</th>
-                        <th>Jumlah</th>
-                        <th>tanggal</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                  $no = 1;
-                  $query = "SELECT t_stock.stock_id,t_stock.item_id, p_item.barcode, p_item.name AS item_name, t_stock.type, t_stock.detail, supplier.name AS supplier_name, t_stock.qty, t_stock.date 
-                  FROM t_stock 
-                  INNER JOIN p_item ON p_item.item_id=t_stock.item_id 
-                  LEFT JOIN supplier ON supplier.supplier_id=t_stock.supplier_id 
-                  WHERE t_stock.type = 'in'
-                  ORDER BY t_stock.date DESC";
-
-                  $result = mysqli_query($koneksi, $query);
-                  while ($stokmasuk = mysqli_fetch_assoc($result))
-                  { ?>
-                      <tr>
-                        <td style="width:10%"><?php echo $no++; ?></td>
-                        <td><?php echo "$stokmasuk[barcode]"; ?></td>
-                        <td><?php echo "$stokmasuk[item_name]"; ?></td>
-                        <td><?php echo "$stokmasuk[qty]"; ?></td>
-                        <td><?php echo "$stokmasuk[date]"; ?></td>
-                        <td style="width:15%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a class="dropdown-item"
-                                href="detailstokmasuk.php?id=<?php echo "$stokmasuk[stock_id]"; ?>">Detail</a>
-                              <a class="dropdown-item"
-                                href="hapusstokmasuk.php?id=<?php echo $stokmasuk['stock_id']?>&itemid=<?php echo "$stokmasuk[item_id]"; ?>&qty=<?php echo "$stokmasuk[qty]"; ?>">Hapus</a>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <?php }
-                  ?>
-                    </tbody>
-                  </table>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card">
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form action="prosesstokmasuk.php" method="post">
+                <div class="card-body">
+                  <div class="form-group" style="text-align:center">
+                  <h2>Hapus Data Produk</h2>
+                  <h3>Apakah Anda Yakin ?</h3>
+                    <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $_GET['id']; ?>">
+                    <input type="hidden" name="itemid" class="form-control" id="#" value="<?php echo $_GET['itemid']; ?>">
+                    <input type="hidden" name="qty" class="form-control" id="#" value="<?php echo $_GET['qty']; ?>">
+                  </div>
                 </div>
                 <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
+
+                <div class="card-footer" style="text-align:center">
+                  <a href="stokmasuk.php" name="cancel" class="btn btn-secondary">Batal</a>
+                  <button type="submit" name="hapusstokmasuk" class="btn btn-primary">Hapus</button>
+                </div>
+              </form>
             </div>
-            <!-- /.row -->
-          </div><!-- /.container-fluid -->
-      </section>
-      <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <?php
+            <!-- /.card -->
+          </div>
+          <!--/.col (left) -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <?php
 $tanggal = time () ;
 //Untuk mengambil data waktu dan tanggal saat ini dari server 
 $tahun= date("Y",$tanggal);
@@ -328,29 +282,28 @@ echo "Copyright @ 2011 - " . $tahun;
 /* baris ini mencetak rentang copyright,
 Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 ?>
-    <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
-    </footer>
+  <footer class="main-footer">
+    <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1
+    </div>
+  </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
 
-  <!-- jQuery -->
-  <script src="../plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../dist/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="../dist/js/demo.js"></script>
+<!-- jQuery -->
+<script src="../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../dist/js/demo.js"></script>
 </body>
-
 </html>

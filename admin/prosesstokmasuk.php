@@ -18,8 +18,7 @@ if(isset($_POST['simpanstokmasuk'])) {
   $qty          = $_POST['qty'];
   $date          = $_POST['date'];
   $user_id      = $_SESSION['userid'];
-  // INSERT INTO `t_stock` (`item_id`, `type`, `detail`, `supplier_id`, `qty`, `date`, `created`, `user_id`) VALUES ('6', 'in', 'Dari gudang', NULL, '3', '2020-08-23', CURRENT_TIMESTAMP, '1');
-  var_dump($supplier_id);
+  
   $query="INSERT INTO t_stock (item_id, type, detail, supplier_id, qty, date, user_id) VALUES (
     '$item_id', 
     '$type', 
@@ -49,4 +48,29 @@ if(isset($_POST['simpanstokmasuk'])) {
     ";
   }
 }
+elseif(isset(($_POST['hapusstokmasuk'])))
+    {
+        $id = $_POST['id'];
+        $item_id = $_POST['itemid'];
+        $qty = $_POST['qty'];
+        $query = "DELETE FROM t_stock WHERE stock_id = '$id'";
+        // var_dump ($id,$item_id);
+
+        if(mysqli_query($koneksi, $query))
+        {
+          $query1 = "UPDATE p_item SET stock = stock - '$qty' WHERE item_id = '$item_id'";
+          mysqli_query($koneksi, $query1);
+          echo"
+          <script>alert('Data Berhasil Dihapus');
+          window.location = 'stokmasuk.php';</script>
+          ";
+        }
+        else
+        {
+          echo"
+          <script>alert('Data Gagal Dihapus');
+          window.location = 'stokmasuk.php';</script>
+          ";
+        }
+    }
 ?>
