@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2020 at 10:21 PM
+-- Generation Time: Aug 23, 2020 at 04:54 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -50,6 +50,72 @@ INSERT INTO `inventori` (`idstokmasuk`, `outlet`, `tanggal`, `namaproduk`, `juml
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `p_item`
+--
+
+CREATE TABLE `p_item` (
+  `item_id` int(11) NOT NULL,
+  `barcode` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `category_id` int(11) NOT NULL,
+  `unit_id` int(11) NOT NULL,
+  `price` int(11) DEFAULT NULL,
+  `stock` int(11) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `p_item`
+--
+
+INSERT INTO `p_item` (`item_id`, `barcode`, `name`, `category_id`, `unit_id`, `price`, `stock`, `created`, `updated`) VALUES
+(5, '8993176110074', 'Candy yellow C016* Y016*', 9, 10, 80000, 10, '2020-08-22 17:06:28', NULL),
+(6, '8999999049669', 'Viola v350 terminal mask oke', 9, 10, 50000, 12, '2020-08-22 17:07:34', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `p_kategori`
+--
+
+CREATE TABLE `p_kategori` (
+  `category_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `p_kategori`
+--
+
+INSERT INTO `p_kategori` (`category_id`, `name`, `created`, `updated`) VALUES
+(9, 'Regulator gas', '2020-08-22 17:05:51', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `p_satuanbarang`
+--
+
+CREATE TABLE `p_satuanbarang` (
+  `unit_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `p_satuanbarang`
+--
+
+INSERT INTO `p_satuanbarang` (`unit_id`, `name`, `created`, `updated`) VALUES
+(10, 'Pcs', '2020-08-22 17:05:59', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `supplier`
 --
 
@@ -68,7 +134,7 @@ CREATE TABLE `supplier` (
 --
 
 INSERT INTO `supplier` (`supplier_id`, `name`, `phone`, `address`, `description`, `created`, `updated`) VALUES
-(1, 'Toko A', '085249660956', 'Kapuas', NULL, '2020-08-20 21:30:47', NULL),
+(1, 'Toko A', '085249660956', 'Kapuas', 'uluh itah', '2020-08-20 21:30:47', '2020-08-21 12:40:28'),
 (2, 'Toko B', '085249660955', 'Kalteng', 'Toko Listrik Terbesar', '2020-08-20 21:30:47', NULL);
 
 -- --------------------------------------------------------
@@ -114,27 +180,6 @@ INSERT INTO `tb_inventori` (`idstokmasuk`, `outlet`, `tanggal`, `namaproduk`, `j
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_kategori`
---
-
-CREATE TABLE `tb_kategori` (
-  `id` int(11) NOT NULL,
-  `kategori` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tb_kategori`
---
-
-INSERT INTO `tb_kategori` (`id`, `kategori`) VALUES
-(1, 'Samurai'),
-(3, 'saklar & stop kontak masko'),
-(4, 'Regulator gas'),
-(5, 'Lakban hitam nachi');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tb_produk`
 --
 
@@ -167,13 +212,29 @@ CREATE TABLE `t_stock` (
   `stock_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
   `type` enum('in','out') NOT NULL,
-  `detail` text NOT NULL,
-  `supplier_id` int(11) NOT NULL,
-  `qty` int(11) NOT NULL,
+  `detail` varchar(200) NOT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
+  `qty` int(10) NOT NULL,
   `date` date NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_stock`
+--
+
+INSERT INTO `t_stock` (`stock_id`, `item_id`, `type`, `detail`, `supplier_id`, `qty`, `date`, `created`, `user_id`) VALUES
+(1, 6, 'in', 'dari gudang', 2, 3, '2020-08-23', '2020-08-23 10:57:32', 1),
+(2, 5, 'in', 'dari gudang', 2, 5, '2020-08-23', '2020-08-23 11:04:05', 1),
+(8, 5, 'in', 'dari gudang', 1, 4, '2020-08-23', '2020-08-23 11:08:30', 1),
+(15, 6, 'in', 'dari gudang', 1, 8, '2020-08-23', '2020-08-23 11:37:39', 1),
+(19, 6, 'in', 'dari gudang', NULL, 2, '2020-08-23', '2020-08-23 12:10:58', 1),
+(22, 6, 'in', 'Dari gudang', NULL, 3, '2020-08-23', '2020-08-23 12:22:05', 1),
+(23, 6, 'in', 'Dari gudang', NULL, 3, '2020-08-23', '2020-08-23 12:22:52', 1),
+(26, 6, 'in', 'dari gudang', 1, 4, '2020-08-23', '2020-08-23 16:05:13', 1),
+(27, 6, 'in', 'dari orang', 2, 4, '2020-08-24', '2020-08-23 16:49:49', 1),
+(28, 5, 'in', 'dari gudang', 2, 1, '2020-08-25', '2020-08-23 16:51:26', 1);
 
 -- --------------------------------------------------------
 
@@ -204,16 +265,30 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `name`, `address`, `level
 --
 
 --
+-- Indexes for table `p_item`
+--
+ALTER TABLE `p_item`
+  ADD PRIMARY KEY (`item_id`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `unit_id` (`unit_id`);
+
+--
+-- Indexes for table `p_kategori`
+--
+ALTER TABLE `p_kategori`
+  ADD PRIMARY KEY (`category_id`);
+
+--
+-- Indexes for table `p_satuanbarang`
+--
+ALTER TABLE `p_satuanbarang`
+  ADD PRIMARY KEY (`unit_id`);
+
+--
 -- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`supplier_id`);
-
---
--- Indexes for table `tb_kategori`
---
-ALTER TABLE `tb_kategori`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tb_produk`
@@ -225,7 +300,10 @@ ALTER TABLE `tb_produk`
 -- Indexes for table `t_stock`
 --
 ALTER TABLE `t_stock`
-  ADD PRIMARY KEY (`stock_id`);
+  ADD PRIMARY KEY (`stock_id`),
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `supplier_id` (`supplier_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `user`
@@ -238,16 +316,28 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `p_item`
+--
+ALTER TABLE `p_item`
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `p_kategori`
+--
+ALTER TABLE `p_kategori`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `p_satuanbarang`
+--
+ALTER TABLE `p_satuanbarang`
+  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `tb_kategori`
---
-ALTER TABLE `tb_kategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_produk`
@@ -259,13 +349,32 @@ ALTER TABLE `tb_produk`
 -- AUTO_INCREMENT for table `t_stock`
 --
 ALTER TABLE `t_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `p_item`
+--
+ALTER TABLE `p_item`
+  ADD CONSTRAINT `p_item_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `p_kategori` (`category_id`),
+  ADD CONSTRAINT `p_item_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `p_satuanbarang` (`unit_id`);
+
+--
+-- Constraints for table `t_stock`
+--
+ALTER TABLE `t_stock`
+  ADD CONSTRAINT `t_stock_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `p_item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `t_stock_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`),
+  ADD CONSTRAINT `t_stock_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

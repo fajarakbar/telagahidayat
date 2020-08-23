@@ -248,11 +248,11 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="prosesproduk.php" method="post">
+                <form action="prosesstokmasuk.php" method="post">
                   <div class="card-body">
                     <div class="form-group">
                       <label for="tanggal">Date *</label>
-                      <input type="date" name="tanggal" value="<?php date('Y-m-d');?>" class="form-control" required>
+                      <input type="date" name="date" value="<?= date('Y-m-d')?>" class="form-control" required>
                     </div>
                     <div>
                       <label for="barcode">Barcode *</label>
@@ -261,14 +261,14 @@
                       <input type="hidden" name="item_id" id="item_id">
                       <input type="text" name="barcode" id="barcode" class="form-control" required autofocus>
                       <span class="input-group-btn">
-                        <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="modal-item">
+                        <button type="button" class="btn btn-info " data-toggle="modal" data-target="#modal-item">
                           <i class="fa fa-search"></i>
                         </button>
                       </span>
                     </div>
                     <div class="form-group">
                       <label for="item_name">Nama Produk</label>
-                      <input type="text" name="item_name" class="form-control" readonly>
+                      <input type="text" name="item_name" id="item_name" class="form-control" readonly>
                     </div>
                     <div class="row">
                       <div class="col-md-8">
@@ -288,6 +288,12 @@
                       <label for="supplier">Supplier</label>
                       <select name="supplier" class="form-control">
                         <option value="">- Pilih -</option>
+                        <?php
+                        $query = "SELECT * FROM supplier";
+                        $result = mysqli_query($koneksi, $query);
+                        while ($supplier = mysqli_fetch_assoc($result)) { ?>
+                        <option value="<?php echo $supplier['supplier_id'];?>"><?php echo "$supplier[name]"; ?></option>
+                        <?php } ?>
                       </select>
                     </div>
                     <div class="form-group">
@@ -307,26 +313,75 @@
             <!--/.col (left) -->
           </div>
           <!-- /.row -->
-        </div><!-- /.container-fluid -->
-      </section>
-      <!-- /.content -->
-      <div class="modal fade" id="modal-item">
-        <div class="modal-dialog">
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <div class="modal fade" id="modal-item">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="TRUE">&times;</span>
-            </button>
             <h4 class="modal-title">Pilih Produk</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <div class="modal-body">
-            isi
+
+          <div class="modal-body table-responsive">
+            <table class="table table-bordered table-striped" id="table1">
+              <thead col-sm-4>
+                <tr>
+                  <th>Barcode</th>
+                  <th>Nama</th>
+                  <th>Satuan</th>
+                  <th>Harga</th>
+                  <th>Stok</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                  FROM p_item 
+                  INNER JOIN p_kategori
+                  ON p_kategori.category_id=p_item.category_id
+                  INNER JOIN p_satuanbarang
+                  ON p_satuanbarang.unit_id=p_item.unit_id";
+
+                  $result = mysqli_query($koneksi, $query);
+                  while ($produk = mysqli_fetch_assoc($result))
+                  { ?>
+                <tr>
+                  <td><?php echo "$produk[barcode]"; ?></td>
+                  <td><?php echo "$produk[name]"; ?></td>
+                  <td><?php echo "$produk[unit_name]"; ?></td>
+                  <td><?php echo "$produk[price]"; ?></td>
+                  <td><?php echo "$produk[stock]"; ?></td>
+                  <td>
+                    <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]";?>"
+                        data-barcode="<?= "$produk[barcode]";?>" data-name="<?= "$produk[name]";?>"
+                        data-unit="<?= "$produk[unit_name]";?>" data-stock="<?= "$produk[stock]";?>">
+                      <i type="button" class="fa fa-check"></i> Select
+                    </button>
+                  </td>
+                </tr>
+                <?php }
+                  ?>
+              </tbody>
+            </table>
           </div>
         </div>
+        <!-- /.modal-content -->
       </div>
-
+      <!-- /.modal-dialog -->
     </div>
-    <!-- /.content-wrapper -->
-    <?php
+    <!-- /.modal -->
+    </section>
+    <!-- /.content -->
+
+
+  </div>
+  <!-- /.content-wrapper -->
+  <?php
 $tanggal = time () ;
 //Untuk mengambil data waktu dan tanggal saat ini dari server 
 $tahun= date("Y",$tanggal);
@@ -335,18 +390,18 @@ echo "Copyright @ 2011 - " . $tahun;
 /* baris ini mencetak rentang copyright,
 Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 ?>
-    <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
-    </footer>
+  <footer class="main-footer">
+    <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1
+    </div>
+  </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
 
@@ -358,6 +413,26 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(document).on('click', '#select', function () {
+        var item_id = $(this).data('id');
+        var barcode = $(this).data('barcode');
+        var name = $(this).data('name');
+        var unit_name = $(this).data('unit');
+        var stock = $(this).data('stock');
+        $('#item_id').val(item_id);
+        $('#barcode').val(barcode); 
+        $('#item_name').val(name);
+        $('#unit_name').val(unit_name);
+        $('#stock').val(stock);
+        $('#modal-item').modal('hide');
+
+      })
+    })
+
+  </script>
+
 </body>
 
 </html>

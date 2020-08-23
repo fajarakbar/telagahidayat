@@ -266,35 +266,30 @@
                       <tr>
                         <th>#</th>
                         <th>Barcode</th>
-                        <th>Nama</th>
-                        <th>Kategori</th>
-                        <th>Satuan</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
+                        <th>Produk</th>
+                        <th>Jumlah</th>
+                        <th>tanggal</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
                   $no = 1;
-
-                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
-                  FROM p_item 
-                  INNER JOIN p_kategori
-                  ON p_kategori.category_id=p_item.category_id
-                  INNER JOIN p_satuanbarang
-                  ON p_satuanbarang.unit_id=p_item.unit_id";
+                  $query = "SELECT p_item.barcode, p_item.name AS item_name, t_stock.type, t_stock.detail, supplier.name AS supplier_name, t_stock.qty, t_stock.date 
+                  FROM t_stock 
+                  INNER JOIN p_item ON p_item.item_id=t_stock.item_id 
+                  LEFT JOIN supplier ON supplier.supplier_id=t_stock.supplier_id 
+                  WHERE t_stock.type = 'in'
+                  ORDER BY t_stock.date DESC";
 
                   $result = mysqli_query($koneksi, $query);
-                  while ($produk = mysqli_fetch_assoc($result))
+                  while ($stokmasuk = mysqli_fetch_assoc($result))
                   { ?>
                       <tr>
                         <td style="width:10%"><?php echo $no++; ?></td>
-                        <td><?php echo "$produk[barcode]"; ?></td>
-                        <td><?php echo "$produk[name]"; ?></td>
-                        <td><?php echo "$produk[category_name]"; ?></td>
-                        <td><?php echo "$produk[unit_name]"; ?></td>
-                        <td><?php echo "$produk[price]"; ?></td>
-                        <td><?php echo "$produk[stock]"; ?></td>
+                        <td><?php echo "$stokmasuk[barcode]"; ?></td>
+                        <td><?php echo "$stokmasuk[item_name]"; ?></td>
+                        <td><?php echo "$stokmasuk[qty]"; ?></td>
+                        <td><?php echo "$stokmasuk[date]"; ?></td>
                         <td style="width:15%">
                           <div class="dropdown">
                             <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
@@ -302,9 +297,9 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                               <a class="dropdown-item"
-                                href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Ubah</a>
+                                href="detailstokmasuk.php?id=<?php echo "$stokmasuk[stock_id]"; ?>">Detail</a>
                               <a class="dropdown-item"
-                                href="hapusproduk.php?id=<?php echo $produk['item_id']?>">Hapus</a>
+                                href="hapusstokmasuk.php?id=<?php echo $stokmasuk['stock_id']?>">Hapus</a>
                             </div>
                           </div>
                         </td>
