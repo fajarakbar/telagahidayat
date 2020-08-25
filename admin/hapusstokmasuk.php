@@ -152,8 +152,8 @@
 
               </ul>
             </li>
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
                 <p>
                   Kelola Produk
@@ -162,7 +162,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="daftarproduk.php" class="nav-link active">
+                  <a href="daftarproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Daftar Produk</p>
                   </a>
@@ -181,7 +181,7 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item has-treeview">
+            <li class="nav-item has-treeview menu-open">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tree"></i>
                 <p>
@@ -199,7 +199,7 @@
               </ul>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="stokmasuk.php" class="nav-link">
+                  <a href="stokmasuk.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Masuk</p>
                   </a>
@@ -248,7 +248,7 @@
               <form action="prosesstokmasuk.php" method="post">
                 <div class="card-body">
                   <div class="form-group" style="text-align:center">
-                  <h2>Hapus Data Produk</h2>
+                  <h2>Hapus Data Stok Masuk</h2>
                   <h3>Apakah Anda Yakin ?</h3>
                     <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $_GET['id']; ?>">
                     <input type="hidden" name="itemid" class="form-control" id="#" value="<?php echo $_GET['itemid']; ?>">

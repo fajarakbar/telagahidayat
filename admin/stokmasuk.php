@@ -296,8 +296,13 @@
                               id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a class="dropdown-item"
-                                href="detailstokmasuk.php?id=<?php echo "$stokmasuk[stock_id]"; ?>">Detail</a>
+                              <a href="" id="set_detail" class="dropdown-item" data-toggle="modal"
+                                data-target="#modal-detail" data-barcode="<?php echo $stokmasuk['barcode'];?>"
+                                data-itemname="<?php echo $stokmasuk['item_name'];?>"
+                                data-detail="<?php echo $stokmasuk['detail'];?>"
+                                data-suppliername="<?php echo $stokmasuk['supplier_name'];?>"
+                                data-qty="<?php echo $stokmasuk['qty'];?>"
+                                data-date="<?php echo $stokmasuk['date'];?>">Detail</a>
                               <a class="dropdown-item"
                                 href="hapusstokmasuk.php?id=<?php echo $stokmasuk['stock_id']?>&itemid=<?php echo "$stokmasuk[item_id]"; ?>&qty=<?php echo "$stokmasuk[qty]"; ?>">Hapus</a>
                             </div>
@@ -315,6 +320,52 @@
             </div>
             <!-- /.row -->
           </div><!-- /.container-fluid -->
+          <div class="modal fade" id="modal-detail">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Detail Stok Masuk</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <tbody>
+                      <tr>
+                        <th>Barcode</th>
+                        <td><span id="barcode"></span></td>
+                      </tr>
+                      <tr>
+                        <th>Produk</th>
+                        <td><span id="item_name"></span></td>
+                      </tr>
+                      <tr>
+                        <th>Detail</th>
+                        <td><span id="detail"></span></td>
+                      <tr>
+                      <tr>
+                        <th>Supplier</th>
+                        <td><span id="supplier"></span></td>
+                      <tr>
+                        <th>Jumlah</th>
+                        <td><span id="qty"></span></td>
+                      </tr>
+                      <tr>
+                        <th>Tanggal</th>
+                        <td><span id="date"></span></td>
+                      </tr>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- /.modal -->
       </section>
       <!-- /.content -->
     </div>
@@ -351,6 +402,26 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(document).on('click', '#set_detail', function () {
+        var barcode = $(this).data('barcode');
+        var itemname = $(this).data('itemname');
+        var detail = $(this).data('detail');
+        var suppliername = $(this).data('suppliername');
+        var qty = $(this).data('qty');
+        var date = $(this).data('date');
+        $('#barcode').text(barcode);
+        $('#item_name').text(itemname);
+        $('#detail').text(detail);
+        $('#supplier').text(suppliername);
+        $('#qty').text(qty);
+        $('#date').text(date);
+
+      })
+    })
+
+  </script>
 </body>
 
 </html>

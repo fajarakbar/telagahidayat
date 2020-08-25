@@ -33,7 +33,7 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition sidebar-mini sidebar-collapse">
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -77,7 +77,7 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item has-treeview">
-              <a href="index.php" class="nav-link active">
+              <a href="index.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
@@ -181,8 +181,8 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-tree"></i>
                 <p>
                   Transaksi
@@ -191,7 +191,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="kasir.php" class="nav-link">
+                  <a href="kasir.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kasir</p>
                   </a>
@@ -230,202 +230,240 @@
       </div>
       <!-- /.sidebar -->
     </aside>
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-
-      <!-- Main content -->
-      <section class="content">
+      <div class="content">
         <div class="container-fluid">
-          <!-- Info boxes -->
           <div class="row">
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
-                <div class="info-box-content">
-                  <span class="info-box-text">Total Transaksi</span>
-                  <!-- total transaksi diambil dari database -->
-                  <span class="info-box-number">
-                    1600 Transaksi
-                  </span>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <table width="100%">
+                    <tr>
+                      <td style="vertical-allign:top">
+                        <label for="date">Tanggal</label>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input type="date" id="date" value="<?php echo date('Y-m-d');?>" class="form-control">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="vertical-allign:top; width:30%">
+                        <label for="user">Kasir</label>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input type="text" id="user" value="<?php echo $_SESSION['nama'];?>" class="form-control"
+                            readonly>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="vertical-allign:top">
+                        <label for="customer">Customer</label>
+                      </td>
+                      <td>
+                        <div>
+                          <select id="suctomer" class="form-control">
+                            <option value="">Umum</option>
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
                 </div>
-                <!-- /.info-box-content -->
               </div>
-              <!-- /.info-box -->
             </div>
-            <!-- /.col -->
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box mb-3">
-                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-                <div class="info-box-content">
-                  <span class="info-box-text">Total Produk</span>
-                  <!-- total produk diambil dari database -->
-                  <?php 
-                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS total FROM p_item");
-                  if(mysqli_num_rows($result) > 0){
-                  $row = mysqli_fetch_assoc($result);?>
-                    <span class="info-box-number"><?php echo $row['total']; ?> Item</span>
-                  <?php } ?>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <table width="100%">
+                    <tr>
+                      <td style="vertical-allign:top; width:30%">
+                        <label for="barcode">Barcode</label>
+                      </td>
+                      <td>
+                        <div class="form-group input-group">
+                          <input type="hidden" id="item_id">
+                          <input type="hidden" id="price">
+                          <input type="hidden" id="stock">
+                          <input type="text" id="barcode" class="form-control" autofocus>
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-info btn-flat" data-toggle="modal"
+                              data-target="#modal-item">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="vertical-allign:top">
+                        <label for="qty">Qty</label>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input type="number" id="qty" value="1" mim="1" class="form-control">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>
+                        <div>
+                          <button type="button" id="add_cart" class="btn btn-primary">
+                            <i class="fa fa-cart-plus"></i> Add
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
                 </div>
-                <!-- /.info-box-content -->
               </div>
-              <!-- /.info-box -->
             </div>
-            <!-- /.col -->
-
-            <!-- fix for small devices only -->
-            <div class="clearfix hidden-md-up"></div>
-
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box mb-3">
-                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
-
-                <div class="info-box-content">
-                  <span class="info-box-text">Karyawan</span>
-                  <!-- total karyawan diambil dari database -->
-                  <span class="info-box-number">760 Orang</span>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <div align="right">
+                    <h4>Invoice <b><span id="invoice">MP25082000001</span></b></h4>
+                    <h1><b><span id="grand_total2" style="font-size:50pt">0</span></b></h1>
+                  </div>
                 </div>
-                <!-- /.info-box-content -->
               </div>
-              <!-- /.info-box -->
             </div>
-            <!-- /.col -->
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box mb-3">
-                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-cog"></i></span>
-
-                <div class="info-box-content">
-                  <span class="info-box-text">Outlet</span>
-                  <span class="info-box-number">25 Outlet</span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
           </div>
-          <!-- /.row -->
 
           <div class="row">
             <div class="col-md-12">
               <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title">Monthly Recap Report</h5>
+                <div class="card-body table-responsive">
+                  <table class="table table-bordered table-stripled">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Barcode</th>
+                        <th>Produk</th>
+                        <th>Jumlah</th>
+                        <th width="10%">Diskon Produk</th>
+                        <th width="15%">Total</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="cart_table">
+                      <tr>
+                        <td colspan="9" class="text-center">Tidak ada produk</td>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-8">
-                      <p class="text-center">
-                        <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
-                      </p>
-
-                      <div class="chart">
-                        <!-- Sales Chart Canvas -->
-                        <canvas id="salesChart" height="180" style="height: 180px;"></canvas>
-                      </div>
-                      <!-- /.chart-responsive -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-4">
-                      <p class="text-center">
-                        <strong>Goal Completion</strong>
-                      </p>
-
-                      <div class="progress-group">
-                        Add Products to Cart
-                        <span class="float-right"><b>160</b>/200</span>
-                        <div class="progress progress-sm">
-                          <div class="progress-bar bg-primary" style="width: 80%"></div>
-                        </div>
-                      </div>
-                      <!-- /.progress-group -->
-
-                      <div class="progress-group">
-                        Complete Purchase
-                        <span class="float-right"><b>310</b>/400</span>
-                        <div class="progress progress-sm">
-                          <div class="progress-bar bg-danger" style="width: 75%"></div>
-                        </div>
-                      </div>
-
-                      <!-- /.progress-group -->
-                      <div class="progress-group">
-                        <span class="progress-text">Visit Premium Page</span>
-                        <span class="float-right"><b>480</b>/800</span>
-                        <div class="progress progress-sm">
-                          <div class="progress-bar bg-success" style="width: 60%"></div>
-                        </div>
-                      </div>
-
-                      <!-- /.progress-group -->
-                      <div class="progress-group">
-                        Send Inquiries
-                        <span class="float-right"><b>250</b>/500</span>
-                        <div class="progress progress-sm">
-                          <div class="progress-bar bg-warning" style="width: 50%"></div>
-                        </div>
-                      </div>
-                      <!-- /.progress-group -->
-                    </div>
-                    <!-- /.col -->
-                  </div>
-                  <!-- /.row -->
-                </div>
-                <!-- ./card-body -->
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-sm-3 col-6">
-                      <div class="description-block border-right">
-                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
-                        <h5 class="description-header">$35,210.43</h5>
-                        <span class="description-text">TOTAL REVENUE</span>
-                      </div>
-                      <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-3 col-6">
-                      <div class="description-block border-right">
-                        <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
-                        <h5 class="description-header">$10,390.90</h5>
-                        <span class="description-text">TOTAL COST</span>
-                      </div>
-                      <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-3 col-6">
-                      <div class="description-block border-right">
-                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
-                        <h5 class="description-header">$24,813.53</h5>
-                        <span class="description-text">TOTAL PROFIT</span>
-                      </div>
-                      <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-3 col-6">
-                      <div class="description-block">
-                        <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
-                        <h5 class="description-header">1200</h5>
-                        <span class="description-text">GOAL COMPLETIONS</span>
-                      </div>
-                      <!-- /.description-block -->
-                    </div>
-                  </div>
-                  <!-- /.row -->
-                </div>
-                <!-- /.card-footer -->
               </div>
-              <!-- /.card -->
             </div>
-            <!-- /.col -->
           </div>
-          <!-- /.row -->
+
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-body">
+                  <table width="100%">
+                    <tr>
+                      <td style="vertical-align:top; width:30%">
+                        <label for="sub_total">Sub Total</label>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input type="number" id="sub_total" value="" class="form-control" readonly>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="vertical-align:top">
+                        <label for="discount">Discount</label>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input type="number" id="discount" value="0" min="0" class="form-control">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="vertical-align:top">
+                        <label for="grand_total">Grand Total</label>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input type="number" id="grand_total" class="form-control" readonly>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-body">
+                  <table width="100%">
+                    <tr>
+                      <td style="vertical-align:top; width:30%">
+                        <label for="cash">Cash</label>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input type="number" id="cash" value="0" min="0" class="form-control">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="vertical-align:top">
+                        <label for="change">Change</label>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input type="number" id="change" class="form-control" readonly>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-body">
+                  <table width="100%">
+                    <tr>
+                      <td style="vertical-align:top">
+                        <label for="note">Note</label>
+                      </td>
+                      <td>
+                        <div>
+                          <textarea id="note" rows="3" class="form-control"></textarea>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-body">
+                  <div>
+                    <button id="cancel_payment" class="btn btn-flat btn-warning">
+                      <i class="fa fa-refresh"></i>Cancel
+                    </button><br><br>
+                    <button id="prosess_payment" class="btn btn-flat btn-lg btn-success">
+                      <i class="fa fa-paper-plane-o"></i>Proses Payment</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <!--/. container-fluid -->
-      </section>
-      <!-- /.content -->
+      </div>
     </div>
     <!-- /.content-wrapper -->
 
@@ -435,14 +473,9 @@
     </aside>
     <!-- /.control-sidebar -->
     <?php
-$tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
-$tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
-?>
+      $tanggal = time () ;
+      $tahun= date("Y",$tanggal);
+    ?>
     <!-- Main Footer -->
     <footer class="main-footer">
       <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
