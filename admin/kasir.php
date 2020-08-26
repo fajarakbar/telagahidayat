@@ -323,11 +323,24 @@
                 </div>
               </div>
             </div>
+
+            <?php
+              $date = date("ymd");
+              $query = "SELECT MAX(MID(invoice,9,4)) AS invoice_no FROM t_sale WHERE (MID(invoice,3,6)) = '$date'";
+              $result = mysqli_query($koneksi,$query);
+              $rowcount = mysqli_num_rows($result);
+              $data = mysqli_fetch_assoc($result);
+              $row = $data['invoice_no'];
+              $n = ((int)$row) + 1;
+              $no = sprintf("%'.04d", $n);
+              $invoice = "TP".date('ymd').$no;
+            ?>
+
             <div class="col-md-4">
               <div class="card">
                 <div class="card-body">
                   <div align="right">
-                    <h4>Invoice <b><span id="invoice">MP25082000001</span></b></h4>
+                    <h4>Invoice <b><span id="invoice"><?= $invoice?></span></b></h4>
                     <h1><b><span id="grand_total2" style="font-size:50pt">0</span></b></h1>
                   </div>
                 </div>
@@ -462,6 +475,64 @@
               </div>
             </div>
           </div>
+
+          <div class="modal fade" id="modal-item">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Pilih Produk</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body table-responsive">
+                  <table class="table table-bordered table-striped" id="table1">
+                    <thead col-sm-4>
+                      <tr>
+                        <th>Barcode</th>
+                        <th>Nama</th>
+                        <th>Satuan</th>
+                        <th>Harga</th>
+                        <th>Stok</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                        $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                        FROM p_item 
+                        INNER JOIN p_kategori
+                        ON p_kategori.category_id=p_item.category_id
+                        INNER JOIN p_satuanbarang
+                        ON p_satuanbarang.unit_id=p_item.unit_id";
+
+                        $result = mysqli_query($koneksi, $query);
+                        while ($produk = mysqli_fetch_assoc($result)) { ?>
+                      <tr>
+                        <td><?php echo "$produk[barcode]"; ?></td>
+                        <td><?php echo "$produk[name]"; ?></td>
+                        <td><?php echo "$produk[unit_name]"; ?></td>
+                        <td><?php echo "$produk[price]"; ?></td>
+                        <td><?php echo "$produk[stock]"; ?></td>
+                        <td>
+                          <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]";?>"
+                            data-barcode="<?= "$produk[barcode]";?>" data-price="<?= "$produk[price]";?>"
+                            data-stock="<?= "$produk[stock]";?>">
+                            <i type="button" class="fa fa-check"></i> Select
+                          </button>
+                        </td>
+                      </tr>
+                      <?php } ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- /.modal -->
         </div>
       </div>
     </div>
@@ -510,6 +581,47 @@
 
   <!-- PAGE SCRIPTS -->
   <script src="../dist/js/pages/dashboard2.js"></script>
+
+  <script>
+      $(document).on('click', '#select', function () {
+        $('#item_id').val($(this).data('id'))
+        $('#barcode').val($(this).data('barcode'))
+        $('#price').val($(this).data('price'))
+        $('#stock').val($(this).data('stock'))
+        $('#modal-item').modal('hide')
+      })
+
+      $(document).on('click', '#add_cart', function() {
+        var item_id = $('#item_id').val()
+        var price = $('#price').val()
+        var stock = $('#stock').val()
+        var qty = $('#qty').val()
+        if(item_id == '') {
+          alert('Produk belum dipilih')
+          $('#barcode').focus()
+        } else if (stock < 1) {
+          alert('Stock tidak mencukupi')
+          $('#item_id').val('')
+          $('#barcode').val('')
+          $('#barcode').focus()
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: 'proseskasir.php',
+            data: {'add_cart' : true, 'item_id' : item_id, 'price' : price, 'qty' : qty },
+            dataType: 'json',
+            success: function(result) {
+              if(result.success == true) {
+                alert('Berhasil tambah cart ke db')
+              } else {
+                alert('Gagal tambah item cart')
+              }
+            }
+          })
+        }
+      })
+
+  </script>
 </body>
 
 </html>
