@@ -61,7 +61,7 @@
         WHERE item_id = '$id'
         ";
 
-        var_dump($id,$barcode,$namaproduk,$kategori,$satuanbarang,$harga,$updated);
+        // var_dump($id,$barcode,$namaproduk,$kategori,$satuanbarang,$harga,$updated);
         if(mysqli_query($koneksi, $query))
         {
             echo"

@@ -357,6 +357,7 @@
                         <th>#</th>
                         <th>Barcode</th>
                         <th>Produk</th>
+                        <th>harga</th>
                         <th>Jumlah</th>
                         <th width="10%">Diskon Produk</th>
                         <th width="15%">Total</th>
@@ -364,10 +365,6 @@
                       </tr>
                     </thead>
                     <tbody id="cart_table">
-                      <tr>
-                        <td colspan="9" class="text-center">Tidak ada produk</td>
-                        </td>
-                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -616,12 +613,17 @@
           dataType: 'json',
           success: function (result) {
             if (result.success == true) {
-              alert('Berhasil tambah cart ke db')
+              $('#cart_table').load('tampilcart.php', function(xhr, status, error) {
+                // alert(xhr.responseText);
+              })
+              $('#item_id').val('');
+              $('#barcode').val('');
+              $('#qty').val(1);
+              $('#barcode').focus();
             } else {
               alert('Gagal tambah item cart')
             }
-          },
-          error: function (xhr, status, error) {
+          }, error: function (xhr, status, error) {
             alert(xhr.responseText);
           }
         })
