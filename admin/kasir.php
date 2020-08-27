@@ -579,56 +579,95 @@
   <script src="../dist/js/pages/dashboard2.js"></script>
 
   <script>
-    $(document).on('click', '#select', function () {
-      $('#item_id').val($(this).data('id'))
-      $('#barcode').val($(this).data('barcode'))
-      $('#price').val($(this).data('price'))
-      $('#stock').val($(this).data('stock'))
-      $('#modal-item').modal('hide')
+    $(document).ready(function () {
+      loadData();
+
+      $(document).on('click', '#select', function () {
+        $('#item_id').val($(this).data('id'))
+        $('#barcode').val($(this).data('barcode'))
+        $('#price').val($(this).data('price'))
+        $('#stock').val($(this).data('stock'))
+        $('#modal-item').modal('hide')
+      })
+
+      $(document).on('click', '#add_cart', function () {
+        var item_id = $('#item_id').val()
+        var price = $('#price').val()
+        var stock = $('#stock').val()
+        var qty = $('#qty').val()
+        if (item_id == '') {
+          alert('Produk belum dipilih')
+          $('#barcode').focus()
+        } else if (stock < 1) {
+          alert('Stock tidak mencukupi')
+          $('#item_id').val('')
+          $('#barcode').val('')
+          $('#barcode').focus()
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: 'proseskasir.php',
+            data: {
+              'add_cart': true,
+              'item_id': item_id,
+              'price': price,
+              'qty': qty
+            },
+            dataType: 'json',
+            success: function (result) {
+              if (result.success == true) {
+                $('#cart_table').load('tampilcart.php', function (xhr, status, error) {
+                  // alert(xhr.responseText);
+                })
+                $('#item_id').val('');
+                $('#barcode').val('');
+                $('#qty').val(1);
+                $('#barcode').focus();
+              } else {
+                alert('Gagal tambah item cart')
+              }
+            },
+            error: function (xhr, status, error) {
+              alert(xhr.responseText);
+            }
+          })
+        }
+      })
+
+      $(document).on('click', '#del_cart', function() {
+        if(confirm('Apakah Anda Yakin ?')) {
+          var cart_id = $(this).data('cartid')
+          $.ajax({
+            type: 'POST',
+            url: 'proseskasir.php',
+            data: {
+              'del_cart': true,
+              'cart_id': cart_id
+            },
+            dataType: 'json',
+            success: function (result) {
+              if (result.success == true) {
+                $('#cart_table').load('tampilcart.php', function (xhr, status, error) {
+                  // alert(xhr.responseText);
+                })
+              } else {
+                alert('Gagal tambah item cart')
+              }
+            }
+          })
+        }
+      })
     })
 
-    $(document).on('click', '#add_cart', function () {
-      var item_id = $('#item_id').val()
-      var price = $('#price').val()
-      var stock = $('#stock').val()
-      var qty = $('#qty').val()
-      if (item_id == '') {
-        alert('Produk belum dipilih')
-        $('#barcode').focus()
-      } else if (stock < 1) {
-        alert('Stock tidak mencukupi')
-        $('#item_id').val('')
-        $('#barcode').val('')
-        $('#barcode').focus()
-      } else {
-        $.ajax({
-          type: 'POST',
-          url: 'proseskasir.php',
-          data: {
-            'add_cart': true,
-            'item_id': item_id,
-            'price': price,
-            'qty': qty
-          },
-          dataType: 'json',
-          success: function (result) {
-            if (result.success == true) {
-              $('#cart_table').load('tampilcart.php', function(xhr, status, error) {
-                // alert(xhr.responseText);
-              })
-              $('#item_id').val('');
-              $('#barcode').val('');
-              $('#qty').val(1);
-              $('#barcode').focus();
-            } else {
-              alert('Gagal tambah item cart')
-            }
-          }, error: function (xhr, status, error) {
-            alert(xhr.responseText);
-          }
-        })
-      }
-    })
+    function loadData() {
+      $.ajax({
+        url: 'tampilcart.php',
+        type: 'get',
+        success: function (data) {
+          $('#cart_table').html(data);
+        }
+      });
+    }
 
   </script>
 </body>

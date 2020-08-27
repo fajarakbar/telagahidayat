@@ -27,7 +27,7 @@ while ($data = mysqli_fetch_assoc($result)) {?>
         data-total="<?= $data['total']; ?>" class="btn btn-xs btn-primary"><i
         class="fa fa-pencil"></i> Update
     </button>
-    <button id="del_cart" data-cartid="<?=$data['cart_id'];?>" class="btn btn-xs btn-danger">
+    <button id="del_cart" data-cartid="<?php echo $data['cart_id']; ?>" class="btn btn-xs btn-danger">
         <i class="fa fa-trash"></i> Delete
     </button>
     </td>
