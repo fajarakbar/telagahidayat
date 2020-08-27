@@ -49,4 +49,22 @@ elseif (isset($_POST['del_cart'])) {
     }
     echo json_encode($params);  
 }
+
+elseif (isset($_POST['edit_cart'])) {
+    $cart_id = $_POST['cart_id'];
+    $price = $_POST['price'];
+    $qty = $_POST['qty'];
+    $discount_item = $_POST['discount'];
+    $total = $_POST['total'];
+
+    $query = "UPDATE t_cart SET price = '$price', qty = '$qty', discount_item = '$discount_item', total = '$total' WHERE cart_id = '$cart_id'";
+    $result = mysqli_query($koneksi,$query);
+    $data = mysqli_affected_rows($koneksi);
+    if($data > 0) {
+        $params = array("success" => true);
+    } else {
+        $params = array("success" => false);
+    }
+    echo json_encode($params);  
+}
 ?>

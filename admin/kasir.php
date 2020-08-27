@@ -471,7 +471,7 @@
               </div>
             </div>
           </div>
-
+          <!--modal add item-->
           <div class="modal fade" id="modal-item">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
@@ -528,7 +528,66 @@
             </div>
             <!-- /.modal-dialog -->
           </div>
-          <!-- /.modal -->
+          <!--/modal add item-->
+
+          <!--modal edit item-->
+          <div class="modal fade" id="modal-item-edit">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Update Produk</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <input type="hidden" id="cartid_item">
+                  <div class="form-group">
+                    <label for="product_item">Produk</label>
+                    <div class="row">
+                      <div class="col-md-5">
+                        <input type="text" id="barcode_item" class="form-control" readonly>
+                      </div>
+                      <div class="col-md-7">
+                        <input type="text" id="product_item" class="form-control" readonly>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="price_item">Harga</label>
+                    <input type="text" id="price_item" min="0" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="qty_item">Jumlah</label>
+                    <input type="number" id="qty_item" min="1" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="total_before">Total Sebelum Diskon</label>
+                    <input type="number" id="total_before" class="form-control" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="discount_item">Diskon per Produk</label>
+                    <input type="number" id="discount_item" min="0" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="total_item">Total Setelah Diskon</label>
+                    <input type="number" id="total_item" class="form-control" readonly>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <div class="pull-right">
+                    <button type="button" id="edit_cart" class="btn btn-flat btn-success">
+                      <i class="fa fa-paper-plane"></i> Simpan
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!--/modal edit item-->
         </div>
       </div>
     </div>
@@ -634,8 +693,53 @@
         }
       })
 
-      $(document).on('click', '#del_cart', function() {
-        if(confirm('Apakah Anda Yakin ?')) {
+      $(document).on('click', '#edit_cart', function () {
+        var cart_id = $('#cartid_item').val()
+        var price = $('#price_item').val()
+        var qty = $('#qty_item').val()
+        var discount = $('#discount_item').val()
+        var total = $('#total_item').val()
+        if (price == '' || price < 1) {
+          alert('Harga tidak boleh kosong')
+          $('#price_item').focus()
+        } else if (qty == '' || qty < 1) {
+          alert('Jumlah tidak boleh kosong')
+          $('#qty_item').focus()
+        } else if (discount == '') {
+          $('#discount_item').val(0)
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: 'proseskasir.php',
+            data: {
+              'edit_cart': true,
+              'cart_id': cart_id,
+              'price': price,
+              'qty': qty,
+              'discount': discount,
+              'total': total
+            },
+            dataType: 'json',
+            success: function (result) {
+              if (result.success == true) {
+                $('#cart_table').load('tampilcart.php', function (xhr, status, error) {
+                  // alert(xhr.responseText);
+                })
+                alert('Produk cart berhasil ter -update')
+                $('#modal-item-edit').modal('hide')
+              } else {
+                alert('Data produk cart tidak ter -update')
+              }
+            },
+            error: function (xhr, status, error) {
+              alert(xhr.responseText);
+            }
+          })
+        }
+      })
+
+      $(document).on('click', '#del_cart', function () {
+        if (confirm('Apakah Anda Yakin ?')) {
           var cart_id = $(this).data('cartid')
           $.ajax({
             type: 'POST',
@@ -657,7 +761,33 @@
           })
         }
       })
+
+      $(document).on('click', '#update_cart', function() {
+        $('#cartid_item').val($(this).data('cartid'))
+        $('#barcode_item').val($(this).data('barcode'))
+        $('#product_item').val($(this).data('product'))
+        $('#price_item').val($(this).data('price'))
+        $('#qty_item').val($(this).data('qty'))
+        $('#total_before').val($(this).data('price') * $(this).data('qty'))
+        $('#discount_item').val($(this).data('discount'))
+        $('#total_item').val($(this).data('total'))
+      })
     })
+    $(document).on('keyup mouseup', '#price_item, #qty_item, #discount_item', function() {
+      count_edit_modal()
+    })
+
+    function count_edit_modal() {
+      var price = $('#price_item').val()
+      var qty = $('#qty_item').val()
+      var discount = $('#discount_item').val()
+
+      total_before = price * qty
+      $('#total_before').val(total_before)
+
+      total = (price - discount) * qty
+      $('#total_item').val(total)
+    }
 
     function loadData() {
       $.ajax({

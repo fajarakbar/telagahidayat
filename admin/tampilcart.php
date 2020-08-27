@@ -20,16 +20,20 @@ while ($data = mysqli_fetch_assoc($result)) {?>
     <td class="text-right"><?php echo $data['discount_item']; ?></td>
     <td class="text-right"><?php echo $data['total']; ?></td>
     <td class="text-center" width="160px">
-    <button id="update_cart" data-toggle="modal" data-target="#modal-item-edit"
-        data-cartid="<?= $data['cart_id']; ?>" data-barcode="<?= $data['barcode']; ?>"
-        data-product="<?= $data['item_name']; ?>" data-price="<?= $data['cart_price']; ?>"
-        data-qty="<?= $data['qty']; ?>" data-discount="<?= $data['discount_item']; ?>"
-        data-total="<?= $data['total']; ?>" class="btn btn-xs btn-primary"><i
-        class="fa fa-pencil"></i> Update
-    </button>
-    <button id="del_cart" data-cartid="<?php echo $data['cart_id']; ?>" class="btn btn-xs btn-danger">
-        <i class="fa fa-trash"></i> Delete
-    </button>
+        <button id="update_cart" data-toggle="modal" data-target="#modal-item-edit"
+            data-cartid="<?= $data['cart_id']; ?>" 
+            data-barcode="<?= $data['barcode']; ?>"
+            data-product="<?= $data['item_name']; ?>" 
+            data-price="<?= $data['cart_price']; ?>"
+            data-qty="<?= $data['qty']; ?>" 
+            data-discount="<?= $data['discount_item']; ?>"
+            data-total="<?= $data['total']; ?>" 
+            class="btn btn-xs btn-primary">
+            <i class="fa fa-pencil"></i> Update
+        </button>
+        <button id="del_cart" data-cartid="<?php echo $data['cart_id']; ?>" class="btn btn-xs btn-danger">
+            <i class="fa fa-trash"></i> Delete
+        </button>
     </td>
 </tr>
 <?php }?>
