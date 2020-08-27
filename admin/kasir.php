@@ -328,7 +328,6 @@
               $date = date("ymd");
               $query = "SELECT MAX(MID(invoice,9,4)) AS invoice_no FROM t_sale WHERE (MID(invoice,3,6)) = '$date'";
               $result = mysqli_query($koneksi,$query);
-              $rowcount = mysqli_num_rows($result);
               $data = mysqli_fetch_assoc($result);
               $row = $data['invoice_no'];
               $n = ((int)$row) + 1;
@@ -583,43 +582,51 @@
   <script src="../dist/js/pages/dashboard2.js"></script>
 
   <script>
-      $(document).on('click', '#select', function () {
-        $('#item_id').val($(this).data('id'))
-        $('#barcode').val($(this).data('barcode'))
-        $('#price').val($(this).data('price'))
-        $('#stock').val($(this).data('stock'))
-        $('#modal-item').modal('hide')
-      })
+    $(document).on('click', '#select', function () {
+      $('#item_id').val($(this).data('id'))
+      $('#barcode').val($(this).data('barcode'))
+      $('#price').val($(this).data('price'))
+      $('#stock').val($(this).data('stock'))
+      $('#modal-item').modal('hide')
+    })
 
-      $(document).on('click', '#add_cart', function() {
-        var item_id = $('#item_id').val()
-        var price = $('#price').val()
-        var stock = $('#stock').val()
-        var qty = $('#qty').val()
-        if(item_id == '') {
-          alert('Produk belum dipilih')
-          $('#barcode').focus()
-        } else if (stock < 1) {
-          alert('Stock tidak mencukupi')
-          $('#item_id').val('')
-          $('#barcode').val('')
-          $('#barcode').focus()
-        } else {
-          $.ajax({
-            type: 'POST',
-            url: 'proseskasir.php',
-            data: {'add_cart' : true, 'item_id' : item_id, 'price' : price, 'qty' : qty },
-            dataType: 'json',
-            success: function(result) {
-              if(result.success == true) {
-                alert('Berhasil tambah cart ke db')
-              } else {
-                alert('Gagal tambah item cart')
-              }
+    $(document).on('click', '#add_cart', function () {
+      var item_id = $('#item_id').val()
+      var price = $('#price').val()
+      var stock = $('#stock').val()
+      var qty = $('#qty').val()
+      if (item_id == '') {
+        alert('Produk belum dipilih')
+        $('#barcode').focus()
+      } else if (stock < 1) {
+        alert('Stock tidak mencukupi')
+        $('#item_id').val('')
+        $('#barcode').val('')
+        $('#barcode').focus()
+      } else {
+        $.ajax({
+          type: 'POST',
+          url: 'proseskasir.php',
+          data: {
+            'add_cart': true,
+            'item_id': item_id,
+            'price': price,
+            'qty': qty
+          },
+          dataType: 'json',
+          success: function (result) {
+            if (result.success == true) {
+              alert('Berhasil tambah cart ke db')
+            } else {
+              alert('Gagal tambah item cart')
             }
-          })
-        }
-      })
+          },
+          error: function (xhr, status, error) {
+            alert(xhr.responseText);
+          }
+        })
+      }
+    })
 
   </script>
 </body>
