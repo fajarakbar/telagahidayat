@@ -67,4 +67,27 @@ elseif (isset($_POST['edit_cart'])) {
     }
     echo json_encode($params);  
 }
+
+elseif (isset($_POST['process_payment'])) {
+    $invoice = $_POST['invoice'];
+    $customer_id = $_POST['customer_id'];
+    $total_price = $_POST['subtotal'];
+    $discount = $_POST['discount'];
+    $final_price = $_POST['grandtotal'];
+    $cash = $_POST['cash'];
+    $remaining = $_POST['change'];
+    $note = $_POST['note'];
+    $date = $_POST['date'];
+    $user_id = $_SESSION['nama'];
+
+    $query = "INSERT INTO t_sale VALUES ('$invoice','$customer_id','$total_price','$discount','$final_price','$cash','$remaining','$note','$date','$user_id')";
+    $result = mysqli_query($koneksi,$query);
+    $data = mysqli_affected_rows($koneksi);
+    if($data > 0) {
+        $params = array("success" => true);
+    } else {
+        $params = array("success" => false);
+    }
+    echo json_encode($params);  
+}
 ?>

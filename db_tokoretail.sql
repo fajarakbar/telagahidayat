@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2020 at 10:42 PM
+-- Generation Time: Aug 28, 2020 at 11:00 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -160,8 +160,8 @@ CREATE TABLE `t_cart` (
 --
 
 INSERT INTO `t_cart` (`cart_id`, `item_id`, `price`, `qty`, `discount_item`, `total`, `user_id`) VALUES
-(1, 10, 10000, 4, 0, 40000, 1),
-(2, 10, 10000, 8, 3, 79976, 3);
+(2, 10, 10000, 8, 3, 79976, 3),
+(3, 8, 50000, 1, 0, 50000, 1);
 
 -- --------------------------------------------------------
 
@@ -172,6 +172,7 @@ INSERT INTO `t_cart` (`cart_id`, `item_id`, `price`, `qty`, `discount_item`, `to
 CREATE TABLE `t_sale` (
   `sale_id` int(11) NOT NULL,
   `invoice` varchar(50) NOT NULL,
+  `customer_id` int(11) DEFAULT NULL,
   `total_price` int(11) NOT NULL,
   `discount` int(11) NOT NULL,
   `final_price` int(11) NOT NULL,
@@ -181,6 +182,22 @@ CREATE TABLE `t_sale` (
   `date` date NOT NULL,
   `user_id` int(11) NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_sale_detail`
+--
+
+CREATE TABLE `t_sale_detail` (
+  `detail_id` int(11) NOT NULL,
+  `sale_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `discount_item` int(11) NOT NULL,
+  `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -284,6 +301,13 @@ ALTER TABLE `t_sale`
   ADD PRIMARY KEY (`sale_id`);
 
 --
+-- Indexes for table `t_sale_detail`
+--
+ALTER TABLE `t_sale_detail`
+  ADD PRIMARY KEY (`detail_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
 -- Indexes for table `t_stock`
 --
 ALTER TABLE `t_stock`
@@ -339,6 +363,12 @@ ALTER TABLE `t_sale`
   MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `t_sale_detail`
+--
+ALTER TABLE `t_sale_detail`
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `t_stock`
 --
 ALTER TABLE `t_stock`
@@ -367,6 +397,12 @@ ALTER TABLE `p_item`
 ALTER TABLE `t_cart`
   ADD CONSTRAINT `t_cart_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `p_item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `t_cart_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `t_sale_detail`
+--
+ALTER TABLE `t_sale_detail`
+  ADD CONSTRAINT `t_sale_detail_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `p_item` (`item_id`);
 
 --
 -- Constraints for table `t_stock`

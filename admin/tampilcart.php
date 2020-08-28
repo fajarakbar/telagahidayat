@@ -18,7 +18,7 @@ while ($data = mysqli_fetch_assoc($result)) {?>
     <td class="text-right"><?php echo $data['cart_price']; ?></td>
     <td class="text-center"><?php echo $data['qty']; ?></td>
     <td class="text-right"><?php echo $data['discount_item']; ?></td>
-    <td class="text-right"><?php echo $data['total']; ?></td>
+    <td class="text-right" id="total"><?php echo $data['total']; ?></td>
     <td class="text-center" width="160px">
         <button id="update_cart" data-toggle="modal" data-target="#modal-item-edit"
             data-cartid="<?= $data['cart_id']; ?>" 
