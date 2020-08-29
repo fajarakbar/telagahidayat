@@ -266,7 +266,7 @@
                       </td>
                       <td>
                         <div>
-                          <select id="suctomer" class="form-control">
+                          <select id="customer" class="form-control">
                             <option value="">Umum</option>
                           </select>
                         </div>
@@ -781,8 +781,8 @@
         calculate()
       })
 
-      $(document).on('click', '#process_payment', function(){
-        var invoice = $('#invoice').val()
+      $(document).on('click', '#process_payment', function () {
+        var invoice = $('#invoice').text()
         var customer_id = $('#customer').val()
         var subtotal = $('#sub_total').val()
         var discount = $('#discount').val()
@@ -792,14 +792,14 @@
         var note = $('#note').val()
         var date = $('#date').val()
 
-        if(subtotal < 1) {
+        if (subtotal < 1) {
           alert('Belum ada produk yang dipilih')
           $('#barcode').focus()
-        } else if(cash < 1) {
+        } else if (cash < 1) {
           alert('Jumlah uang cash belum diinput')
           $('#cash').focus()
         } else {
-          if(confirm('Yakin Proses Transaksi Ini ?')) {
+          if (confirm('Yakin Proses Transaksi Ini ?')) {
             $.ajax({
               type: 'POST',
               url: 'proseskasir.php',
@@ -816,9 +816,18 @@
                 'date': date,
               },
               dataType: 'json',
-              success: function(result) {
-                
+              success: function (result) {
+                if (result.success) {
+                  alert('Transaksi Berhasil')
+                } else {
+                  alert('Transaksi Gagal');
+                }
+                location.href='<?php 'kasir.php'; ?>'
+              },
+              error: function (xhr, status, error) {
+                alert(xhr.responseText);
               }
+
             })
           }
         }
@@ -846,8 +855,8 @@
       var cash = $('#cash').val();
       cash != 0 ? $('#change').val(cash - grand_total) : $('#change').val(0)
       if (discount == '') {
-          $('#discount').val(0)
-        }
+        $('#discount').val(0)
+      }
     }
 
     function count_edit_modal() {
@@ -861,8 +870,8 @@
       total = (price - discount) * qty
       $('#total_item').val(total)
       if (discount == '') {
-          $('#discount_item').val(0)
-        }
+        $('#discount_item').val(0)
+      }
     }
 
     function loadData() {

@@ -70,7 +70,7 @@ elseif (isset($_POST['edit_cart'])) {
 
 elseif (isset($_POST['process_payment'])) {
     $invoice = $_POST['invoice'];
-    $customer_id = $_POST['customer_id'];
+    $customer_id = $_POST['customer_id'] == "" ? NULL : NULL;
     $total_price = $_POST['subtotal'];
     $discount = $_POST['discount'];
     $final_price = $_POST['grandtotal'];
@@ -78,10 +78,32 @@ elseif (isset($_POST['process_payment'])) {
     $remaining = $_POST['change'];
     $note = $_POST['note'];
     $date = $_POST['date'];
-    $user_id = $_SESSION['nama'];
-
-    $query = "INSERT INTO t_sale VALUES ('$invoice','$customer_id','$total_price','$discount','$final_price','$cash','$remaining','$note','$date','$user_id')";
+    $user_id = $_SESSION['userid'];
+    $query="INSERT INTO t_sale (invoice, customer_id, total_price, discount, final_price, cash, remaining, note, date, user_id) VALUES (
+        '$invoice', 
+        '$customer_id', 
+        '$total_price', 
+        '$discount', 
+        '$final_price',
+        '$cash', 
+        '$remaining', 
+        '$note', 
+        '$date',
+        '$user_id')";
     $result = mysqli_query($koneksi,$query);
+    $sale_id = mysqli_insert_id($koneksi);
+
+    $result2 = mysqli_query($koneksi,"SELECT * FROM t_cart WHERE user_id = '$user_id'");
+    $jumlah = mysqli_num_rows($result2);
+
+    $sql = "INSERT INTO t_sale_detail (sale_id,item_id,price,qty,discount_item,total,user_id) VALUES ";
+    while ($data1 = mysqli_fetch_assoc($result2)) {
+        $sql .= "('".$sale_id."','".$data1['item_id']."','".$data1['price']."','".$data1['qty']."','".$data1['discount_item']."','".$data1['total']."','".$data1['user_id']."'), ";
+    }
+    $sql =rtrim($sql, ', ');
+    mysqli_query($koneksi,$sql) or die(mysqli_error());
+    $query2 = "DELETE FROM t_cart WHERE user_id = '$user_id'";
+    $result3 = mysqli_query($koneksi,$query2) or die(mysqli_error());
     $data = mysqli_affected_rows($koneksi);
     if($data > 0) {
         $params = array("success" => true);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2020 at 11:00 AM
+-- Generation Time: Aug 29, 2020 at 10:35 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -155,14 +155,6 @@ CREATE TABLE `t_cart` (
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `t_cart`
---
-
-INSERT INTO `t_cart` (`cart_id`, `item_id`, `price`, `qty`, `discount_item`, `total`, `user_id`) VALUES
-(2, 10, 10000, 8, 3, 79976, 3),
-(3, 8, 50000, 1, 0, 50000, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -184,6 +176,16 @@ CREATE TABLE `t_sale` (
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `t_sale`
+--
+
+INSERT INTO `t_sale` (`sale_id`, `invoice`, `customer_id`, `total_price`, `discount`, `final_price`, `cash`, `remaining`, `note`, `date`, `user_id`, `created`) VALUES
+(1, 'TP2008290001', 0, 50000, 500, 49500, 50000, 500, 'lunas', '2020-08-29', 3, '2020-08-29 10:28:42'),
+(2, 'TP2008290002', 0, 80000, 6000, 74000, 700000, 626000, '', '2020-08-29', 3, '2020-08-29 10:29:35'),
+(3, 'TP2008290003', 0, 189000, 900, 188100, 200000, 11900, 'ok', '2020-08-29', 3, '2020-08-29 10:30:48'),
+(4, 'TP2008290004', 0, 292500, 700, 291800, 600000, 308200, '', '2020-08-29', 1, '2020-08-29 10:31:31');
+
 -- --------------------------------------------------------
 
 --
@@ -197,8 +199,22 @@ CREATE TABLE `t_sale_detail` (
   `price` int(11) NOT NULL,
   `qty` int(11) NOT NULL,
   `discount_item` int(11) NOT NULL,
-  `total` int(11) NOT NULL
+  `total` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_sale_detail`
+--
+
+INSERT INTO `t_sale_detail` (`detail_id`, `sale_id`, `item_id`, `price`, `qty`, `discount_item`, `total`, `user_id`) VALUES
+(1, 1, 8, 50000, 1, 0, 50000, 3),
+(2, 2, 10, 10000, 1, 0, 10000, 3),
+(3, 2, 9, 20000, 1, 0, 20000, 3),
+(4, 2, 8, 50000, 1, 0, 50000, 3),
+(5, 3, 9, 20000, 2, 500, 39000, 3),
+(6, 3, 8, 50000, 3, 0, 150000, 3),
+(7, 4, 9, 20000, 15, 500, 292500, 1);
 
 -- --------------------------------------------------------
 
@@ -305,7 +321,8 @@ ALTER TABLE `t_sale`
 --
 ALTER TABLE `t_sale_detail`
   ADD PRIMARY KEY (`detail_id`),
-  ADD KEY `item_id` (`item_id`);
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `t_stock`
@@ -360,13 +377,13 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `t_sale`
 --
 ALTER TABLE `t_sale`
-  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `t_sale_detail`
 --
 ALTER TABLE `t_sale_detail`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `t_stock`
@@ -402,7 +419,8 @@ ALTER TABLE `t_cart`
 -- Constraints for table `t_sale_detail`
 --
 ALTER TABLE `t_sale_detail`
-  ADD CONSTRAINT `t_sale_detail_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `p_item` (`item_id`);
+  ADD CONSTRAINT `t_sale_detail_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `p_item` (`item_id`),
+  ADD CONSTRAINT `t_sale_detail_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Constraints for table `t_stock`
