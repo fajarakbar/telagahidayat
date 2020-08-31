@@ -169,12 +169,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -277,10 +277,8 @@
                       <?php
                   $no = 1;
 
-                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
-                  FROM p_item 
-                  INNER JOIN p_kategori
-                  ON p_kategori.category_id=p_item.category_id
+                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                  FROM p_item
                   INNER JOIN p_satuanbarang
                   ON p_satuanbarang.unit_id=p_item.unit_id";
 
@@ -291,7 +289,7 @@
                         <td style="width:10%"><?php echo $no++; ?></td>
                         <td><?php echo "$produk[barcode]"; ?></td>
                         <td><?php echo "$produk[name]"; ?></td>
-                        <td><?php echo "$produk[category_name]"; ?></td>
+                        <td><?php echo "$produk[category]"; ?></td>
                         <td><?php echo "$produk[unit_name]"; ?></td>
                         <td><?php echo "$produk[price]"; ?></td>
                         <td><?php echo "$produk[stock]"; ?></td>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Aug 29, 2020 at 10:35 AM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Host: localhost:3306
+-- Generation Time: Aug 31, 2020 at 01:29 PM
+-- Server version: 10.3.16-MariaDB
+-- PHP Version: 7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,31 +19,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_tokoretail`
+-- Database: `id14738878_db_tokoretail`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `mahasiswa`
---
-
-CREATE TABLE `mahasiswa` (
-  `IdMhsw` int(11) NOT NULL,
-  `Nama` varchar(150) DEFAULT NULL,
-  `JenisKelamin` varchar(20) DEFAULT NULL,
-  `Alamat` text,
-  `Agama` varchar(30) DEFAULT NULL,
-  `NoHp` varchar(15) DEFAULT NULL,
-  `Email` varchar(150) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `mahasiswa`
---
-
-INSERT INTO `mahasiswa` (`IdMhsw`, `Nama`, `JenisKelamin`, `Alamat`, `Agama`, `NoHp`, `Email`) VALUES
-(3, 'fajarf', 'Laki-laki', 'ff', 'Kristen', '99', 'fjrakbar23@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -55,22 +32,13 @@ CREATE TABLE `p_item` (
   `item_id` int(11) NOT NULL,
   `barcode` varchar(100) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
-  `category_id` int(11) NOT NULL,
+  `category` varchar(50) NOT NULL,
   `unit_id` int(11) NOT NULL,
   `price` int(11) DEFAULT NULL,
-  `stock` int(11) NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `stock` int(11) NOT NULL DEFAULT 0,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `p_item`
---
-
-INSERT INTO `p_item` (`item_id`, `barcode`, `name`, `category_id`, `unit_id`, `price`, `stock`, `created`, `updated`) VALUES
-(8, '8999999049669', 'Candy yellow C016* Y016*', 10, 12, 50000, 8, '2020-08-23 22:05:39', NULL),
-(9, '8993176110074', 'Viola v350 terminal mask oke', 11, 12, 20000, 1, '2020-08-25 09:26:28', NULL),
-(10, '12345', 'abcdeddd', 11, 12, 10000, 9, '2020-08-27 15:32:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -81,18 +49,9 @@ INSERT INTO `p_item` (`item_id`, `barcode`, `name`, `category_id`, `unit_id`, `p
 CREATE TABLE `p_kategori` (
   `category_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `p_kategori`
---
-
-INSERT INTO `p_kategori` (`category_id`, `name`, `created`, `updated`) VALUES
-(10, 'Regulator Gas', '2020-08-23 20:16:05', '2020-08-23 20:16:33'),
-(11, 'Saklar & Stop Kontak Masko', '2020-08-23 20:16:13', '2020-08-23 20:16:49'),
-(12, 'Mata Grinda Potong Besi', '2020-08-23 20:16:21', '2020-08-23 20:17:05');
 
 -- --------------------------------------------------------
 
@@ -103,18 +62,9 @@ INSERT INTO `p_kategori` (`category_id`, `name`, `created`, `updated`) VALUES
 CREATE TABLE `p_satuanbarang` (
   `unit_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `p_satuanbarang`
---
-
-INSERT INTO `p_satuanbarang` (`unit_id`, `name`, `created`, `updated`) VALUES
-(11, 'Dus', '2020-08-23 20:17:13', NULL),
-(12, 'Pcs', '2020-08-23 20:17:19', '2020-08-23 20:17:58'),
-(13, 'Kotak', '2020-08-23 20:17:25', '2020-08-23 20:18:06');
 
 -- --------------------------------------------------------
 
@@ -127,17 +77,10 @@ CREATE TABLE `supplier` (
   `name` varchar(100) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `address` varchar(200) NOT NULL,
-  `description` text,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `description` text DEFAULT NULL,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `supplier`
---
-
-INSERT INTO `supplier` (`supplier_id`, `name`, `phone`, `address`, `description`, `created`, `updated`) VALUES
-(3, 'Toko A', '085249660956', 'Kapuas Kalteng', 'Supplier toko bangunan', '2020-08-23 20:15:25', '2020-08-23 20:15:43');
 
 -- --------------------------------------------------------
 
@@ -150,7 +93,7 @@ CREATE TABLE `t_cart` (
   `item_id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `qty` int(10) NOT NULL,
-  `discount_item` int(11) NOT NULL DEFAULT '0',
+  `discount_item` int(11) NOT NULL DEFAULT 0,
   `total` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -173,18 +116,8 @@ CREATE TABLE `t_sale` (
   `note` text NOT NULL,
   `date` date NOT NULL,
   `user_id` int(11) NOT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `t_sale`
---
-
-INSERT INTO `t_sale` (`sale_id`, `invoice`, `customer_id`, `total_price`, `discount`, `final_price`, `cash`, `remaining`, `note`, `date`, `user_id`, `created`) VALUES
-(1, 'TP2008290001', 0, 50000, 500, 49500, 50000, 500, 'lunas', '2020-08-29', 3, '2020-08-29 10:28:42'),
-(2, 'TP2008290002', 0, 80000, 6000, 74000, 700000, 626000, '', '2020-08-29', 3, '2020-08-29 10:29:35'),
-(3, 'TP2008290003', 0, 189000, 900, 188100, 200000, 11900, 'ok', '2020-08-29', 3, '2020-08-29 10:30:48'),
-(4, 'TP2008290004', 0, 292500, 700, 291800, 600000, 308200, '', '2020-08-29', 1, '2020-08-29 10:31:31');
 
 -- --------------------------------------------------------
 
@@ -204,17 +137,15 @@ CREATE TABLE `t_sale_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `t_sale_detail`
+-- Triggers `t_sale_detail`
 --
-
-INSERT INTO `t_sale_detail` (`detail_id`, `sale_id`, `item_id`, `price`, `qty`, `discount_item`, `total`, `user_id`) VALUES
-(1, 1, 8, 50000, 1, 0, 50000, 3),
-(2, 2, 10, 10000, 1, 0, 10000, 3),
-(3, 2, 9, 20000, 1, 0, 20000, 3),
-(4, 2, 8, 50000, 1, 0, 50000, 3),
-(5, 3, 9, 20000, 2, 500, 39000, 3),
-(6, 3, 8, 50000, 3, 0, 150000, 3),
-(7, 4, 9, 20000, 15, 500, 292500, 1);
+DELIMITER $$
+CREATE TRIGGER `stock_min` AFTER INSERT ON `t_sale_detail` FOR EACH ROW BEGIN
+	UPDATE p_item SET stock = stock - NEW.qty
+    WHERE item_id = NEW.item_id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -229,18 +160,11 @@ CREATE TABLE `t_stock` (
   `detail` varchar(200) NOT NULL,
   `supplier_id` int(11) DEFAULT NULL,
   `qty` int(10) NOT NULL,
+  `harga` int(11) NOT NULL,
   `date` date NOT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `t_stock`
---
-
-INSERT INTO `t_stock` (`stock_id`, `item_id`, `type`, `detail`, `supplier_id`, `qty`, `date`, `created`, `user_id`) VALUES
-(2, 8, 'in', 'dari gudang', 3, 8, '2020-08-25', '2020-08-25 07:46:06', 1),
-(3, 10, 'in', 'dari gudang', 3, 9, '2020-08-27', '2020-08-27 15:33:08', 1);
 
 -- --------------------------------------------------------
 
@@ -271,17 +195,11 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `name`, `address`, `level
 --
 
 --
--- Indexes for table `mahasiswa`
---
-ALTER TABLE `mahasiswa`
-  ADD PRIMARY KEY (`IdMhsw`);
-
---
 -- Indexes for table `p_item`
 --
 ALTER TABLE `p_item`
   ADD PRIMARY KEY (`item_id`),
-  ADD KEY `category_id` (`category_id`),
+  ADD KEY `category_id` (`category`),
   ADD KEY `unit_id` (`unit_id`);
 
 --
@@ -344,52 +262,46 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `mahasiswa`
---
-ALTER TABLE `mahasiswa`
-  MODIFY `IdMhsw` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT for table `p_item`
 --
 ALTER TABLE `p_item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `p_kategori`
 --
 ALTER TABLE `p_kategori`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `p_satuanbarang`
 --
 ALTER TABLE `p_satuanbarang`
-  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_sale`
 --
 ALTER TABLE `t_sale`
-  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_sale_detail`
 --
 ALTER TABLE `t_sale_detail`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_stock`
 --
 ALTER TABLE `t_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -405,7 +317,6 @@ ALTER TABLE `user`
 -- Constraints for table `p_item`
 --
 ALTER TABLE `p_item`
-  ADD CONSTRAINT `p_item_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `p_kategori` (`category_id`),
   ADD CONSTRAINT `p_item_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `p_satuanbarang` (`unit_id`);
 
 --

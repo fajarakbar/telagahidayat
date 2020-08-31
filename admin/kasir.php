@@ -20,6 +20,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <!-- <meta http-equiv="refresh" content="60" /> -->
 
   <title>Telaga</title>
 
@@ -167,12 +168,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -325,21 +326,24 @@
             </div>
 
             <?php
-              $date = date("ymd");
-              $query = "SELECT MAX(MID(invoice,9,4)) AS invoice_no FROM t_sale WHERE (MID(invoice,3,6)) = '$date'";
-              $result = mysqli_query($koneksi,$query);
-              $data = mysqli_fetch_assoc($result);
-              $row = $data['invoice_no'];
-              $n = ((int)$row) + 1;
-              $no = sprintf("%'.04d", $n);
-              $invoice = "TP".date('ymd').$no;
+              // $date = date("ymd");
+              // $query = "SELECT MAX(MID(invoice,9,4)) AS invoice_no FROM t_sale WHERE (MID(invoice,3,6)) = '$date'";
+              // $result = mysqli_query($koneksi,$query);
+              // $data = mysqli_fetch_assoc($result);
+              // $row = $data['invoice_no'];
+              // $n = ((int)$row) + 1;
+              // $no = sprintf("%'.04d", $n);
+              // $invoice = "TP".date('ymd').$no;
             ?>
 
             <div class="col-md-4">
               <div class="card">
                 <div class="card-body">
                   <div align="right">
-                    <h4>Invoice <b><span id="invoice"><?= $invoice?></span></b></h4>
+                    <!-- <div id="invoice"></div> -->
+                    <h4>Invoice <b>
+                        <div id="invoice"></div>
+                      </b></h4>
                     <h1><b><span id="grand_total2" style="font-size:50pt">0</span></b></h1>
                   </div>
                 </div>
@@ -494,12 +498,10 @@
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="isi_modal">
                       <?php
-                        $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                        $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
                         FROM p_item 
-                        INNER JOIN p_kategori
-                        ON p_kategori.category_id=p_item.category_id
                         INNER JOIN p_satuanbarang
                         ON p_satuanbarang.unit_id=p_item.unit_id";
 
@@ -641,6 +643,13 @@
     $(document).ready(function () {
       loadData()
 
+      setInterval(function () {
+        $("#invoice").load('invoice_no.php')
+      }, 2000);
+      // setInterval(function() {
+      //   $("#invoice").load('invoice_no.php')
+      // }, 2000);
+
       $(document).on('click', '#select', function () {
         $('#item_id').val($(this).data('id'))
         $('#barcode').val($(this).data('barcode'))
@@ -662,7 +671,14 @@
           $('#item_id').val('')
           $('#barcode').val('')
           $('#barcode').focus()
-        } else {
+        } else if (qty > stock){
+          alert('Stock hanya tersisa ' + stock) 
+          $('#qty').focus()
+        }else if (qty == 0){
+          alert('Pembelian harus lebih dari 0') 
+          $('#qty').focus()
+        }
+        else {
           $.ajax({
             type: 'POST',
             url: 'proseskasir.php',
@@ -819,10 +835,12 @@
               success: function (result) {
                 if (result.success) {
                   alert('Transaksi Berhasil')
+                  window.open('<?= 'receipt_print.php?sale_id='; ?>' + result.sale_id, '_blank')
                 } else {
                   alert('Transaksi Gagal');
                 }
-                location.href='<?php 'kasir.php'; ?>'
+                location.href = '<?php '
+                kasir.php '; ?>'
               },
               error: function (xhr, status, error) {
                 alert(xhr.responseText);
@@ -833,6 +851,27 @@
         }
       })
 
+      $(document).on('keyup', '#barcode', function () {
+        var barkode = $('#barcode').val()
+        $.ajax({
+          type: 'POST',
+          url: 'proseskasir.php',
+          data: {
+            'barcode': true,
+            'barcode': barkode
+          },
+          dataType: 'json',
+          success: function (data) {
+            $('#item_id').val(data.item_id);
+            $('#price').val(data.price);
+            $('#stock').val(data.stock);
+          },
+          error: function (xhr, status, error) {
+            alert(xhr.responseText);
+          }
+        })
+
+      })
     })
 
     function calculate() {
@@ -881,6 +920,27 @@
         success: function (data) {
           $('#cart_table').html(data);
           calculate()
+          nomor()
+        }
+      });
+    }
+
+    function nomor() {
+      $.ajax({
+        url: 'invoice_no.php',
+        type: 'get',
+        success: function (data) {
+          $('#invoice').html(data);
+        }
+      });
+    }
+
+    function modal() {
+      $.ajax({
+        url: 'modal-item.php',
+        type: 'get',
+        success: function (data) {
+          $('#isi_modal').html(data);
         }
       });
     }

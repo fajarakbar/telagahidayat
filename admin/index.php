@@ -167,12 +167,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -247,7 +247,12 @@
                   <span class="info-box-text">Total Transaksi</span>
                   <!-- total transaksi diambil dari database -->
                   <span class="info-box-number">
-                    1600 Transaksi
+                  <?php 
+                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS total FROM t_sale");
+                  if(mysqli_num_rows($result) > 0){
+                  $row = mysqli_fetch_assoc($result);?>
+                    <span class="info-box-number"><?php echo $row['total']; ?> Item</span>
+                  <?php } ?>
                   </span>
                 </div>
                 <!-- /.info-box-content -->

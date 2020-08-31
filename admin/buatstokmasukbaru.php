@@ -167,12 +167,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -259,7 +259,7 @@
                     </div>
                     <div class="form-group input-group">
                       <input type="hidden" name="item_id" id="item_id">
-                      <input type="text" name="barcode" id="barcode" class="form-control" required autofocus>
+                      <input type="text" name="barcode" id="barcode" class="form-control" autofocus>
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-info " data-toggle="modal" data-target="#modal-item">
                           <i class="fa fa-search"></i>
@@ -299,6 +299,10 @@
                     <div class="form-group">
                       <label for="qty">Qty *</label>
                       <input type="number" name="qty" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="qty">Harga Beli *</label>
+                      <input type="number" name="harga" class="form-control" required>
                     </div>
                     <!-- /.card-body -->
 
@@ -340,10 +344,8 @@
               </thead>
               <tbody>
                 <?php
-                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
                   FROM p_item 
-                  INNER JOIN p_kategori
-                  ON p_kategori.category_id=p_item.category_id
                   INNER JOIN p_satuanbarang
                   ON p_satuanbarang.unit_id=p_item.unit_id";
 
@@ -358,8 +360,8 @@
                   <td><?php echo "$produk[stock]"; ?></td>
                   <td>
                     <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]";?>"
-                        data-barcode="<?= "$produk[barcode]";?>" data-name="<?= "$produk[name]";?>"
-                        data-unit="<?= "$produk[unit_name]";?>" data-stock="<?= "$produk[stock]";?>">
+                      data-barcode="<?= "$produk[barcode]";?>" data-name="<?= "$produk[name]";?>"
+                      data-unit="<?= "$produk[unit_name]";?>" data-stock="<?= "$produk[stock]";?>">
                       <i type="button" class="fa fa-check"></i> Select
                     </button>
                   </td>
@@ -413,6 +415,8 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+
   <script>
     $(document).ready(function () {
       $(document).on('click', '#select', function () {
@@ -422,11 +426,33 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
         var unit_name = $(this).data('unit');
         var stock = $(this).data('stock');
         $('#item_id').val(item_id);
-        $('#barcode').val(barcode); 
+        $('#barcode').val(barcode);
         $('#item_name').val(name);
         $('#unit_name').val(unit_name);
         $('#stock').val(stock);
         $('#modal-item').modal('hide');
+      })
+
+      $(document).on('keyup', '#barcode', function () {
+        var barkode = $('#barcode').val()
+        $.ajax({
+          type: 'POST',
+          url: 'prosesstokmasuk.php',
+          data: {
+            'barcode': true,
+            'barcode': barkode
+          },
+          dataType: 'json',
+          success: function (data) {
+            $('#item_id').val(data.item_id);
+            $('#item_name').val(data.name);
+            $('#unit_name').val(data.satuan);
+            $('#stock').val(data.stock);
+          },
+          error: function (xhr, status, error) {
+            alert(xhr.responseText);
+          }
+        })
 
       })
     })

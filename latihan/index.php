@@ -1,109 +1,40 @@
-<!DOCTYPE html>
-<html>
+<?php
+include "../koneksi.php";
 
-<head>
-    <title>Simple Crud Ajax</title>
-    <script src="../plugins/jquery/jquery.min.js"></script>
-    <!-- <script type="text/javascript" src="jquery-3.4.1.min.js"></script> -->
-    <script type="text/javascript">
-        $(document).ready(function() {
+?>
+<table style="padding:20px" border="1" width="30%">
+  <b style="padding:20px">Form Peminjaman Buku</b>
+  <form action="" method="">
+    <!--setiap inputyang berhubungan dengan script ajax wajib diberi tag id   -->
+    <tr>
+      <td><input name="barcode" id="barcode" onkeyup="autofill()"></td>
+    </tr>
+    <tr>
+      <td><input name="nama" id="name" readonly></td>
+    </tr>
+    <tr>
+      <td><input name="satuan" id="satuan" readonly></td>
+    </tr>
+    <tr>
+      <td><input name="stock" id="stock" readonly></td>
+    </tr>
+  </form>
+</table>
 
-            //load data mahasiswa saat aplikasi dijalankan 
-            loadData();
-
-            //Load form add
-            $("#contentData").on("click", "#addButton", function() {
-                $.ajax({
-                    url: 'form-add.php',
-                    type: 'get',
-                    success: function(data) {
-                        $('#contentData').html(data);
-                    }
-                });
-            });
-
-            //Load form edit dengan parameter IdMhsw
-            $("#contentData").on("click", "#EditButton", function() {
-                var IdMhsw = $(this).attr("value");
-                $.ajax({
-                    url: 'form-edit.php',
-                    type: 'get',
-                    data: {
-                        IdMhsw: IdMhsw
-                    },
-                    success: function(data) {
-                        $('#contentData').html(data);
-                    }
-                });
-            });
-
-            //button batal
-            $("#contentData").on("click", "#cancelButton", function() {
-                loadData();
-            });
-
-            //simpan data mahasiswa
-            $("#contentData").on("submit", "#formAdd", function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: 'service.php?action=save',
-                    type: 'post',
-                    data: $(this).serialize(),
-                    success: function(data) {
-                        alert(data);
-                        loadData();
-                    }
-                });
-            });
-
-            //edit data mahasiswa
-            $("#contentData").on("submit", "#formEdit", function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: 'service.php?action=edit',
-                    type: 'post',
-                    data: $(this).serialize(),
-                    success: function(data) {
-                        alert(data);
-                        loadData();
-                    }
-                });
-            });
-
-            //hapus data mahasiswa berdasarkan IdMhsw
-            $("#contentData").on("click", "#DeleteButton", function() {
-                var IdMhsw = $(this).attr("value");
-                $.ajax({
-                    url: 'service.php?action=delete',
-                    type: 'post',
-                    data: {
-                        IdMhsw: IdMhsw
-                    },
-                    success: function(data) {
-                        alert(data);
-                        loadData();
-                    }
-                });
-            });
-        })
-
-        function loadData() {
-            $.ajax({
-                url: 'data-mahasiswa.php',
-                type: 'get',
-                success: function(data) {
-                    $('#contentData').html(data);
-                }
-            });
-        }
-    </script>
-</head>
-
-<body>
-    <div align="center">
-        <h2>Simple Crud Ajax dan PHP</h2>
-        <div id="contentData"></div>
-    </div>
-</body>
-
-</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- <script src="../plugins/jquery/jquery.min.js"></script> -->
+<script>
+function autofill() {
+    var barcode = $('#barcode').val();
+    $.ajax({
+        url : 'cekbuku.php',
+        data : 'barcode='+barcode,
+    }).success(function(data){
+        var json = data,
+        obj = JSON.parse(json);
+        $('#name').val(obj.name);
+        $('#satuan').val(obj.satuan);
+        $('#stock').val(obj.stock);
+    });
+}
+</script>

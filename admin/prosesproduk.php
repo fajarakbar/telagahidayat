@@ -26,7 +26,7 @@
         }
         else
         {
-            $query = "INSERT INTO p_item (barcode,name,category_id,unit_id,price) VALUES (
+            $query = "INSERT INTO p_item (barcode,name,category,unit_id,price) VALUES (
                 '$barcode',
                 '$namaproduk',
                 '$kategori',

@@ -167,12 +167,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -251,7 +251,7 @@
                 <form action="prosesproduk.php" method="post">
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="barcode">Barcode *</label>
+                      <label for="barcode">Barcode</label>
                       <input type="text" name="barcode" class="form-control">
                     </div>
                     <div class="form-group">
@@ -260,20 +260,7 @@
                     </div>
                     <div class="form-group">
                       <label for="kategori">Kategori *</label>
-                      <select name="kategori" class="form-control select2" style="width: 100%;" required>
-                      <option disabled selected="selected">- Pilih -</option>
-                        <?php
-                        $query = "SELECT * FROM p_kategori";
-                        $result = mysqli_query($koneksi, $query);
-
-                        while ($kategori = mysqli_fetch_assoc($result)) 
-                        { ?>
-                        <option value="<?php echo "$kategori[category_id]"; ?>"><?php echo "$kategori[name]";?>
-                        </option>
-                        <?php
-                        }
-                        ?>
-                      </select>
+                      <input type="text" name="kategori" class="form-control" required>
                     </div>
                     <div class="form-group">
                       <label for="satuanbarang">Satuan Barang *</label>
@@ -294,7 +281,7 @@
                     </div>
                     <div class="form-group">
                       <label for="harga">Harga *</label>
-                      <input type="text" name="harga" class="form-control" id="#">
+                      <input type="text" name="harga" class="form-control" id="#" required>
                     </div>
                   </div>
                   <!-- /.card-body -->

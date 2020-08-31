@@ -169,12 +169,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -268,18 +268,19 @@
                         <th>Barcode</th>
                         <th>Produk</th>
                         <th>Jumlah</th>
+                        <th>Harga</th>
                         <th>tanggal</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
                   $no = 1;
-                  $query = "SELECT t_stock.stock_id,t_stock.item_id, p_item.barcode, p_item.name AS item_name, t_stock.type, t_stock.detail, supplier.name AS supplier_name, t_stock.qty, t_stock.date 
+                  $query = "SELECT t_stock.stock_id,t_stock.item_id, p_item.barcode, p_item.name AS item_name, t_stock.type, t_stock.detail, supplier.name AS supplier_name, t_stock.qty, t_stock.harga, t_stock.date,t_stock.created 
                   FROM t_stock 
                   INNER JOIN p_item ON p_item.item_id=t_stock.item_id 
                   LEFT JOIN supplier ON supplier.supplier_id=t_stock.supplier_id 
                   WHERE t_stock.type = 'in'
-                  ORDER BY t_stock.date DESC";
+                  ORDER BY t_stock.created DESC";
 
                   $result = mysqli_query($koneksi, $query);
                   while ($stokmasuk = mysqli_fetch_assoc($result))
@@ -289,6 +290,7 @@
                         <td><?php echo "$stokmasuk[barcode]"; ?></td>
                         <td><?php echo "$stokmasuk[item_name]"; ?></td>
                         <td><?php echo "$stokmasuk[qty]"; ?></td>
+                        <td><?php echo "$stokmasuk[harga]"; ?></td>
                         <td><?php echo "$stokmasuk[date]"; ?></td>
                         <td style="width:15%">
                           <div class="dropdown">

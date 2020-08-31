@@ -1,8 +1,8 @@
 <?php
     $servername = "localhost";
-    $username   = "root";
-    $password   = "";
-    $database   = "db_tokoretail";
+    $username   = "id14738878_tokohidayatnative";
+    $password   = "Fajar23dilon.";
+    $database   = "id14738878_db_tokoretail";
 
     $koneksi    = mysqli_connect($servername, $username, $password, $database);
 

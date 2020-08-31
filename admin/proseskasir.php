@@ -106,10 +106,24 @@ elseif (isset($_POST['process_payment'])) {
     $result3 = mysqli_query($koneksi,$query2) or die(mysqli_error());
     $data = mysqli_affected_rows($koneksi);
     if($data > 0) {
-        $params = array("success" => true);
+        $params = array("success" => true, "sale_id" => $sale_id);
     } else {
         $params = array("success" => false);
     }
     echo json_encode($params);  
+}
+elseif(isset($_POST['barcode'])) {
+    $barcode = $_POST['barcode']; 
+    $query = mysqli_query($koneksi,"SELECT * FROM p_item WHERE barcode='$barcode'");
+    $data1 = mysqli_fetch_array($query);
+    $data = array(
+        'item_id' => $data1['item_id'],
+        'barcode' => $data1['barcode'],
+        'name' => $data1['name'],
+        'price' => $data1['price'],
+        'satuan' => $data1['unit_id'],
+        'stock' => $data1['stock'],
+    );
+    echo json_encode($data); 
 }
 ?>
