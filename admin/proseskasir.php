@@ -50,6 +50,19 @@ elseif (isset($_POST['del_cart'])) {
     echo json_encode($params);  
 }
 
+elseif (isset($_POST['cancel_payment'])) {
+    $user_id = $_SESSION['userid'];
+    $query2 = "DELETE FROM t_cart WHERE user_id = '$user_id'";
+    $result = mysqli_query($koneksi,$query2);
+    $data = mysqli_affected_rows($koneksi);
+    if($data > 0) {
+        $params = array("success" => true);
+    } else {
+        $params = array("success" => false);
+    }
+    echo json_encode($params);  
+}
+
 elseif (isset($_POST['edit_cart'])) {
     $cart_id = $_POST['cart_id'];
     $price = $_POST['price'];

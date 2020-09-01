@@ -290,6 +290,7 @@
                           <input type="hidden" id="item_id">
                           <input type="hidden" id="price">
                           <input type="hidden" id="stock">
+                          <input type="hidden" id="qty_cart">
                           <input type="text" id="barcode" class="form-control" autofocus>
                           <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat" data-toggle="modal"
@@ -561,9 +562,21 @@
                     <input type="text" id="price_item" min="0" class="form-control">
                   </div>
                   <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-7">
+                    <label for="qty_item">Qty</label>
+                        <input type="number" id="qty_item" min="1" class="form-control">
+                      </div>
+                      <div class="col-md-5">
+                        <label>Stock Item</label>
+                        <input type="number" id="stock_item" class="form-control" readonly>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="form-group">
                     <label for="qty_item">Jumlah</label>
                     <input type="number" id="qty_item" min="1" class="form-control">
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label for="total_before">Total Sebelum Diskon</label>
                     <input type="number" id="total_before" class="form-control" readonly>
@@ -645,7 +658,7 @@
 
       setInterval(function () {
         $("#invoice").load('invoice_no.php')
-      }, 2000);
+      }, 20000);
       // setInterval(function() {
       //   $("#invoice").load('invoice_no.php')
       // }, 2000);
@@ -656,6 +669,7 @@
         $('#price').val($(this).data('price'))
         $('#stock').val($(this).data('stock'))
         $('#modal-item').modal('hide')
+        get_cart_qty($(this).data('barcode'))
       })
 
       $(document).on('click', '#add_cart', function () {
@@ -663,22 +677,19 @@
         var price = $('#price').val()
         var stock = $('#stock').val()
         var qty = $('#qty').val()
+        var qty_cart = $('#qty_cart').val()
         if (item_id == '') {
           alert('Produk belum dipilih')
           $('#barcode').focus()
-        } else if (stock < 1) {
+        } else if (parseInt(stock) < 1) {
           alert('Stock tidak mencukupi')
           $('#item_id').val('')
           $('#barcode').val('')
           $('#barcode').focus()
-        } else if (qty > stock){
-          alert('Stock hanya tersisa ' + stock) 
+        } else if(parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))) {
+          alert('Stock tidak mencukupi')
           $('#qty').focus()
-        }else if (qty == 0){
-          alert('Pembelian harus lebih dari 0') 
-          $('#qty').focus()
-        }
-        else {
+        } else {
           $.ajax({
             type: 'POST',
             url: 'proseskasir.php',
@@ -716,11 +727,15 @@
         var qty = $('#qty_item').val()
         var discount = $('#discount_item').val()
         var total = $('#total_item').val()
+        var stock = $('#stock_item').val()
         if (price == '' || price < 1) {
           alert('Harga tidak boleh kosong')
           $('#price_item').focus()
         } else if (qty == '' || qty < 1) {
           alert('Jumlah tidak boleh kosong')
+          $('#qty_item').focus()
+        } else if (parseInt(qty) > parseInt(stock)) {
+          alert('Stock tidak mencukupi')
           $('#qty_item').focus()
         } else {
           $.ajax({
@@ -745,6 +760,7 @@
                 $('#modal-item-edit').modal('hide')
               } else {
                 alert('Data produk cart tidak ter -update')
+                $('#modal-item-edit').modal('hide')
               }
             },
             error: function (xhr, status, error) {
@@ -783,6 +799,7 @@
         $('#cartid_item').val($(this).data('cartid'))
         $('#barcode_item').val($(this).data('barcode'))
         $('#product_item').val($(this).data('product'))
+        $('#stock_item').val($(this).data('stock'))
         $('#price_item').val($(this).data('price'))
         $('#qty_item').val($(this).data('qty'))
         $('#total_before').val($(this).data('price') * $(this).data('qty'))
@@ -835,12 +852,11 @@
               success: function (result) {
                 if (result.success) {
                   alert('Transaksi Berhasil')
-                  window.open('<?= 'receipt_print.php?sale_id='; ?>' + result.sale_id, '_blank')
+                  window.open('<?= 'receipt_print.php?sale_id='?>' + result.sale_id,'_blank')
                 } else {
                   alert('Transaksi Gagal');
                 }
-                location.href = '<?php '
-                kasir.php '; ?>'
+                location.href = '<?php 'kasir.php '; ?>'
               },
               error: function (xhr, status, error) {
                 alert(xhr.responseText);
@@ -872,7 +888,43 @@
         })
 
       })
+
+      $(document).on('click', '#cancel_payment', function () {
+        if (confirm('Apakah Anda Yakin ?')) {
+          $.ajax({
+            type: 'POST',
+            url: 'proseskasir.php',
+            dataType: 'json',
+            data: {'cancel_payment': true},
+            success: function(result) {
+              if (result.success == true) {
+                $('#cart_table').load(('tampilcart.php'),
+                  function () {
+                    calculate()
+                  })
+              }
+            }
+          })
+          $('#discount').val(0)
+          $('#cash').val(0)
+          $('#customer').val('').change()
+          $('#barcode').val('')
+          $('#barcode').focus()
+        }
+      })
+      
+
     })
+    function get_cart_qty(barcode) {
+      $('#cart_table tr').each(function() {
+        var qty_cart = $("#cart_table td.barcode:contains('"+barcode+"')").parent().find("td").eq(4).html()
+        if (qty_cart != null) {
+          $('#qty_cart').val(qty_cart)
+        } else {
+          $("#qty_cart").val(0)
+        }
+      })
+    }
 
     function calculate() {
       var subtotal = 0;

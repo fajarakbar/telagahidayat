@@ -31,6 +31,9 @@
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -263,7 +266,7 @@
                 <form action="prosesproduk.php" method="post">
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="barcode">Barcode *</label>
+                      <label for="barcode">Barcode</label>
                       <input type="hidden" name="id" class="form-control" value="<?php echo $produk['item_id']; ?>">
                       <input type="text" name="barcode" class="form-control" value="<?php echo $produk['barcode']; ?>">
                     </div>
@@ -272,36 +275,23 @@
                       <input type="text" name="namaproduk" class="form-control" value="<?php echo $produk['name']; ?>"
                         required>
                     </div>
+
                     <div class="form-group">
-                      <label for="kategori">Kategori</label>
-
-                      <?php 
-                        $sql = "SELECT p_item.category_id, p_kategori.name AS category_name
-                        FROM p_item INNER JOIN p_kategori ON p_kategori.category_id=p_item.category_id 
-                        WHERE p_item.item_id = '$id'";
-
-                        $result = mysqli_query($koneksi, $sql);
-                        $kategori = mysqli_fetch_assoc($result);?>
-
+                      <label for="kategori">Kategori *</label>
                       <select name="kategori" class="form-control select2" style="width: 100%;"
-                        value="<?php echo $kategori['category_id']; ?>" required>
-                        <option value="<?php echo "$kategori[category_id]"; ?>">
-                          <?php echo "$kategori[category_name]"; ?>
+                        value="<?php echo $produk['category']; ?>" required>
+                        <option value="<?php echo "$produk[category]"; ?>">
+                          <?php echo "$produk[category]"; ?>
                         </option>
-
                         <?php
-                        $query = "SELECT * FROM p_kategori";
+                        $query = "SELECT * FROM p_item";
                         $result = mysqli_query($koneksi, $query);
-
-                        while ($kategori1 = mysqli_fetch_assoc($result)) 
+                        while ($kategori = mysqli_fetch_assoc($result)) 
                         { ?>
-                        <option value="<?php echo "$kategori1[category_id]"; ?>"><?php echo "$kategori1[name]"; ?>
+                        <option value="<?php echo "$kategori[category]"; ?>"><?php echo "$kategori[category]"; ?>
                         </option>
-                        <?php
-                        }
-                        ?>
+                        <?php } ?>
                       </select>
-
                     </div>
                     <div class="form-group">
                       <label for="satuanbarang">Satuan Barang</label>
@@ -311,7 +301,7 @@
                         WHERE p_item.item_id = '$id'";
                         $result1 = mysqli_query($koneksi, $sql1);
                         $satuanbarang = mysqli_fetch_assoc($result1);?>
-                      <select name="satuanbarang" class="form-control select2" style="width: 100%;" required>
+                      <select name="satuanbarang" class="form-control" style="width: 100%;" required>
                         <option value="<?php echo "$satuanbarang[unit_id]"; ?>">
                           <?php echo "$satuanbarang[unit_name]"; ?>
                         </option>
@@ -379,12 +369,22 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 
   <!-- jQuery -->
   <script src="../plugins/jquery/jquery.min.js"></script>
+  <!-- Select2 -->
+  <script src="../plugins/select2/js/select2.full.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.select2').select2({
+        tags: true
+      })
+    })
+
+  </script>
 </body>
 
 </html>

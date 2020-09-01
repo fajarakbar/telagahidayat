@@ -54,7 +54,7 @@
         $query = "UPDATE p_item SET
         barcode= '$barcode',
         name= '$namaproduk',
-        category_id= '$kategori',
+        category= '$kategori',
         unit_id= '$satuanbarang',
         price= '$harga',
         updated= '$updated'

@@ -267,27 +267,27 @@
                       </span>
                     </div>
                     <div class="form-group">
-                      <label for="item_name">Nama Produk</label>
+                      <label for="item_name">Nama Produk *</label>
                       <input type="text" name="item_name" id="item_name" class="form-control" readonly>
                     </div>
-                    <div class="row">
+                    <div class="row form-group">
                       <div class="col-md-8">
-                        <label for="unit_name">Satuan Barang</label>
+                        <label for="unit_name">Satuan Barang *</label>
                         <input type="text" name="unit_name" id="unit_name" value="-" class="form-control" readonly>
                       </div>
                       <div class="col-md-4">
-                        <label for="stock">Stok Awal</label>
+                        <label for="stock">Stok Awal *</label>
                         <input type="text" name="stock" id="stock" value="-" class="form-control" readonly>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="detail">Detail *</label>
-                      <input type="text" name="detail" class="form-control" placeholder="tambahan / etc" required>
+                      <label for="detail">Catatan</label>
+                      <input type="text" name="detail" class="form-control" placeholder="tambahan / etc">
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label for="supplier">Supplier</label>
                       <select name="supplier" class="form-control">
-                        <option value="">- Pilih -</option>
+                        <option value=""></option>
                         <?php
                         $query = "SELECT * FROM supplier";
                         $result = mysqli_query($koneksi, $query);
@@ -295,7 +295,7 @@
                         <option value="<?php echo $supplier['supplier_id'];?>"><?php echo "$supplier[name]"; ?></option>
                         <?php } ?>
                       </select>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                       <label for="qty">Qty *</label>
                       <input type="number" name="qty" class="form-control" required>

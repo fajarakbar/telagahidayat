@@ -13,7 +13,7 @@ if (mysqli_num_rows($result) > 0) {
 while ($data = mysqli_fetch_assoc($result)) {?>
 <tr>
     <td><?php echo $no++; ?></td>
-    <td><?php echo $data['barcode']; ?></td>
+    <td class="barcode"><?php echo $data['barcode']; ?></td>
     <td><?php echo $data['item_name']; ?></td>
     <td class="text-right"><?php echo $data['cart_price']; ?></td>
     <td class="text-center"><?php echo $data['qty']; ?></td>
@@ -24,6 +24,7 @@ while ($data = mysqli_fetch_assoc($result)) {?>
             data-cartid="<?= $data['cart_id']; ?>" 
             data-barcode="<?= $data['barcode']; ?>"
             data-product="<?= $data['item_name']; ?>" 
+            data-stock="<?= $data['stock']; ?>" 
             data-price="<?= $data['cart_price']; ?>"
             data-qty="<?= $data['qty']; ?>" 
             data-discount="<?= $data['discount_item']; ?>"

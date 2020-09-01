@@ -27,6 +27,9 @@
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
@@ -260,11 +263,22 @@
                     </div>
                     <div class="form-group">
                       <label for="kategori">Kategori *</label>
-                      <input type="text" name="kategori" class="form-control" required>
+                      <!-- <input type="text" name="kategori" class="form-control select2" required> -->
+                      <select name="kategori" class="form-control select2" style="width: 100%;" required>
+                        <option disabled selected="selected">- Pilih -</option>
+                        <?php
+                        $query = "SELECT * FROM p_item";
+                        $result = mysqli_query($koneksi, $query);
+                        while ($kategori = mysqli_fetch_assoc($result)) 
+                        { ?>
+                        <option value="<?php echo "$kategori[category]"; ?>"><?php echo "$kategori[category]"; ?>
+                        </option>
+                        <?php } ?>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="satuanbarang">Satuan Barang *</label>
-                      <select name="satuanbarang" class="form-control select2" style="width: 100%;" required>
+                      <select name="satuanbarang" class="form-control" style="width: 100%;" required>
                         <option disabled selected="selected">- Pilih -</option>
                         <?php
                         $query = "SELECT * FROM p_satuanbarang";
@@ -278,18 +292,18 @@
                         }
                         ?>
                       </select>
+                      </>
+                      <div class="form-group">
+                        <label for="harga">Harga *</label>
+                        <input type="text" name="harga" class="form-control" id="#" required>
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label for="harga">Harga *</label>
-                      <input type="text" name="harga" class="form-control" id="#" required>
-                    </div>
-                  </div>
-                  <!-- /.card-body -->
+                    <!-- /.card-body -->
 
-                  <div class="card-footer">
-                    <a href="daftarproduk.php" name="cancel" class="btn btn-secondary">Batal</a>
-                    <button type="submit" name="simpanproduk" class="btn btn-primary">Simpan</button>
-                  </div>
+                    <div class="card-footer">
+                      <a href="daftarproduk.php" name="cancel" class="btn btn-secondary">Batal</a>
+                      <button type="submit" name="simpanproduk" class="btn btn-primary">Simpan</button>
+                    </div>
                 </form>
               </div>
               <!-- /.card -->
@@ -328,12 +342,21 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 
   <!-- jQuery -->
   <script src="../plugins/jquery/jquery.min.js"></script>
+  <!-- Select2 -->
+  <script src="../plugins/select2/js/select2.full.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.select2').select2({
+        tags: true
+      })
+    })
+  </script>
 </body>
 
 </html>
