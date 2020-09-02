@@ -17,7 +17,7 @@
         //     )";
         // var_dump ($barcode,$namaproduk,$kategori,$satuanbarang,$harga);
         // mysqli_query($koneksi, $query);
-        if(empty($namaproduk) || empty($harga) || empty($kategori) || empty($satuanbarang))
+        if(empty($namaproduk) || empty($kategori) || empty($harga) || empty($kategori) || empty($satuanbarang))
         {
             echo"
             <script>alert('Data Gagal Ditambahkan');
@@ -26,7 +26,7 @@
         }
         else
         {
-            $query = "INSERT INTO p_item (barcode,name,category,unit_id,price) VALUES (
+            $query = "INSERT INTO p_item (barcode,name,category_id,unit_id,price) VALUES (
                 '$barcode',
                 '$namaproduk',
                 '$kategori',
@@ -54,7 +54,7 @@
         $query = "UPDATE p_item SET
         barcode= '$barcode',
         name= '$namaproduk',
-        category= '$kategori',
+        category_id= '$kategori',
         unit_id= '$satuanbarang',
         price= '$harga',
         updated= '$updated'
@@ -73,7 +73,7 @@
         {
             echo"
             <script>alert('Data Gagal Diubah');
-            window.location = 'ubahproduk.php';</script>
+            window.location = 'ubahproduk.php?id=$id';</script>
             ";
         }
     }

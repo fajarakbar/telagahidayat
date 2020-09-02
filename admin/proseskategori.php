@@ -5,21 +5,28 @@
         $namakategori   = $_POST['namakategori'];
 
         $query  = "INSERT INTO p_kategori(name) VALUES('$namakategori')";
-
-        if(empty($namakategori))
-        {
-            echo"
-            <script>alert('Data Gagal Ditambahkan');
-            window.location = 'buatkategoribaru.php';</script>
-            ";
+        $result = mysqli_query($koneksi,$query);
+        $data = mysqli_affected_rows($koneksi);
+        if($data > 0) {
+            $params = array("success" => true);
+        } else {
+            $params = array("success" => false);
         }
-        elseif(mysqli_query($koneksi, $query))
-        {
-            echo"
-            <script>alert('Data Berhasil Ditambahkan');
-            window.location = 'kategori.php';</script>
-            ";
-        }
+        echo json_encode($params);  
+        // if(empty($namakategori))
+        // {
+        //     echo"
+        //     <script>alert('Data Gagal Ditambahkan');
+        //     window.location = 'buatkategoribaru.php';</script>
+        //     ";
+        // }
+        // elseif(mysqli_query($koneksi, $query))
+        // {
+        //     echo"
+        //     <script>alert('Data Berhasil Ditambahkan');
+        //     window.location = 'kategori.php';</script>
+        //     ";
+        // }
     }
     elseif(isset($_POST['ubahkategori']))
     {

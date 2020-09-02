@@ -501,7 +501,7 @@
                     </thead>
                     <tbody id="isi_modal">
                       <?php
-                        $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                        $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category_id, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
                         FROM p_item 
                         INNER JOIN p_satuanbarang
                         ON p_satuanbarang.unit_id=p_item.unit_id";
@@ -670,6 +670,7 @@
         $('#stock').val($(this).data('stock'))
         $('#modal-item').modal('hide')
         get_cart_qty($(this).data('barcode'))
+        $('#qty').focus()
       })
 
       $(document).on('click', '#add_cart', function () {
@@ -831,7 +832,10 @@
         } else if (cash < 1) {
           alert('Jumlah uang cash belum diinput')
           $('#cash').focus()
-        } else {
+        } else if (change < 0) {
+          alert('Jumlah uang cash kurang')
+          $('#cash').focus()
+        }else {
           if (confirm('Yakin Proses Transaksi Ini ?')) {
             $.ajax({
               type: 'POST',
@@ -907,6 +911,7 @@
           })
           $('#discount').val(0)
           $('#cash').val(0)
+          // $('#qty').val(1)
           $('#customer').val('').change()
           $('#barcode').val('')
           $('#barcode').focus()

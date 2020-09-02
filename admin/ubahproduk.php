@@ -170,12 +170,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -267,7 +267,8 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label for="barcode">Barcode</label>
-                      <input type="hidden" name="id" class="form-control" value="<?php echo $produk['item_id']; ?>">
+                      <input type="hidden" id="id" name="id" class="form-control"
+                        value="<?php echo $produk['item_id']; ?>">
                       <input type="text" name="barcode" class="form-control" value="<?php echo $produk['barcode']; ?>">
                     </div>
                     <div class="form-group">
@@ -275,24 +276,40 @@
                       <input type="text" name="namaproduk" class="form-control" value="<?php echo $produk['name']; ?>"
                         required>
                     </div>
-
+                    <!-- <div id="ubahkategori"></div> -->
+                    <?php
+                    $sql = "SELECT p_item.category_id, p_kategori.name AS category_name
+                    FROM p_item INNER JOIN p_kategori ON p_kategori.category_id=p_item.category_id 
+                    WHERE p_item.item_id = '$id'";
+                    $result = mysqli_query($koneksi, $sql);
+                    $kategori = mysqli_fetch_assoc($result);?>
                     <div class="form-group">
                       <label for="kategori">Kategori *</label>
-                      <select name="kategori" class="form-control select2" style="width: 100%;"
-                        value="<?php echo $produk['category']; ?>" required>
-                        <option value="<?php echo "$produk[category]"; ?>">
-                          <?php echo "$produk[category]"; ?>
-                        </option>
-                        <?php
-                        $query = "SELECT * FROM p_item";
-                        $result = mysqli_query($koneksi, $query);
-                        while ($kategori = mysqli_fetch_assoc($result)) 
-                        { ?>
-                        <option value="<?php echo "$kategori[category]"; ?>"><?php echo "$kategori[category]"; ?>
-                        </option>
-                        <?php } ?>
-                      </select>
+                      <div class="row">
+                        <div class="col-md-11">
+                          <select name="kategori" class="form-control" style="width: 100%;"
+                            value="<?php echo $kategori['category_id']; ?>" required>
+                            <option value="<?php echo "$kategori[category_id]"; ?>">
+                              <?php echo "$kategori[category_name]"; ?>
+                            </option>
+                            <?php
+                            $query = "SELECT * FROM p_kategori";
+                            $result = mysqli_query($koneksi, $query);
+                            while ($kategori = mysqli_fetch_assoc($result)) 
+                            { ?>
+                              <option value="<?php echo "$kategori[category_id]"; ?>"><?php echo "$kategori[name]"; ?>
+                              </option>
+                            <?php } ?>
+                            <!-- <div id="pilihankategori"></div> -->
+                          </select>
+                        </div>
+                        <div class="col-md-1" style="padding-left:1px">
+                          <button type="button" class="btn btn-info" data-toggle="modal"
+                            data-target="#modal-kategori">+</button>
+                        </div>
+                      </div>
                     </div>
+
                     <div class="form-group">
                       <label for="satuanbarang">Satuan Barang</label>
                       <?php 
@@ -339,6 +356,36 @@
           </div>
           <!-- /.row -->
         </div><!-- /.container-fluid -->
+        <div class="modal fade" id="modal-kategori">
+          <div class="modal-dialog modal-default">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Kategori Baru</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <!-- <div class="modal-body"> -->
+              <!-- <form action="" method=""> -->
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="namakategori">Nama Kategori *</label>
+                  <input type="text" name="namakategori" class="form-control" id="nama_kategori">
+                </div>
+              </div>
+              <!-- /.card-body -->
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="button" id="simpankategori" class="btn btn-primary">Simpan</button>
+              </div>
+              <!-- </form> -->
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
       </section>
       <!-- /.content -->
     </div>
@@ -379,10 +426,46 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../dist/js/demo.js"></script>
   <script>
     $(document).ready(function () {
-      $('.select2').select2({
-        tags: true
-      })
+      loadData()
     })
+
+    $(document).on('click', '#simpankategori', function () {
+      // $('.select2').select2({
+      //   tags: true
+      // })
+      var namakategori = $('#nama_kategori').val()
+      var id = $('#id').val()
+      if (namakategori == '') {
+        alert('Wajib diisi')
+        $('#nama_kategori').focus()
+      } else {
+        $.ajax({
+          url: 'proseskategori.php',
+          method: 'POST',
+          data: {
+            'simpankategori': true,
+            'namakategori': namakategori
+          },
+          dataType: 'json',
+          success: function (result) {
+            if (result.success == true) {
+              // $('#pilihankategori').load('ubahtampilkategori.php', function (xhr, status, error) {
+                // alert(xhr.responseText);
+                $('#modal-kategori').modal('hide')
+                window.location.replace('<?= 'ubahproduk.php?id='?>' + id)
+              // })
+            } else {
+              alert('Gagal tambah kategori')
+            }
+          }
+        })
+      }
+    })
+
+    function loadData() {
+      // $('#pilihankategori').val('d')
+      $('#pilihankategori').load('ubahtampilkategori.php')
+    }
 
   </script>
 </body>

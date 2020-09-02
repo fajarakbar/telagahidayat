@@ -261,21 +261,9 @@
                       <label for="namaproduk">Nama Produk *</label>
                       <input type="text" name="namaproduk" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                      <label for="kategori">Kategori *</label>
-                      <!-- <input type="text" name="kategori" class="form-control select2" required> -->
-                      <select name="kategori" class="form-control select2" style="width: 100%;" required>
-                        <option disabled selected="selected">- Pilih -</option>
-                        <?php
-                        $query = "SELECT * FROM p_item";
-                        $result = mysqli_query($koneksi, $query);
-                        while ($kategori = mysqli_fetch_assoc($result)) 
-                        { ?>
-                        <option value="<?php echo "$kategori[category]"; ?>"><?php echo "$kategori[category]"; ?>
-                        </option>
-                        <?php } ?>
-                      </select>
-                    </div>
+
+                    <div id="kategori"></div>
+
                     <div class="form-group">
                       <label for="satuanbarang">Satuan Barang *</label>
                       <select name="satuanbarang" class="form-control" style="width: 100%;" required>
@@ -312,11 +300,43 @@
           </div>
           <!-- /.row -->
         </div><!-- /.container-fluid -->
-      </section>
-      <!-- /.content -->
+        <div class="modal fade" id="modal-kategori">
+          <div class="modal-dialog modal-default">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Kategori Baru</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <!-- <div class="modal-body"> -->
+              <!-- <form action="" method=""> -->
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="namakategori">Nama Kategori *</label>
+                  <input type="text" name="namakategori" class="form-control" id="nama_kategori">
+                </div>
+              </div>
+              <!-- /.card-body -->
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="button" id="simpankategori" class="btn btn-primary">Simpan</button>
+              </div>
+              <!-- </form> -->
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
     </div>
-    <!-- /.content-wrapper -->
-    <?php
+    <!-- /.modal -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <?php
 $tanggal = time () ;
 //Untuk mengambil data waktu dan tanggal saat ini dari server 
 $tahun= date("Y",$tanggal);
@@ -325,18 +345,18 @@ echo "Copyright @ 2011 - " . $tahun;
 /* baris ini mencetak rentang copyright,
 Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 ?>
-    <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
-    </footer>
+  <footer class="main-footer">
+    <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1
+    </div>
+  </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
 
@@ -352,10 +372,45 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../dist/js/demo.js"></script>
   <script>
     $(document).ready(function () {
-      $('.select2').select2({
-        tags: true
-      })
+      loadData()
     })
+    $(document).on('click', '#simpankategori', function () {
+      // $('.select2').select2({
+      //   tags: true
+      // })
+      var namakategori = $('#nama_kategori').val()
+      if (namakategori == '') {
+        alert('Wajib diisi')
+        $('#nama_kategori').focus()
+      } else {
+        $.ajax({
+          url: 'proseskategori.php',
+          method: 'POST',
+          data: {
+            'simpankategori': true,
+            'namakategori': namakategori
+          },
+          dataType: 'json',
+          success: function (result) {
+            if (result.success == true) {
+              $('#kategori').load('tampilkategori.php', function (xhr, status, error) {
+                // alert(xhr.responseText);
+                $('#modal-kategori').modal('hide')
+              })
+            } else {
+              alert('Gagal tambah kategori')
+            }
+          }
+          // success: function (result) {
+          // $('#modal-kategori').modal('hide')
+          // }
+        })
+      }
+    })
+
+    function loadData() {
+      $('#kategori').load('tampilkategori.php')
+    }
   </script>
 </body>
 

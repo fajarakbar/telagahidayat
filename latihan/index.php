@@ -1,40 +1,47 @@
-<?php
-include "../koneksi.php";
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title> 
+	Adding options to a select element using jQuery? 
+</title> 
+</head> 
 
-?>
-<table style="padding:20px" border="1" width="30%">
-  <b style="padding:20px">Form Peminjaman Buku</b>
-  <form action="" method="">
-    <!--setiap inputyang berhubungan dengan script ajax wajib diberi tag id   -->
-    <tr>
-      <td><input name="barcode" id="barcode" onkeyup="autofill()"></td>
-    </tr>
-    <tr>
-      <td><input name="nama" id="name" readonly></td>
-    </tr>
-    <tr>
-      <td><input name="satuan" id="satuan" readonly></td>
-    </tr>
-    <tr>
-      <td><input name="stock" id="stock" readonly></td>
-    </tr>
-  </form>
-</table>
+<body> 
+	<h1 style="color: green"> 
+	GeeksForGeeks 
+</h1> 
+	<b> 
+	Adding options to a select element using jQuery? 
+</b> 
+	<p> 
+		Select one from the given options: 
+		<select id="select1"> 
+			<option value="free">Free</option> 
+			<option value="basic">Basic</option> 
+		</select> 
+	</p> 
+	<p> 
+	Click the button below to add 
+	one option to the select box. 
+</p> 
+	
+	<button onclick="addOption()"> 
+	Add option 
+</button> 
+	
+	<script src= 
+"https://code.jquery.com/jquery-3.3.1.min.js"> 
+</script> 
+	<script type="text/javascript"> 
+		function addOption() { 
+			optionText = 'Premium'; 
+			optionValue = 'premium'; 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<!-- <script src="../plugins/jquery/jquery.min.js"></script> -->
-<script>
-function autofill() {
-    var barcode = $('#barcode').val();
-    $.ajax({
-        url : 'cekbuku.php',
-        data : 'barcode='+barcode,
-    }).success(function(data){
-        var json = data,
-        obj = JSON.parse(json);
-        $('#name').val(obj.name);
-        $('#satuan').val(obj.satuan);
-        $('#stock').val(obj.stock);
-    });
-}
-</script>
+			$('#select1').append(`<option value="${optionValue}"> 
+									${optionText} 
+								</option>`); 
+		} 
+	</script> 
+</body> 
+
+</html> 

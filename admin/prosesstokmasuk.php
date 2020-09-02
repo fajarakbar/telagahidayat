@@ -20,7 +20,7 @@ if(isset($_POST['simpanstokmasuk'])) {
   $harga        = $_POST['harga'] * $_POST['qty'];
   $date         = $_POST['date'];
   $user_id      = $_SESSION['userid'];
-  var_dump($item_id,$type,$detail,$supplier_id,$qty,$date,$user_id);
+  // var_dump($item_id,$type,$detail,$supplier_id,$qty,$date,$user_id);
   $query="INSERT INTO t_stock (item_id, type, detail, qty, harga, date, user_id) VALUES (
     '$item_id', 
     '$type', 
