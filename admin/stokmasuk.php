@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -54,7 +55,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <a href="index.php" class="brand-link">
         <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
@@ -88,7 +89,7 @@
             </li>
             <li class="nav-item has-treeview">
               <a href="suppliers.php" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-address-book"></i>
                 <p>
                   Suppliers
                 </p>
@@ -169,12 +170,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -185,7 +186,7 @@
             </li>
             <li class="nav-item has-treeview menu-open">
               <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-tree"></i>
+                <i class="nav-icon fas fa-shopping-cart"></i>
                 <p>
                   Transaksi
                   <i class="fas fa-angle-left right"></i>
@@ -243,25 +244,26 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <table>
+                  <h3 class="card-title">Daftar Stok Masuk</h3>
+                  <table style="float:right">
                     <td>
                       <a href="buatstokmasukbaru.php"><button type="button"
                           class="btn btn-block btn-primary btn-sm">Tambah</button></a>
-                    </td>
-                    <td>
-                      <div class="input-group input-group-sm">
-                        <input type="text" class="form-control">
-                        <span class="input-group-append">
-                          <button type="button" class="btn btn-block btn-primary btn-sm"><i
-                              class="fas fa-search"></i></button>
-                        </span>
-                      </div>
-                    </td>
+                    </td>                    
                   </table>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap" id="#">
+                <?php
+                  $no = 1;
+                  $query = "SELECT t_stock.stock_id,t_stock.item_id, p_item.barcode, p_item.name AS item_name, t_stock.type, t_stock.detail, supplier.name AS supplier_name, t_stock.qty, t_stock.harga, t_stock.date,t_stock.created 
+                  FROM t_stock 
+                  INNER JOIN p_item ON p_item.item_id=t_stock.item_id 
+                  LEFT JOIN supplier ON supplier.supplier_id=t_stock.supplier_id 
+                  WHERE t_stock.type = 'in'
+                  ORDER BY t_stock.created DESC";
+                  $result = mysqli_query($koneksi, $query); ?>
+                <div class="card-body">
+                  <table class="table table-hover text-nowrap" id="example1">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -270,21 +272,11 @@
                         <th>Jumlah</th>
                         <th>Harga</th>
                         <th>tanggal</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php
-                  $no = 1;
-                  $query = "SELECT t_stock.stock_id,t_stock.item_id, p_item.barcode, p_item.name AS item_name, t_stock.type, t_stock.detail, supplier.name AS supplier_name, t_stock.qty, t_stock.harga, t_stock.date,t_stock.created 
-                  FROM t_stock 
-                  INNER JOIN p_item ON p_item.item_id=t_stock.item_id 
-                  LEFT JOIN supplier ON supplier.supplier_id=t_stock.supplier_id 
-                  WHERE t_stock.type = 'in'
-                  ORDER BY t_stock.created DESC";
-
-                  $result = mysqli_query($koneksi, $query);
-                  while ($stokmasuk = mysqli_fetch_assoc($result))
-                  { ?>
+                      <?php while ($stokmasuk = mysqli_fetch_assoc($result)) { ?>
                       <tr>
                         <td style="width:10%"><?php echo $no++; ?></td>
                         <td><?php echo "$stokmasuk[barcode]"; ?></td>
@@ -404,6 +396,11 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <!-- DataTables -->
+  <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
     $(document).ready(function () {
       $(document).on('click', '#set_detail', function () {
@@ -419,8 +416,13 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
         $('#supplier').text(suppliername);
         $('#qty').text(qty);
         $('#date').text(date);
-
       })
+      $(function () {
+      $("#example1").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+      });
+    });
     })
 
   </script>

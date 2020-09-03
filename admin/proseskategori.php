@@ -59,6 +59,7 @@
     {
         $id = $_POST['id'];
         $query = "DELETE FROM p_kategori WHERE category_id = '$id'";
+        // var_dump($query);
         if(mysqli_query($koneksi, $query))
         {
             echo"
@@ -69,7 +70,7 @@
         else
         {
             echo"
-            <script>alert('Data Gagal Dihapus');
+            <script>alert('Data Sedang digunakan di Produk  ');
             window.location = 'kategori.php';</script>
             ";
         }

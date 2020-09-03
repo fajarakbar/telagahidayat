@@ -29,6 +29,10 @@
   <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -85,7 +89,7 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="suppliers.php" class="nav-link active">
+              <a href="suppliers.php" class="nav-link">
                 <i class="nav-icon fas fa-address-book"></i>
                 <p>
                   Suppliers
@@ -181,8 +185,8 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-shopping-cart"></i>
                 <p>
                   Transaksi
@@ -207,7 +211,7 @@
               </ul>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="stokkeluar.php" class="nav-link">
+                  <a href="stokkeluar.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Keluar</p>
                   </a>
@@ -243,22 +247,57 @@
             <div class="col-md-6">
               <!-- general form elements -->
               <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Tambah Stok Keluar</h3>
+                </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="prosessupplier.php" method="post">
+                <form action="prosesstokkeluar.php" method="post">
                   <div class="card-body">
-                    <div class="form-group" style="text-align:center">
-                      <h2>Hapus Data Supplier</h2>
-                      <h3>Apakah Anda Yakin ?</h3>
-                      <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $_GET['id']; ?>">
+                    <div class="form-group">
+                      <label for="tanggal">Date *</label>
+                      <input type="date" name="date" value="<?= date('Y-m-d')?>" class="form-control" required>
                     </div>
-                  </div>
-                  <!-- /.card-body -->
+                    <div>
+                      <label for="barcode">Barcode *</label>
+                    </div>
+                    <div class="form-group input-group">
+                      <input type="hidden" name="item_id" id="item_id">
+                      <input type="text" name="barcode" id="barcode" class="form-control" autofocus>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-info " data-toggle="modal" data-target="#modal-item">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="item_name">Nama Produk *</label>
+                      <input type="text" name="item_name" id="item_name" class="form-control" readonly>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-md-8">
+                        <label for="unit_name">Satuan Barang *</label>
+                        <input type="text" name="unit_name" id="unit_name" value="-" class="form-control" readonly>
+                      </div>
+                      <div class="col-md-4">
+                        <label for="stock">Stok Awal *</label>
+                        <input type="text" name="stock" id="stock" value="-" class="form-control" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="detail">Keterangan *</label>
+                      <input type="text" name="detail" class="form-control" placeholder="Rusak, Cacat dan lain-lain" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="qty">Qty *</label>
+                      <input type="number" name="qty" class="form-control" required>
+                    </div>
+                    <!-- /.card-body -->
 
-                  <div class="card-footer" style="text-align:center">
-                    <a href="suppliers.php" name="cancel" class="btn btn-secondary">Batal</a>
-                    <button type="submit" name="hapussupplier" class="btn btn-primary">Hapus</button>
-                  </div>
+                    <div class="card-footer">
+                      <a href="stokkeluar.php" name="cancel" class="btn btn-secondary">Batal</a>
+                      <button type="submit" name="simpanstokkeluar" class="btn btn-primary">Simpan</button>
+                    </div>
                 </form>
               </div>
               <!-- /.card -->
@@ -266,12 +305,73 @@
             <!--/.col (left) -->
           </div>
           <!-- /.row -->
-        </div><!-- /.container-fluid -->
-      </section>
-      <!-- /.content -->
+        </div>
+        <!-- /.container-fluid -->
     </div>
-    <!-- /.content-wrapper -->
-    <?php
+    <div class="modal fade" id="modal-item">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Pilih Produk</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <?php
+                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                  FROM p_item 
+                  INNER JOIN p_kategori
+                  ON p_kategori.category_id=p_item.category_id
+                  INNER JOIN p_satuanbarang
+                  ON p_satuanbarang.unit_id=p_item.unit_id";
+
+                  $result = mysqli_query($koneksi, $query); ?>
+          <div class="modal-body">
+            <table class="table table-bordered table-striped" id="example1">
+              <thead col-sm-4>
+                <tr>
+                  <th>Barcode</th>
+                  <th>Nama</th>
+                  <th>Satuan</th>
+                  <th>Harga</th>
+                  <th>Stok</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php while ($produk = mysqli_fetch_assoc($result)) { ?>
+                <tr>
+                  <td><?php echo "$produk[barcode]"; ?></td>
+                  <td><?php echo "$produk[name]"; ?></td>
+                  <td><?php echo "$produk[unit_name]"; ?></td>
+                  <td><?php echo "$produk[price]"; ?></td>
+                  <td><?php echo "$produk[stock]"; ?></td>
+                  <td>
+                    <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]";?>"
+                      data-barcode="<?= "$produk[barcode]";?>" data-name="<?= "$produk[name]";?>"
+                      data-unit="<?= "$produk[unit_name]";?>" data-stock="<?= "$produk[stock]";?>">
+                      <i type="button" class="fa fa-check"></i> Select
+                    </button>
+                  </td>
+                </tr>
+                <?php }
+                  ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    </section>
+    <!-- /.content -->
+
+
+  </div>
+  <!-- /.content-wrapper -->
+  <?php
 $tanggal = time () ;
 //Untuk mengambil data waktu dan tanggal saat ini dari server 
 $tahun= date("Y",$tanggal);
@@ -280,18 +380,18 @@ echo "Copyright @ 2011 - " . $tahun;
 /* baris ini mencetak rentang copyright,
 Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 ?>
-    <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
-    </footer>
+  <footer class="main-footer">
+    <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1
+    </div>
+  </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
 
@@ -301,8 +401,64 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../dist/js/adminlte.min.js"></script>
+  <!-- DataTables -->
+  <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+
+  <script>
+    $(document).ready(function () {
+      $(function () {
+        $("#example1").DataTable({
+          "responsive": true,
+          "autoWidth": false,
+        });
+      });
+      $(document).on('click', '#select', function () {
+        var item_id = $(this).data('id');
+        var barcode = $(this).data('barcode');
+        var name = $(this).data('name');
+        var unit_name = $(this).data('unit');
+        var stock = $(this).data('stock');
+        $('#item_id').val(item_id);
+        $('#barcode').val(barcode);
+        $('#item_name').val(name);
+        $('#unit_name').val(unit_name);
+        $('#stock').val(stock);
+        $('#modal-item').modal('hide');
+      })
+
+      $(document).on('keyup', '#barcode', function () {
+        var barkode = $('#barcode').val()
+        $.ajax({
+          type: 'POST',
+          url: 'prosesstokmasuk.php',
+          data: {
+            'barcode': true,
+            'barcode': barkode
+          },
+          dataType: 'json',
+          success: function (data) {
+            $('#item_id').val(data.item_id);
+            $('#item_name').val(data.name);
+            $('#unit_name').val(data.satuan);
+            $('#stock').val(data.stock);
+          },
+          error: function (xhr, status, error) {
+            alert(xhr.responseText);
+          }
+        })
+
+      })
+    })
+
+  </script>
+
 </body>
 
 </html>

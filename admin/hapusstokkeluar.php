@@ -1,4 +1,4 @@
-<?php
+<<?php
   session_start();
   include"../koneksi.php";//cek apakah sudah login
 
@@ -85,7 +85,7 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="suppliers.php" class="nav-link active">
+              <a href="suppliers.php" class="nav-link">
                 <i class="nav-icon fas fa-address-book"></i>
                 <p>
                   Suppliers
@@ -181,7 +181,7 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item has-treeview">
+            <li class="nav-item has-treeview menu-open">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-shopping-cart"></i>
                 <p>
@@ -199,7 +199,7 @@
               </ul>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="stokmasuk.php" class="nav-link">
+                  <a href="stokmasuk.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Masuk</p>
                   </a>
@@ -231,47 +231,49 @@
       <!-- /.sidebar -->
     </aside>
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
 
-      <!-- Main content -->
-      <section class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <!-- left column -->
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-              <!-- general form elements -->
-              <div class="card">
-                <!-- /.card-header -->
-                <!-- form start -->
-                <form action="prosessupplier.php" method="post">
-                  <div class="card-body">
-                    <div class="form-group" style="text-align:center">
-                      <h2>Hapus Data Supplier</h2>
-                      <h3>Apakah Anda Yakin ?</h3>
-                      <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $_GET['id']; ?>">
-                    </div>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card">
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form action="prosesstokkeluar.php" method="post">
+                <div class="card-body">
+                  <div class="form-group" style="text-align:center">
+                  <h2>Hapus Data Stok Keluar</h2>
+                  <h3>Apakah Anda Yakin ?</h3>
+                    <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $_GET['id']; ?>">
+                    <input type="hidden" name="itemid" class="form-control" id="#" value="<?php echo $_GET['itemid']; ?>">
+                    <input type="hidden" name="qty" class="form-control" id="#" value="<?php echo $_GET['qty']; ?>">
                   </div>
-                  <!-- /.card-body -->
+                </div>
+                <!-- /.card-body -->
 
-                  <div class="card-footer" style="text-align:center">
-                    <a href="suppliers.php" name="cancel" class="btn btn-secondary">Batal</a>
-                    <button type="submit" name="hapussupplier" class="btn btn-primary">Hapus</button>
-                  </div>
-                </form>
-              </div>
-              <!-- /.card -->
+                <div class="card-footer" style="text-align:center">
+                  <a href="stokkeluar.php" name="cancel" class="btn btn-secondary">Batal</a>
+                  <button type="submit" name="hapusstokkeluar" class="btn btn-primary">Hapus</button>
+                </div>
+              </form>
             </div>
-            <!--/.col (left) -->
+            <!-- /.card -->
           </div>
-          <!-- /.row -->
-        </div><!-- /.container-fluid -->
-      </section>
-      <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <?php
+          <!--/.col (left) -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <?php
 $tanggal = time () ;
 //Untuk mengambil data waktu dan tanggal saat ini dari server 
 $tahun= date("Y",$tanggal);
@@ -280,29 +282,28 @@ echo "Copyright @ 2011 - " . $tahun;
 /* baris ini mencetak rentang copyright,
 Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 ?>
-    <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
-    </footer>
+  <footer class="main-footer">
+    <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1
+    </div>
+  </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
 
-  <!-- jQuery -->
-  <script src="../plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../dist/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="../dist/js/demo.js"></script>
+<!-- jQuery -->
+<script src="../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../dist/js/demo.js"></script>
 </body>
-
 </html>

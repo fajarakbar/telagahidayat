@@ -55,7 +55,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <a href="index.php" class="brand-link">
         <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
@@ -89,7 +89,7 @@
             </li>
             <li class="nav-item has-treeview">
               <a href="suppliers.php" class="nav-link active">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-address-book"></i>
                 <p>
                   Suppliers
                 </p>
@@ -170,12 +170,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -186,7 +186,7 @@
             </li>
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tree"></i>
+                <i class="nav-icon fas fa-shopping-cart"></i>
                 <p>
                   Transaksi
                   <i class="fas fa-angle-left right"></i>
@@ -244,25 +244,21 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <table>
+                  <h3 class="card-title">Daftar Supplier</h3>
+                  <table style="float:right">
                     <td>
                       <a href="buatsupplierbaru.php"><button type="button"
                           class="btn btn-block btn-primary btn-sm">Tambah</button></a>
                     </td>
-                    <td>
-                      <div class="input-group input-group-sm">
-                        <input type="text" class="form-control">
-                        <span class="input-group-append">
-                          <button type="button" class="btn btn-block btn-primary btn-sm"><i
-                              class="fas fa-search"></i></button>
-                        </span>
-                      </div>
-                    </td>
                   </table>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap" id="table2">
+                <?php
+                      $no = 1;
+                        $query = "SELECT * FROM supplier";
+                        $result = mysqli_query($koneksi, $query);?>
+                <div class="card-body">
+                  <table class="table table-hover text-nowrap" id="example1">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -270,15 +266,11 @@
                         <th>Kontak</th>
                         <th>Alamat</th>
                         <th>Keterangan</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php
-                      $no = 1;
-                        $query = "SELECT * FROM supplier";
-                        $result = mysqli_query($koneksi, $query);
-                        while ($supplier = mysqli_fetch_assoc($result))
-                        { ?>
+                      <?php while ($supplier = mysqli_fetch_assoc($result)) { ?>
                       <tr>
                         <td><?php echo $no++; ?></td>
                         <td><?php echo "$supplier[name]"; ?></td>
@@ -299,8 +291,7 @@
                           </div>
                         </td>
                       </tr>
-                      <?php }
-                        ?>
+                      <?php } ?>
                     </tbody>
                   </table>
                 </div>
@@ -348,23 +339,21 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../dist/js/adminlte.js"></script>
-
   <!-- OPTIONAL SCRIPTS -->
   <script src="../dist/js/demo.js"></script>
-
-  <!-- PAGE PLUGINS -->
-  <!-- jQuery Mapael -->
-  <script src="../plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-  <script src="../plugins/raphael/raphael.min.js"></script>
-  <script src="../plugins/jquery-mapael/jquery.mapael.min.js"></script>
-  <script src="../plugins/jquery-mapael/maps/usa_states.min.js"></script>
-  <!-- ChartJS -->
-  <script src="../plugins/chart.js/Chart.min.js"></script>
-
-
-  <!-- PAGE SCRIPTS -->
-  <script src="../dist/js/pages/dashboard2.js"></script>
-
+  <!-- DataTables -->
+  <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+      });
+    });
+  </script>
 </body>
 
 </html>

@@ -81,6 +81,8 @@
     {
         $id = $_POST['id'];
         $query = "DELETE FROM p_item WHERE item_id = '$id'";
+        // var_dump($query);
+        
         if(mysqli_query($koneksi, $query))
         {
             echo"

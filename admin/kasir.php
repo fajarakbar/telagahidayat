@@ -30,6 +30,10 @@
   <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -53,7 +57,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <a href="index.php" class="brand-link">
         <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
@@ -87,7 +91,7 @@
             </li>
             <li class="nav-item has-treeview">
               <a href="suppliers.php" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-address-book"></i>
                 <p>
                   Suppliers
                 </p>
@@ -168,12 +172,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -184,7 +188,7 @@
             </li>
             <li class="nav-item has-treeview menu-open">
               <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-tree"></i>
+                <i class="nav-icon fas fa-shopping-cart"></i>
                 <p>
                   Transaksi
                   <i class="fas fa-angle-left right"></i>
@@ -486,9 +490,15 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+                <?php
+                        $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category_id, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                        FROM p_item 
+                        INNER JOIN p_satuanbarang
+                        ON p_satuanbarang.unit_id=p_item.unit_id";
 
-                <div class="modal-body table-responsive">
-                  <table class="table table-bordered table-striped" id="table1">
+                        $result = mysqli_query($koneksi, $query); ?>
+                <div class="modal-body">
+                  <table class="table table-bordered table-striped" id="example1">
                     <thead col-sm-4>
                       <tr>
                         <th>Barcode</th>
@@ -500,14 +510,7 @@
                       </tr>
                     </thead>
                     <tbody id="isi_modal">
-                      <?php
-                        $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category_id, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
-                        FROM p_item 
-                        INNER JOIN p_satuanbarang
-                        ON p_satuanbarang.unit_id=p_item.unit_id";
-
-                        $result = mysqli_query($koneksi, $query);
-                        while ($produk = mysqli_fetch_assoc($result)) { ?>
+                      <?php while ($produk = mysqli_fetch_assoc($result)) { ?>
                       <tr>
                         <td><?php echo "$produk[barcode]"; ?></td>
                         <td><?php echo "$produk[name]"; ?></td>
@@ -564,7 +567,7 @@
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-7">
-                    <label for="qty_item">Qty</label>
+                        <label for="qty_item">Qty</label>
                         <input type="number" id="qty_item" min="1" class="form-control">
                       </div>
                       <div class="col-md-5">
@@ -639,20 +642,18 @@
 
   <!-- OPTIONAL SCRIPTS -->
   <script src="../dist/js/demo.js"></script>
-
-  <!-- PAGE PLUGINS -->
-  <!-- jQuery Mapael -->
-  <script src="../plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-  <script src="../plugins/raphael/raphael.min.js"></script>
-  <script src="../plugins/jquery-mapael/jquery.mapael.min.js"></script>
-  <script src="../plugins/jquery-mapael/maps/usa_states.min.js"></script>
-  <!-- ChartJS -->
-  <script src="../plugins/chart.js/Chart.min.js"></script>
-
-  <!-- PAGE SCRIPTS -->
-  <script src="../dist/js/pages/dashboard2.js"></script>
-
+  <!-- DataTables -->
+  <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+      });
+    });
     $(document).ready(function () {
       loadData()
 
@@ -687,7 +688,7 @@
           $('#item_id').val('')
           $('#barcode').val('')
           $('#barcode').focus()
-        } else if(parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))) {
+        } else if (parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))) {
           alert('Stock tidak mencukupi')
           $('#qty').focus()
         } else {
@@ -835,7 +836,7 @@
         } else if (change < 0) {
           alert('Jumlah uang cash kurang')
           $('#cash').focus()
-        }else {
+        } else {
           if (confirm('Yakin Proses Transaksi Ini ?')) {
             $.ajax({
               type: 'POST',
@@ -856,11 +857,12 @@
               success: function (result) {
                 if (result.success) {
                   alert('Transaksi Berhasil')
-                  window.open('<?= 'receipt_print.php?sale_id='?>' + result.sale_id,'_blank')
+                  window.open('<?= 'receipt_print.php?sale_id= '?>' + result.sale_id, '_blank')
                 } else {
                   alert('Transaksi Gagal');
                 }
-                location.href = '<?php 'kasir.php '; ?>'
+                location.href = '<?php '
+                kasir.php '; ?>'
               },
               error: function (xhr, status, error) {
                 alert(xhr.responseText);
@@ -899,8 +901,10 @@
             type: 'POST',
             url: 'proseskasir.php',
             dataType: 'json',
-            data: {'cancel_payment': true},
-            success: function(result) {
+            data: {
+              'cancel_payment': true
+            },
+            success: function (result) {
               if (result.success == true) {
                 $('#cart_table').load(('tampilcart.php'),
                   function () {
@@ -917,12 +921,13 @@
           $('#barcode').focus()
         }
       })
-      
+
 
     })
+
     function get_cart_qty(barcode) {
-      $('#cart_table tr').each(function() {
-        var qty_cart = $("#cart_table td.barcode:contains('"+barcode+"')").parent().find("td").eq(4).html()
+      $('#cart_table tr').each(function () {
+        var qty_cart = $("#cart_table td.barcode:contains('" + barcode + "')").parent().find("td").eq(4).html()
         if (qty_cart != null) {
           $('#qty_cart').val(qty_cart)
         } else {

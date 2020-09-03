@@ -52,7 +52,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <a href="index.php" class="brand-link">
         <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
@@ -86,7 +86,7 @@
             </li>
             <li class="nav-item has-treeview">
               <a href="suppliers.php" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-address-book"></i>
                 <p>
                   Suppliers
                 </p>
@@ -167,12 +167,12 @@
                     <p>Daftar Produk</p>
                   </a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                   <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                   <a href="satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -183,7 +183,7 @@
             </li>
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tree"></i>
+                <i class="nav-icon fas fa-shopping-cart"></i>
                 <p>
                   Transaksi
                   <i class="fas fa-angle-left right"></i>
@@ -242,18 +242,15 @@
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
                 <div class="info-box-content">
                   <span class="info-box-text">Total Transaksi</span>
-                  <!-- total transaksi diambil dari database -->
-                  <span class="info-box-number">
+                  <!-- total produk diambil dari database -->
                   <?php 
-                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS total FROM t_sale");
+                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS transaksi FROM t_sale");
                   if(mysqli_num_rows($result) > 0){
                   $row = mysqli_fetch_assoc($result);?>
-                    <span class="info-box-number"><?php echo $row['total']; ?> Item</span>
+                  <span class="info-box-number"><?php echo $row['transaksi']; ?> Transaksi</span>
                   <?php } ?>
-                  </span>
                 </div>
                 <!-- /.info-box-content -->
               </div>
@@ -271,7 +268,7 @@
                   $result = mysqli_query($koneksi,"SELECT COUNT(*) AS total FROM p_item");
                   if(mysqli_num_rows($result) > 0){
                   $row = mysqli_fetch_assoc($result);?>
-                    <span class="info-box-number"><?php echo $row['total']; ?> Item</span>
+                  <span class="info-box-number"><?php echo $row['total']; ?> Item</span>
                   <?php } ?>
                 </div>
                 <!-- /.info-box-content -->
@@ -286,11 +283,15 @@
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
-
                 <div class="info-box-content">
                   <span class="info-box-text">Karyawan</span>
-                  <!-- total karyawan diambil dari database -->
-                  <span class="info-box-number">760 Orang</span>
+                  <!-- total produk diambil dari database -->
+                  <?php 
+                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS karyawan FROM user WHERE level = 2");
+                  if(mysqli_num_rows($result) > 0){
+                  $row = mysqli_fetch_assoc($result);?>
+                  <span class="info-box-number"><?php echo $row['karyawan']; ?> Orang</span>
+                  <?php } ?>
                 </div>
                 <!-- /.info-box-content -->
               </div>
@@ -303,7 +304,7 @@
 
                 <div class="info-box-content">
                   <span class="info-box-text">Outlet</span>
-                  <span class="info-box-number">25 Outlet</span>
+                  <span class="info-box-number">3 Outlet</span>
                 </div>
                 <!-- /.info-box-content -->
               </div>
@@ -315,118 +316,56 @@
 
           <div class="row">
             <div class="col-md-12">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title">Monthly Recap Report</h5>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-8">
-                      <p class="text-center">
-                        <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
-                      </p>
-
-                      <div class="chart">
-                        <!-- Sales Chart Canvas -->
-                        <canvas id="salesChart" height="180" style="height: 180px;"></canvas>
-                      </div>
-                      <!-- /.chart-responsive -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-4">
-                      <p class="text-center">
-                        <strong>Goal Completion</strong>
-                      </p>
-
-                      <div class="progress-group">
-                        Add Products to Cart
-                        <span class="float-right"><b>160</b>/200</span>
-                        <div class="progress progress-sm">
-                          <div class="progress-bar bg-primary" style="width: 80%"></div>
-                        </div>
-                      </div>
-                      <!-- /.progress-group -->
-
-                      <div class="progress-group">
-                        Complete Purchase
-                        <span class="float-right"><b>310</b>/400</span>
-                        <div class="progress progress-sm">
-                          <div class="progress-bar bg-danger" style="width: 75%"></div>
-                        </div>
-                      </div>
-
-                      <!-- /.progress-group -->
-                      <div class="progress-group">
-                        <span class="progress-text">Visit Premium Page</span>
-                        <span class="float-right"><b>480</b>/800</span>
-                        <div class="progress progress-sm">
-                          <div class="progress-bar bg-success" style="width: 60%"></div>
-                        </div>
-                      </div>
-
-                      <!-- /.progress-group -->
-                      <div class="progress-group">
-                        Send Inquiries
-                        <span class="float-right"><b>250</b>/500</span>
-                        <div class="progress progress-sm">
-                          <div class="progress-bar bg-warning" style="width: 50%"></div>
-                        </div>
-                      </div>
-                      <!-- /.progress-group -->
-                    </div>
-                    <!-- /.col -->
-                  </div>
-                  <!-- /.row -->
-                </div>
-                <!-- ./card-body -->
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-sm-3 col-6">
-                      <div class="description-block border-right">
-                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
-                        <h5 class="description-header">$35,210.43</h5>
-                        <span class="description-text">TOTAL REVENUE</span>
-                      </div>
-                      <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-3 col-6">
-                      <div class="description-block border-right">
-                        <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
-                        <h5 class="description-header">$10,390.90</h5>
-                        <span class="description-text">TOTAL COST</span>
-                      </div>
-                      <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-3 col-6">
-                      <div class="description-block border-right">
-                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
-                        <h5 class="description-header">$24,813.53</h5>
-                        <span class="description-text">TOTAL PROFIT</span>
-                      </div>
-                      <!-- /.description-block -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-sm-3 col-6">
-                      <div class="description-block">
-                        <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
-                        <h5 class="description-header">1200</h5>
-                        <span class="description-text">GOAL COMPLETIONS</span>
-                      </div>
-                      <!-- /.description-block -->
-                    </div>
-                  </div>
-                  <!-- /.row -->
-                </div>
-                <!-- /.card-footer -->
+              <!-- LINE CHART -->
+              <div class="card card-primary">
+                <div id="chart"></div>
               </div>
               <!-- /.card -->
             </div>
-            <!-- /.col -->
+            <!-- </div> -->
+            <!-- /.col (LEFT) -->
+            <div class="col-md-12">
+              <!-- LINE CHART -->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Pengingat Stok</h3>
+                </div>
+                <div class="card-body">
+                  <table id="example1" class="table table-hover table-nowrap">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Barcode</th>
+                        <th>Produk</th>
+                        <th>Stok</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                  $no = 1;
+                  $result = mysqli_query($koneksi,"SELECT * FROM p_item WHERE stock < 3"); 
+                  while($stokhabis = mysqli_fetch_assoc($result)) {?>
+                      <tr>
+                        <td><?php echo $no++; ?></td>
+                        <td><?php echo "$stokhabis[barcode]"; ?></td>
+                        <td><?php echo "$stokhabis[name]"; ?></td>
+                        <td><?php echo "$stokhabis[stock]"; ?></td>
+                      </tr>
+                      <?php } ?>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col (RIGHT) -->
+
           </div>
           <!-- /.row -->
+
+
+
         </div>
         <!--/. container-fluid -->
       </section>
@@ -441,12 +380,7 @@
     <!-- /.control-sidebar -->
     <?php
 $tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
 $tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 ?>
     <!-- Main Footer -->
     <footer class="main-footer">
@@ -470,18 +404,79 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 
   <!-- OPTIONAL SCRIPTS -->
   <script src="../dist/js/demo.js"></script>
+  <script src="../plugins/charts/jquery.min.js"></script>
+  <script src="../plugins/charts/highcharts.js"></script>
+  <script src="../plugins/charts/exporting.js"></script>
+  <script>
+    $(function () {
+      //Highcharts with mysqli and PHP - Ajax101.com
 
-  <!-- PAGE PLUGINS -->
-  <!-- jQuery Mapael -->
-  <script src="../plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-  <script src="../plugins/raphael/raphael.min.js"></script>
-  <script src="../plugins/jquery-mapael/jquery.mapael.min.js"></script>
-  <script src="../plugins/jquery-mapael/maps/usa_states.min.js"></script>
-  <!-- ChartJS -->
-  <script src="../plugins/chart.js/Chart.min.js"></script>
+      var months = [];
+      var transaksi = [];
+      var switch1 = true;
+      $.get('values.php', function (data) {
 
-  <!-- PAGE SCRIPTS -->
-  <script src="../dist/js/pages/dashboard2.js"></script>
+        data = data.split('/');
+        for (var i in data) {
+          if (switch1 == true) {
+            months.push(data[i]);
+            switch1 = false;
+          } else {
+            transaksi.push(parseFloat(data[i]));
+            switch1 = true;
+          }
+
+        }
+        months.pop();
+
+        $('#chart').highcharts({
+          chart: {
+            type: 'spline'
+          },
+          title: {
+            text: 'Grafik Transaksi Penjualan'
+          },
+          subtitle: {
+            text: ''
+          },
+          xAxis: {
+            title: {
+              text: ''
+            },
+            categories: months
+          },
+          yAxis: {
+            title: {
+              text: 'Transaksi'
+            },
+            labels: {
+              formatter: function () {
+                return this.value;
+              }
+            }
+          },
+          tooltip: {
+            crosshairs: true,
+            shared: true,
+            valueSuffix: ''
+          },
+          plotOptions: {
+            spline: {
+              marker: {
+                radius: 4,
+                lineColor: '#666666',
+                lineWidth: 1
+              }
+            }
+          },
+          series: [{
+            name: 'Transaksi',
+            data: transaksi
+          }]
+        });
+      });
+    });
+  </script>
 </body>
 
 </html>
