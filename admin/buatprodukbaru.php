@@ -217,9 +217,16 @@
                 </li>
               </ul>
             </li>
-
             <li class="nav-item has-treeview">
-              <a href="../logout.php" class="nav-link">
+              <a href="daftaruser.php" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
                   Log Out
@@ -238,7 +245,7 @@
     <div class="content-wrapper">
 
       <!-- Main content -->
-      <section class="content">
+      <section class="content" style="padding-top:13px">
         <div class="container-fluid">
           <div class="row">
             <!-- left column -->
@@ -281,9 +288,9 @@
                         ?>
                       </select>
                       </>
-                      <div class="form-group">
+                      <div class="form-group" style="padding-top:10px">
                         <label for="harga">Harga *</label>
-                        <input type="text" name="harga" class="form-control" id="#" required>
+                        <input type="text" name="harga" id="rupiah" class="form-control" id="#" required>
                       </div>
                     </div>
                     <!-- /.card-body -->
@@ -360,6 +367,7 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   </div>
   <!-- ./wrapper -->
 
+  
   <!-- jQuery -->
   <script src="../plugins/jquery/jquery.min.js"></script>
   <!-- Select2 -->
@@ -370,6 +378,7 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  
   <script>
     $(document).ready(function () {
       loadData()

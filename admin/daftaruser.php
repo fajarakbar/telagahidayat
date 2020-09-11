@@ -29,6 +29,9 @@
   <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -152,8 +155,8 @@
 
               </ul>
             </li>
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
                 <p>
                   Kelola Produk
@@ -168,7 +171,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="kategori.php" class="nav-link active">
+                  <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
@@ -215,7 +218,7 @@
               </ul>
             </li>
             <li class="nav-item has-treeview">
-              <a href="daftaruser.php" class="nav-link">
+              <a href="daftaruser.php" class="nav-link active">
                 <i class="nav-icon fas fa-user"></i>
                 <p>
                   User
@@ -245,53 +248,68 @@
       <section class="content" style="padding-top:13px">
         <div class="container-fluid">
           <div class="row">
-            <!-- left column -->
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-              <!-- general form elements -->
+            <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Ubah Kategori</h3>
+                  <h3 class="card-title">Daftar Stok Masuk</h3>
+                  <table style="float:right">
+                    <td>
+                      <a href="buatuserbaru.php"><button type="button"
+                          class="btn btn-block btn-primary btn-sm">Tambah</button></a>
+                    </td>
+                  </table>
                 </div>
                 <!-- /.card-header -->
                 <?php
-                $id = $_GET['id'];
-                if(!isset($_GET['id']))
-                {
-                  echo "
-                  <script>alert('Tidak ada ID yang terdeteksi');</script>
-                  ";
-                }
-                $query = "SELECT * FROM p_kategori WHERE category_id = '$id'";
-                $result = mysqli_query($koneksi, $query);
-
-                while($kategori = mysqli_fetch_assoc($result))
-                { ?>
-                <!-- form start -->
-                <form action="proseskategori.php" method="post">
-                  <div class="card-body">
-                    <div class="form-group">
-                      <label for="namakategori">Nama Kategori *</label>
-                      <input type="hidden" name="id" class="form-control" id="#"
-                        value="<?php echo $kategori['category_id']; ?>">
-                      <input type="text" name="namakategori" class="form-control" id="#" value="<?php echo $kategori['name']; ?>" required>
-                    </div>
-                  </div>
-                  <!-- /.card-body -->
-
-                  <div class=" card-footer">
-                      <a href="kategori.php" name="cancel" class="btn btn-secondary">Batal</a>
-                      <button type="submit" name="ubahkategori" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-                <?php } ?>
+                  $no = 1;
+                  $query = "SELECT * FROM user ORDER BY level ASC";
+                  $result = mysqli_query($koneksi, $query); ?>
+                <div class="card-body">
+                  <table class="table table-hover text-nowrap" id="example1">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nama Lengkap</th>
+                        <th>No Telepon</th>
+                        <th>Username</th>
+                        <th>Hak Akses</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      </td>
+                      <?php
+                         while ($user = mysqli_fetch_assoc($result)) { ?>
+                      <tr>
+                        <td style="width:10%"><?php echo $no++; ?></td>
+                        <td><?php echo "$user[name]"; ?></td>
+                        <td><?php echo "$user[telp]"; ?></td>
+                        <td><?php echo "$user[username]"; ?></td>
+                        <td><?php $hakakses =$user['level'] == 1 ? "Administrator": "Kasir"; echo strval($hakakses); ?>
+                        </td>
+                        <td style="width:15%">
+                          <div class="dropdown">
+                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
+                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="ubahuser.php?id=<?php echo $user['user_id']?>;">Edit</a>
+                              <a class="dropdown-item" href="hapususer.php?id=<?php echo $user['user_id']?>;">Hapus</a>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <?php }
+                  ?>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
               </div>
               <!-- /.card -->
             </div>
-            <!--/.col (left) -->
-          </div>
-          <!-- /.row -->
-        </div><!-- /.container-fluid -->
+            <!-- /.row -->
+          </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
     </div>
@@ -328,6 +346,19 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <!-- DataTables -->
+  <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+      });
+    });
+  </script>
 </body>
 
 </html>

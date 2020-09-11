@@ -3,12 +3,12 @@ session_start();
 //cek apakah sudah login
 if (isset($_SESSION['level']) == '1') { //apakh status bernilai true
   header("Location: admin/index.php");
-  echo "anda adalah admin";
+  echo "Anda adalah admin";
   exit;
 }
 if (isset($_SESSION['level']) == '2') { //apakh status bernilai true
   header("Location: kasir/index.php");
-  echo "anda adalah Kasir";
+  echo "Anda adalah Kasir";
   exit;
 }
 ?>
@@ -45,7 +45,7 @@ if (isset($_SESSION['level']) == '2') { //apakh status bernilai true
       <form action="proseslogin.php" method="post">
       <!-- <form action="admin/index.php" method="post"> -->
         <div class="input-group mb-3">
-          <input type="text" name="username" class="form-control" placeholder="Username">
+          <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -53,7 +53,7 @@ if (isset($_SESSION['level']) == '2') { //apakh status bernilai true
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password">
+          <input type="password" name="password" class="form-control" placeholder="Password" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -63,10 +63,10 @@ if (isset($_SESSION['level']) == '2') { //apakh status bernilai true
         <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                Remember Me
-              </label>
+              <!-- <input type="checkbox" id="remember"> -->
+              <!-- <label for="remember"> -->
+                <!-- Remember Me -->
+              <!-- </label> -->
             </div>
           </div>
           <!-- /.col -->

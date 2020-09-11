@@ -17,13 +17,21 @@
                 $_SESSION['nama'] = $row['name'];
                 $_SESSION['level'] = $row['level'];
             }
-            echo "
-            <script>
-            alert('Selamat, login berhasil');
-            window.location = 'admin/index.php';
-            </script>
-            
-            ";
+            if ($_SESSION['level']=='1') {
+                echo "
+                <script>
+                // alert('Selamat, login berhasil');
+                window.location = 'admin/index.php';
+                </script>                
+                ";
+            } else {
+                echo "
+                <script>
+                // alert('Selamat, login berhasil');
+                window.location = 'kasir/index.php';
+                </script>
+                ";
+            }
         }
         else
         {

@@ -7,7 +7,7 @@
     exit;
   }
   if ($_SESSION['level'] != '1') {
-    header("Location: ../index.php");
+    header("Location: ../kasir/index.php");
     exit;
   }
 ?>
@@ -31,6 +31,92 @@
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <!-- REQUIRED SCRIPTS -->
+  <!-- jQuery -->
+  <script src="../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../dist/js/adminlte.js"></script>
+
+  <!-- OPTIONAL SCRIPTS -->
+  <script src="../dist/js/demo.js"></script>
+  <script src="../plugins/charts/jquery.min.js"></script>
+  <script src="../plugins/charts/highcharts.js"></script>
+  <script src="../plugins/charts/exporting.js"></script>
+  <script>
+    $(function () {
+      //Highcharts with mysqli and PHP - Ajax101.com
+
+      var months = [];
+      var transaksi = [];
+      var switch1 = true;
+      $.get('values.php', function (data) {
+
+        data = data.split('/');
+        for (var i in data) {
+          if (switch1 == true) {
+            months.push(data[i]);
+            switch1 = false;
+          } else {
+            transaksi.push(parseFloat(data[i]));
+            switch1 = true;
+          }
+
+        }
+        months.pop();
+
+        $('#chart').highcharts({
+          chart: {
+            type: 'spline'
+          },
+          title: {
+            text: 'Grafik Transaksi Penjualan'
+          },
+          subtitle: {
+            text: ''
+          },
+          xAxis: {
+            title: {
+              text: ''
+            },
+            categories: months
+          },
+          yAxis: {
+            title: {
+              text: 'Transaksi'
+            },
+            labels: {
+              formatter: function () {
+                return this.value;
+              }
+            }
+          },
+          tooltip: {
+            crosshairs: true,
+            shared: true,
+            valueSuffix: ''
+          },
+          plotOptions: {
+            spline: {
+              marker: {
+                radius: 4,
+                lineColor: '#666666',
+                lineWidth: 1
+              }
+            }
+          },
+          series: [{
+            name: 'Transaksi',
+            data: transaksi
+          }]
+        });
+      });
+    });
+  </script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -108,7 +194,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                  <a href="laporan/datatransaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Data Transaksi Penjualan</p>
                   </a>
@@ -214,9 +300,16 @@
                 </li>
               </ul>
             </li>
-
             <li class="nav-item has-treeview">
-              <a href="../logout.php" class="nav-link">
+              <a href="daftaruser.php" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
                   Log Out
@@ -235,7 +328,7 @@
     <div class="content-wrapper">
 
       <!-- Main content -->
-      <section class="content">
+      <section class="content" style="padding-top:13px">
         <div class="container-fluid">
           <!-- Info boxes -->
           <div class="row">
@@ -246,10 +339,10 @@
                   <span class="info-box-text">Total Transaksi</span>
                   <!-- total produk diambil dari database -->
                   <?php 
-                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS transaksi FROM t_sale");
+                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS trans FROM t_sale");
                   if(mysqli_num_rows($result) > 0){
                   $row = mysqli_fetch_assoc($result);?>
-                  <span class="info-box-number"><?php echo $row['transaksi']; ?> Transaksi</span>
+                  <span class="info-box-number"><?php echo $row['trans']; ?> Transaksi</span>
                   <?php } ?>
                 </div>
                 <!-- /.info-box-content -->
@@ -317,8 +410,8 @@
           <div class="row">
             <div class="col-md-12">
               <!-- LINE CHART -->
-              <div class="card card-primary">
-                <div id="chart"></div>
+              <div class="card" style="margin-right:0px">
+                <div style="padding-right:13px" id="chart"></div>
               </div>
               <!-- /.card -->
             </div>
@@ -392,91 +485,7 @@ $tahun= date("Y",$tanggal);
   </div>
   <!-- ./wrapper -->
 
-  <!-- REQUIRED SCRIPTS -->
-  <!-- jQuery -->
-  <script src="../plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- overlayScrollbars -->
-  <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../dist/js/adminlte.js"></script>
-
-  <!-- OPTIONAL SCRIPTS -->
-  <script src="../dist/js/demo.js"></script>
-  <script src="../plugins/charts/jquery.min.js"></script>
-  <script src="../plugins/charts/highcharts.js"></script>
-  <script src="../plugins/charts/exporting.js"></script>
-  <script>
-    $(function () {
-      //Highcharts with mysqli and PHP - Ajax101.com
-
-      var months = [];
-      var transaksi = [];
-      var switch1 = true;
-      $.get('values.php', function (data) {
-
-        data = data.split('/');
-        for (var i in data) {
-          if (switch1 == true) {
-            months.push(data[i]);
-            switch1 = false;
-          } else {
-            transaksi.push(parseFloat(data[i]));
-            switch1 = true;
-          }
-
-        }
-        months.pop();
-
-        $('#chart').highcharts({
-          chart: {
-            type: 'spline'
-          },
-          title: {
-            text: 'Grafik Transaksi Penjualan'
-          },
-          subtitle: {
-            text: ''
-          },
-          xAxis: {
-            title: {
-              text: ''
-            },
-            categories: months
-          },
-          yAxis: {
-            title: {
-              text: 'Transaksi'
-            },
-            labels: {
-              formatter: function () {
-                return this.value;
-              }
-            }
-          },
-          tooltip: {
-            crosshairs: true,
-            shared: true,
-            valueSuffix: ''
-          },
-          plotOptions: {
-            spline: {
-              marker: {
-                radius: 4,
-                lineColor: '#666666',
-                lineWidth: 1
-              }
-            }
-          },
-          series: [{
-            name: 'Transaksi',
-            data: transaksi
-          }]
-        });
-      });
-    });
-  </script>
+  
 </body>
 
 </html>

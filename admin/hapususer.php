@@ -152,8 +152,8 @@
 
               </ul>
             </li>
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
                 <p>
                   Kelola Produk
@@ -168,7 +168,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="kategori.php" class="nav-link active">
+                  <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
@@ -215,7 +215,7 @@
               </ul>
             </li>
             <li class="nav-item has-treeview">
-              <a href="daftaruser.php" class="nav-link">
+              <a href="daftaruser.php" class="nav-link active">
                 <i class="nav-icon fas fa-user"></i>
                 <p>
                   User
@@ -251,40 +251,24 @@
               <!-- general form elements -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Ubah Kategori</h3>
                 </div>
                 <!-- /.card-header -->
-                <?php
-                $id = $_GET['id'];
-                if(!isset($_GET['id']))
-                {
-                  echo "
-                  <script>alert('Tidak ada ID yang terdeteksi');</script>
-                  ";
-                }
-                $query = "SELECT * FROM p_kategori WHERE category_id = '$id'";
-                $result = mysqli_query($koneksi, $query);
-
-                while($kategori = mysqli_fetch_assoc($result))
-                { ?>
                 <!-- form start -->
-                <form action="proseskategori.php" method="post">
+                <form action="prosesuser.php" method="post">
                   <div class="card-body">
-                    <div class="form-group">
-                      <label for="namakategori">Nama Kategori *</label>
-                      <input type="hidden" name="id" class="form-control" id="#"
-                        value="<?php echo $kategori['category_id']; ?>">
-                      <input type="text" name="namakategori" class="form-control" id="#" value="<?php echo $kategori['name']; ?>" required>
+                    <div class="form-group" style="text-align:center">
+                      <h2>Hapus Data User</h2>
+                      <h3>Apakah Anda Yakin ?</h3>
+                      <input type="hidden" name="id" class="form-control" id="#" value="<?php echo $_GET['id']; ?>">
                     </div>
                   </div>
                   <!-- /.card-body -->
 
-                  <div class=" card-footer">
-                      <a href="kategori.php" name="cancel" class="btn btn-secondary">Batal</a>
-                      <button type="submit" name="ubahkategori" class="btn btn-primary">Simpan</button>
-                    </div>
+                  <div class="card-footer" style="text-align:center">
+                    <a href="daftaruser.php" name="cancel" class="btn btn-secondary">Batal</a>
+                    <button type="submit" name="hapususer" class="btn btn-primary">Hapus</button>
+                  </div>
                 </form>
-                <?php } ?>
               </div>
               <!-- /.card -->
             </div>

@@ -217,9 +217,16 @@
                 </li>
               </ul>
             </li>
-
             <li class="nav-item has-treeview">
-              <a href="../logout.php" class="nav-link">
+              <a href="daftaruser.php" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
                   Log Out
@@ -238,13 +245,13 @@
     <div class="content-wrapper">
 
       <!-- Main content -->
-      <section class="content">
+      <section class="content" style="padding-top:13px">
         <div class="container-fluid">
           <div class="row">
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Daftar Produk</h3>
+                  <h3 style="padding-top:6px" class="card-title">Daftar Produk</h3>
                   <table style="float:right">
                     <td>
                       <a href="buatprodukbaru.php"><button type="button"
@@ -266,6 +273,7 @@
                   ?>
                 <!-- /.card-header -->
                 <div class="card-body">
+
                   <table id="example1" class="table table-hover table-nowrap">
                     <thead>
                       <tr>
@@ -282,13 +290,17 @@
                     <tbody>
                       <tr>
                         <?php
+                        function rupiah($angka){
+                          $hasil_rupiah = "Rp. " . number_format($angka,0,'','.');
+                          return $hasil_rupiah;
+                        }
                         while ($produk = mysqli_fetch_assoc($result)) { ?>
                         <td><?php echo $no++; ?></td>
                         <td><?php echo "$produk[barcode]"; ?></td>
                         <td><?php echo "$produk[name]"; ?></td>
                         <td><?php echo "$produk[category_name]"; ?></td>
                         <td><?php echo "$produk[unit_name]"; ?></td>
-                        <td><?php echo "$produk[price]"; ?></td>
+                        <td><?php echo rupiah("$produk[price]"); ?></td>
                         <td><?php echo "$produk[stock]"; ?></td>
                         <td style="width:10%">
                           <div class="dropdown">
@@ -361,8 +373,17 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,
+
+      });
+
+      var table = $('#example1').DataTable();
+
+      // #myInput is a <input type="text"> element
+      $('#myInput').on('keyup', function () {
+        table.search(this.value).draw();
       });
     });
+
   </script>
 </body>
 

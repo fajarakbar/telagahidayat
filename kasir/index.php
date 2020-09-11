@@ -6,12 +6,11 @@
     header("Location: ../index.php");
     exit;
   }
-  if ($_SESSION['level'] != '1') {
+  if ($_SESSION['level'] != '2') {
     header("Location: ../index.php");
     exit;
   }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +22,8 @@
   <!-- <meta http-equiv="refresh" content="60" /> -->
 
   <title>Telaga</title>
-
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- overlayScrollbars -->
@@ -39,6 +39,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
+  <!-- Site wrapper -->
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -85,145 +86,15 @@
               <a href="index.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
-                  Dashboard
+                  Kasir
                 </p>
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="suppliers.php" class="nav-link">
-                <i class="nav-icon fas fa-address-book"></i>
+              <a href="setting.php" class="nav-link">
+                <i class="nav-icon fas fa-cog"></i>
                 <p>
-                  Suppliers
-                </p>
-              </a>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-copy"></i>
-                <p>
-                  Laporan
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="ringkasan.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Ringkasan</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Data Transaksi Penjualan</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/boxed.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Penjualan Produk</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Rekap Kas</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Laba Harian</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Stok</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Laba Produk</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Penjualan Harian</p>
-                  </a>
-                </li>
-
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-chart-pie"></i>
-                <p>
-                  Kelola Produk
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="daftarproduk.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Daftar Produk</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="kategori.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kategori</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="satuanbarang.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Satuan Barang</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-shopping-cart"></i>
-                <p>
-                  Transaksi
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="kasir.php" class="nav-link active">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kasir</p>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="stokmasuk.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Stok Masuk</p>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="stokkeluar.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Stok Keluar</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="daftaruser.php" class="nav-link">
-                <i class="nav-icon fas fa-user"></i>
-                <p>
-                  User
+                  Setting
                 </p>
               </a>
             </li>
@@ -238,13 +109,14 @@
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
-
       </div>
       <!-- /.sidebar -->
     </aside>
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-<section class="content" style="padding-top:13px">
+      <!-- Main content -->
+      <section class="content" style="padding-top:13px">
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-4">
@@ -288,6 +160,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-md-4">
               <div class="card">
                 <div class="card-body">
@@ -337,17 +210,6 @@
               </div>
             </div>
 
-            <?php
-              // $date = date("ymd");
-              // $query = "SELECT MAX(MID(invoice,9,4)) AS invoice_no FROM t_sale WHERE (MID(invoice,3,6)) = '$date'";
-              // $result = mysqli_query($koneksi,$query);
-              // $data = mysqli_fetch_assoc($result);
-              // $row = $data['invoice_no'];
-              // $n = ((int)$row) + 1;
-              // $no = sprintf("%'.04d", $n);
-              // $invoice = "TP".date('ymd').$no;
-            ?>
-
             <div class="col-md-4">
               <div class="card">
                 <div class="card-body">
@@ -375,7 +237,7 @@
                         <th>Produk</th>
                         <th>Harga</th>
                         <th>Jumlah</th>
-                        <th width="10%">Diskon Produk</th>
+                        <th width="10%">Diskon</th>
                         <th width="15%">Total</th>
                         <th>Action</th>
                       </tr>
@@ -427,6 +289,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-lg-3">
               <div class="card">
                 <div class="card-body">
@@ -455,6 +318,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-lg-3">
               <div class="card">
                 <div class="card-body">
@@ -473,6 +337,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-lg-3">
               <div class="card">
                 <div class="card-body">
@@ -487,6 +352,7 @@
               </div>
             </div>
           </div>
+
           <!--modal add item-->
           <div class="modal fade" id="modal-item">
             <div class="modal-dialog modal-lg">
@@ -619,407 +485,412 @@
           </div>
           <!--/modal edit item-->
         </div>
-      </div>
+      </section>
+      <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+      <?php
+      $tanggal = time () ;
+      $tahun= date("Y",$tanggal);
+    ?>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 1
+      </div>
+    </footer>
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
     </aside>
     <!-- /.control-sidebar -->
-    <?php
-      $tanggal = time () ;
-      $tahun= date("Y",$tanggal);
-    ?>
-    <!-- Main Footer -->
-    <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
-    </footer>
   </div>
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
-  <!-- jQuery -->
-  <script src="../plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- overlayScrollbars -->
-  <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../dist/js/adminlte.js"></script>
+    <!-- jQuery -->
+    <script src="../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../dist/js/adminlte.js"></script>
 
-  <!-- OPTIONAL SCRIPTS -->
-  <script src="../dist/js/demo.js"></script>
-  <!-- DataTables -->
-  <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-  <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-  <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <!-- OPTIONAL SCRIPTS -->
+    <script src="../dist/js/demo.js"></script>
+    <!-- DataTables -->
+    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
   <script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-      });
-    });
-    $(document).ready(function () {
-      loadData()
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+        });
+        $(document).ready(function () {
+            loadData()
 
-      setInterval(function () {
-        $("#invoice").load('invoice_no.php')
-      }, 20000);
-      // setInterval(function() {
-      //   $("#invoice").load('invoice_no.php')
-      // }, 2000);
+            setInterval(function () {
+                $("#invoice").load('invoice_no.php')
+            }, 20000);
+            // setInterval(function() {
+            //   $("#invoice").load('invoice_no.php')
+            // }, 2000);
 
-      $(document).on('click', '#select', function () {
-        $('#item_id').val($(this).data('id'))
-        $('#barcode').val($(this).data('barcode'))
-        $('#price').val($(this).data('price'))
-        $('#stock').val($(this).data('stock'))
-        $('#modal-item').modal('hide')
-        get_cart_qty($(this).data('barcode'))
-        $('#qty').focus()
-      })
+            $(document).on('click', '#select', function () {
+                $('#item_id').val($(this).data('id'))
+                $('#barcode').val($(this).data('barcode'))
+                $('#price').val($(this).data('price'))
+                $('#stock').val($(this).data('stock'))
+                $('#modal-item').modal('hide')
+                get_cart_qty($(this).data('barcode'))
+                $('#qty').focus()
+            })
 
-      $(document).on('click', '#add_cart', function () {
-        var item_id = $('#item_id').val()
-        var price = $('#price').val()
-        var stock = $('#stock').val()
-        var qty = $('#qty').val()
-        var qty_cart = $('#qty_cart').val()
-        if (item_id == '') {
-          alert('Produk belum dipilih')
-          $('#barcode').focus()
-        } else if (parseInt(stock) < 1) {
-          alert('Stock tidak mencukupi')
-          $('#item_id').val('')
-          $('#barcode').val('')
-          $('#barcode').focus()
-        } else if (parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))) {
-          alert('Stock tidak mencukupi')
-          $('#qty').focus()
-        } else {
-          $.ajax({
-            type: 'POST',
-            url: 'proseskasir.php',
-            data: {
-              'add_cart': true,
-              'item_id': item_id,
-              'price': price,
-              'qty': qty
-            },
-            dataType: 'json',
-            success: function (result) {
-              if (result.success == true) {
-                $('#cart_table').load('tampilcart.php', function (xhr, status, error) {
-                  // alert(xhr.responseText);
-                  calculate()
-                })
-                $('#item_id').val('');
-                $('#barcode').val('');
-                $('#qty').val(1);
-                $('#barcode').focus();
-              } else {
-                alert('Gagal tambah item cart')
-              }
-            },
-            error: function (xhr, status, error) {
-              alert(xhr.responseText);
-            }
-          })
-        }
-      })
-
-      $(document).on('click', '#edit_cart', function () {
-        var cart_id = $('#cartid_item').val()
-        var price = $('#price_item').val()
-        var qty = $('#qty_item').val()
-        var discount = $('#discount_item').val()
-        var total = $('#total_item').val()
-        var stock = $('#stock_item').val()
-        if (price == '' || price < 1) {
-          alert('Harga tidak boleh kosong')
-          $('#price_item').focus()
-        } else if (qty == '' || qty < 1) {
-          alert('Jumlah tidak boleh kosong')
-          $('#qty_item').focus()
-        } else if (parseInt(qty) > parseInt(stock)) {
-          alert('Stock tidak mencukupi')
-          $('#qty_item').focus()
-        } else {
-          $.ajax({
-            type: 'POST',
-            url: 'proseskasir.php',
-            data: {
-              'edit_cart': true,
-              'cart_id': cart_id,
-              'price': price,
-              'qty': qty,
-              'discount': discount,
-              'total': total
-            },
-            dataType: 'json',
-            success: function (result) {
-              if (result.success == true) {
-                $('#cart_table').load('tampilcart.php', function (xhr, status, error) {
-                  // alert(xhr.responseText);
-                  calculate()
-                })
-                alert('Produk cart berhasil ter -update')
-                $('#modal-item-edit').modal('hide')
-              } else {
-                alert('Data produk cart tidak ter -update')
-                $('#modal-item-edit').modal('hide')
-              }
-            },
-            error: function (xhr, status, error) {
-              alert(xhr.responseText);
-            }
-          })
-        }
-      })
-
-      $(document).on('click', '#del_cart', function () {
-        if (confirm('Apakah Anda Yakin ?')) {
-          var cart_id = $(this).data('cartid')
-          $.ajax({
-            type: 'POST',
-            url: 'proseskasir.php',
-            data: {
-              'del_cart': true,
-              'cart_id': cart_id
-            },
-            dataType: 'json',
-            success: function (result) {
-              if (result.success == true) {
-                $('#cart_table').load('tampilcart.php', function (xhr, status, error) {
-                  // alert(xhr.responseText);
-                  calculate()
-                })
-              } else {
-                alert('Gagal tambah item cart')
-              }
-            }
-          })
-        }
-      })
-
-      $(document).on('click', '#update_cart', function () {
-        $('#cartid_item').val($(this).data('cartid'))
-        $('#barcode_item').val($(this).data('barcode'))
-        $('#product_item').val($(this).data('product'))
-        $('#stock_item').val($(this).data('stock'))
-        $('#price_item').val($(this).data('price'))
-        $('#qty_item').val($(this).data('qty'))
-        $('#total_before').val($(this).data('price') * $(this).data('qty'))
-        $('#discount_item').val($(this).data('discount'))
-        $('#total_item').val($(this).data('total'))
-      })
-
-      $(document).on('keyup mouseup', '#price_item, #qty_item, #discount_item', function () {
-        count_edit_modal()
-      })
-      $(document).on('keyup mouseup', '#discount, #cash', function () {
-        calculate()
-      })
-
-      $(document).on('click', '#process_payment', function () {
-        var invoice = $('#invoice').text()
-        var customer_id = $('#customer').val()
-        var subtotal = $('#sub_total').val()
-        var discount = $('#discount').val()
-        var grandtotal = $('#grand_total').val()
-        var cash = $('#cash').val()
-        var change = $('#change').val()
-        var note = $('#note').val()
-        var date = $('#date').val()
-
-        if (subtotal < 1) {
-          alert('Belum ada produk yang dipilih')
-          $('#barcode').focus()
-        } else if (cash < 1) {
-          alert('Jumlah uang cash belum diinput')
-          $('#cash').focus()
-        } else if (change < 0) {
-          alert('Jumlah uang cash kurang')
-          $('#cash').focus()
-        } else {
-          if (confirm('Yakin Proses Transaksi Ini ?')) {
-            $.ajax({
-              type: 'POST',
-              url: 'proseskasir.php',
-              data: {
-                'process_payment': true,
-                'invoice': invoice,
-                'customer_id': customer_id,
-                'subtotal': subtotal,
-                'discount': discount,
-                'grandtotal': grandtotal,
-                'cash': cash,
-                'change': change,
-                'note': note,
-                'date': date,
-              },
-              dataType: 'json',
-              success: function (result) {
-                if (result.success) {
-                  alert('Transaksi Berhasil')
-                  window.open('<?= 'receipt_print.php?sale_id= '?>' + result.sale_id, '_blank')
+            $(document).on('click', '#add_cart', function () {
+                var item_id = $('#item_id').val()
+                var price = $('#price').val()
+                var stock = $('#stock').val()
+                var qty = $('#qty').val()
+                var qty_cart = $('#qty_cart').val()
+                if (item_id == '') {
+                    alert('Produk belum dipilih')
+                    $('#barcode').focus()
+                } else if (parseInt(stock) < 1) {
+                    alert('Stock tidak mencukupi')
+                    $('#item_id').val('')
+                    $('#barcode').val('')
+                    $('#barcode').focus()
+                } else if (parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))) {
+                    alert('Stock tidak mencukupi')
+                    $('#qty').focus()
                 } else {
-                  alert('Transaksi Gagal');
+                    $.ajax({
+                        type: 'POST',
+                        url: 'proseskasir.php',
+                        data: {
+                            'add_cart': true,
+                            'item_id': item_id,
+                            'price': price,
+                            'qty': qty
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.success == true) {
+                                $('#cart_table').load('tampilcart.php', function (xhr,
+                                    status, error) {
+                                    // alert(xhr.responseText);
+                                    calculate()
+                                })
+                                $('#item_id').val('');
+                                $('#barcode').val('');
+                                $('#qty').val(1);
+                                $('#barcode').focus();
+                            } else {
+                                alert('Gagal tambah item cart')
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    })
                 }
-                location.href = '<?php '
-                kasir.php '; ?>'
-              },
-              error: function (xhr, status, error) {
-                alert(xhr.responseText);
-              }
+            })
+
+            $(document).on('click', '#edit_cart', function () {
+                var cart_id = $('#cartid_item').val()
+                var price = $('#price_item').val()
+                var qty = $('#qty_item').val()
+                var discount = $('#discount_item').val()
+                var total = $('#total_item').val()
+                var stock = $('#stock_item').val()
+                if (price == '' || price < 1) {
+                    alert('Harga tidak boleh kosong')
+                    $('#price_item').focus()
+                } else if (qty == '' || qty < 1) {
+                    alert('Jumlah tidak boleh kosong')
+                    $('#qty_item').focus()
+                } else if (parseInt(qty) > parseInt(stock)) {
+                    alert('Stock tidak mencukupi')
+                    $('#qty_item').focus()
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'proseskasir.php',
+                        data: {
+                            'edit_cart': true,
+                            'cart_id': cart_id,
+                            'price': price,
+                            'qty': qty,
+                            'discount': discount,
+                            'total': total
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.success == true) {
+                                $('#cart_table').load('tampilcart.php', function (xhr,
+                                    status, error) {
+                                    // alert(xhr.responseText);
+                                    calculate()
+                                })
+                                alert('Produk cart berhasil ter -update')
+                                $('#modal-item-edit').modal('hide')
+                            } else {
+                                alert('Data produk cart tidak ter -update')
+                                $('#modal-item-edit').modal('hide')
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    })
+                }
+            })
+
+            $(document).on('click', '#del_cart', function () {
+                if (confirm('Apakah Anda Yakin ?')) {
+                    var cart_id = $(this).data('cartid')
+                    $.ajax({
+                        type: 'POST',
+                        url: 'proseskasir.php',
+                        data: {
+                            'del_cart': true,
+                            'cart_id': cart_id
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.success == true) {
+                                $('#cart_table').load('tampilcart.php', function (xhr,
+                                    status, error) {
+                                    // alert(xhr.responseText);
+                                    calculate()
+                                })
+                            } else {
+                                alert('Gagal tambah item cart')
+                            }
+                        }
+                    })
+                }
+            })
+
+            $(document).on('click', '#update_cart', function () {
+                $('#cartid_item').val($(this).data('cartid'))
+                $('#barcode_item').val($(this).data('barcode'))
+                $('#product_item').val($(this).data('product'))
+                $('#stock_item').val($(this).data('stock'))
+                $('#price_item').val($(this).data('price'))
+                $('#qty_item').val($(this).data('qty'))
+                $('#total_before').val($(this).data('price') * $(this).data('qty'))
+                $('#discount_item').val($(this).data('discount'))
+                $('#total_item').val($(this).data('total'))
+            })
+
+            $(document).on('keyup mouseup', '#price_item, #qty_item, #discount_item', function () {
+                count_edit_modal()
+            })
+            $(document).on('keyup mouseup', '#discount, #cash', function () {
+                calculate()
+            })
+
+            $(document).on('click', '#process_payment', function () {
+                var invoice = $('#invoice').text()
+                var customer_id = $('#customer').val()
+                var subtotal = $('#sub_total').val()
+                var discount = $('#discount').val()
+                var grandtotal = $('#grand_total').val()
+                var cash = $('#cash').val()
+                var change = $('#change').val()
+                var note = $('#note').val()
+                var date = $('#date').val()
+
+                if (subtotal < 1) {
+                    alert('Belum ada produk yang dipilih')
+                    $('#barcode').focus()
+                } else if (cash < 1) {
+                    alert('Jumlah uang cash belum diinput')
+                    $('#cash').focus()
+                } else if (change < 0) {
+                    alert('Jumlah uang cash kurang')
+                    $('#cash').focus()
+                } else {
+                    if (confirm('Yakin Proses Transaksi Ini ?')) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'proseskasir.php',
+                            data: {
+                                'process_payment': true,
+                                'invoice': invoice,
+                                'customer_id': customer_id,
+                                'subtotal': subtotal,
+                                'discount': discount,
+                                'grandtotal': grandtotal,
+                                'cash': cash,
+                                'change': change,
+                                'note': note,
+                                'date': date,
+                            },
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.success) {
+                                    // alert('Transaksi Berhasil')
+                                    window.open('<?= 'receipt_print.php?sale_id= '?>' + result.sale_id, '_blank')
+                                } else {
+                                    alert('Transaksi Gagal');
+                                }
+                                location.href = '<?php '
+                                kasir.php '; ?>'
+                            },
+                            error: function (xhr, status, error) {
+                                alert(xhr.responseText);
+                            }
+
+                        })
+                    }
+                }
+            })
+
+            $(document).on('keyup', '#barcode', function () {
+                var barkode = $('#barcode').val()
+                $.ajax({
+                    type: 'POST',
+                    url: 'proseskasir.php',
+                    data: {
+                        'barcode': true,
+                        'barcode': barkode
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#item_id').val(data.item_id);
+                        $('#price').val(data.price);
+                        $('#stock').val(data.stock);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                    }
+                })
 
             })
-          }
-        }
-      })
 
-      $(document).on('keyup', '#barcode', function () {
-        var barkode = $('#barcode').val()
-        $.ajax({
-          type: 'POST',
-          url: 'proseskasir.php',
-          data: {
-            'barcode': true,
-            'barcode': barkode
-          },
-          dataType: 'json',
-          success: function (data) {
-            $('#item_id').val(data.item_id);
-            $('#price').val(data.price);
-            $('#stock').val(data.stock);
-          },
-          error: function (xhr, status, error) {
-            alert(xhr.responseText);
-          }
+            $(document).on('click', '#cancel_payment', function () {
+                if (confirm('Apakah Anda Yakin ?')) {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'proseskasir.php',
+                        dataType: 'json',
+                        data: {
+                            'cancel_payment': true
+                        },
+                        success: function (result) {
+                            if (result.success == true) {
+                                $('#cart_table').load(('tampilcart.php'),
+                                    function () {
+                                        calculate()
+                                    })
+                            }
+                        }
+                    })
+                    $('#discount').val(0)
+                    $('#cash').val(0)
+                    // $('#qty').val(1)
+                    $('#customer').val('').change()
+                    $('#barcode').val('')
+                    $('#barcode').focus()
+                }
+            })
+
+
         })
 
-      })
+        function get_cart_qty(barcode) {
+            $('#cart_table tr').each(function () {
+                var qty_cart = $("#cart_table td.barcode:contains('" + barcode + "')").parent().find("td").eq(4)
+                    .html()
+                if (qty_cart != null) {
+                    $('#qty_cart').val(qty_cart)
+                } else {
+                    $("#qty_cart").val(0)
+                }
+            })
+        }
 
-      $(document).on('click', '#cancel_payment', function () {
-        if (confirm('Apakah Anda Yakin ?')) {
-          $.ajax({
-            type: 'POST',
-            url: 'proseskasir.php',
-            dataType: 'json',
-            data: {
-              'cancel_payment': true
-            },
-            success: function (result) {
-              if (result.success == true) {
-                $('#cart_table').load(('tampilcart.php'),
-                  function () {
-                    calculate()
-                  })
-              }
+        function calculate() {
+            var subtotal = 0;
+            $('#cart_table tr').each(function () {
+                subtotal += parseInt($(this).find('#total').text())
+            })
+            isNaN(subtotal) ? $('#sub_total').val(0) : $('#sub_total').val(subtotal)
+
+            var discount = $('#discount').val()
+            var grand_total = subtotal - discount
+            if (isNaN(grand_total)) {
+                $('#grand_total').val(0)
+                $('#grand_total2').text(0)
+            } else {
+                $('#grand_total').val(grand_total)
+                $('#grand_total2').text(grand_total)
             }
-          })
-          $('#discount').val(0)
-          $('#cash').val(0)
-          // $('#qty').val(1)
-          $('#customer').val('').change()
-          $('#barcode').val('')
-          $('#barcode').focus()
+
+            var cash = $('#cash').val();
+            cash != 0 ? $('#change').val(cash - grand_total) : $('#change').val(0)
+            if (discount == '') {
+                $('#discount').val(0)
+            }
         }
-      })
 
+        function count_edit_modal() {
+            var price = $('#price_item').val()
+            var qty = $('#qty_item').val()
+            var discount = $('#discount_item').val()
 
-    })
+            total_before = price * qty
+            $('#total_before').val(total_before)
 
-    function get_cart_qty(barcode) {
-      $('#cart_table tr').each(function () {
-        var qty_cart = $("#cart_table td.barcode:contains('" + barcode + "')").parent().find("td").eq(4).html()
-        if (qty_cart != null) {
-          $('#qty_cart').val(qty_cart)
-        } else {
-          $("#qty_cart").val(0)
+            total = (price - discount) * qty
+            $('#total_item').val(total)
+            if (discount == '') {
+                $('#discount_item').val(0)
+            }
         }
-      })
-    }
 
-    function calculate() {
-      var subtotal = 0;
-      $('#cart_table tr').each(function () {
-        subtotal += parseInt($(this).find('#total').text())
-      })
-      isNaN(subtotal) ? $('#sub_total').val(0) : $('#sub_total').val(subtotal)
-
-      var discount = $('#discount').val()
-      var grand_total = subtotal - discount
-      if (isNaN(grand_total)) {
-        $('#grand_total').val(0)
-        $('#grand_total2').text(0)
-      } else {
-        $('#grand_total').val(grand_total)
-        $('#grand_total2').text(grand_total)
-      }
-
-      var cash = $('#cash').val();
-      cash != 0 ? $('#change').val(cash - grand_total) : $('#change').val(0)
-      if (discount == '') {
-        $('#discount').val(0)
-      }
-    }
-
-    function count_edit_modal() {
-      var price = $('#price_item').val()
-      var qty = $('#qty_item').val()
-      var discount = $('#discount_item').val()
-
-      total_before = price * qty
-      $('#total_before').val(total_before)
-
-      total = (price - discount) * qty
-      $('#total_item').val(total)
-      if (discount == '') {
-        $('#discount_item').val(0)
-      }
-    }
-
-    function loadData() {
-      $.ajax({
-        url: 'tampilcart.php',
-        type: 'get',
-        success: function (data) {
-          $('#cart_table').html(data);
-          calculate()
-          nomor()
+        function loadData() {
+            $.ajax({
+                url: 'tampilcart.php',
+                type: 'get',
+                success: function (data) {
+                    $('#cart_table').html(data);
+                    calculate()
+                    nomor()
+                }
+            });
         }
-      });
-    }
 
-    function nomor() {
-      $.ajax({
-        url: 'invoice_no.php',
-        type: 'get',
-        success: function (data) {
-          $('#invoice').html(data);
+        function nomor() {
+            $.ajax({
+                url: 'invoice_no.php',
+                type: 'get',
+                success: function (data) {
+                    $('#invoice').html(data);
+                }
+            });
         }
-      });
-    }
 
-    function modal() {
-      $.ajax({
-        url: 'modal-item.php',
-        type: 'get',
-        success: function (data) {
-          $('#isi_modal').html(data);
+        function modal() {
+            $.ajax({
+                url: 'modal-item.php',
+                type: 'get',
+                success: function (data) {
+                    $('#isi_modal').html(data);
+                }
+            });
         }
-      });
-    }
-
-  </script>
+    </script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2020 at 09:34 AM
+-- Generation Time: Sep 12, 2020 at 06:23 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -21,6 +21,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_tokoretail`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `outlet`
+--
+
+CREATE TABLE `outlet` (
+  `outlet_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` text NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `outlet`
+--
+
+INSERT INTO `outlet` (`outlet_id`, `name`, `address`, `phone`, `created`, `updated`) VALUES
+(1, 'Telaga', 'Kabupaten Kutai Timur', '0852', '2020-09-05 12:22:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -45,14 +67,9 @@ CREATE TABLE `p_item` (
 --
 
 INSERT INTO `p_item` (`item_id`, `barcode`, `name`, `category_id`, `unit_id`, `price`, `stock`, `created`, `updated`) VALUES
-(2, '222', 'taffware', 2, 1, 222, 5, '2020-09-02 09:55:52', NULL),
-(4, '111', 'Candy yellow C016* Y016*', 2, 1, 111, 0, '2020-09-02 12:48:00', NULL),
-(5, '555', 'Viola v350 terminal mask oke', 1, 1, 333, 0, '2020-09-02 12:49:25', NULL),
-(6, '555', 'Viola v350 terminal mask oke', 1, 1, 333, 0, '2020-09-02 12:49:25', NULL),
-(7, '555', 'Viola v350 terminal mask oke', 1, 1, 333, 0, '2020-09-02 12:49:25', NULL),
-(8, '3232', 'Viola v350 terminal mask', 2, 1, 333, 0, '2020-09-02 12:49:41', NULL),
-(10, '555', 'Candy yellow C016* Y016*', 1, 1, 333, 0, '2020-09-02 12:50:06', NULL),
-(11, '432', 'Candy yellow C016* Y016*', 2, 1, 34, 0, '2020-09-02 12:50:19', NULL);
+(1, '', 'Lem Tikus', 1, 1, 18000, 0, '2020-09-03 09:40:46', NULL),
+(2, '', 'Timah solder cap pancing bsr', 2, 1, 95000, 7, '2020-09-03 09:42:02', NULL),
+(3, '8718699658106', 'Philips led buld 3w kecil', 3, 1, 20000, 0, '2020-09-03 11:23:18', NULL);
 
 -- --------------------------------------------------------
 
@@ -72,8 +89,11 @@ CREATE TABLE `p_kategori` (
 --
 
 INSERT INTO `p_kategori` (`category_id`, `name`, `created`, `updated`) VALUES
-(1, 'Regulator Gas oke', '2020-09-02 08:06:01', '2020-09-02 13:15:06'),
-(2, 'mata grinda potong besi', '2020-09-02 08:18:38', NULL);
+(1, 'Lem Tikus', '2020-09-03 09:40:37', NULL),
+(2, 'Timah Solder', '2020-09-03 09:41:46', NULL),
+(3, 'Philips led buld', '2020-09-03 11:23:08', NULL),
+(4, 'Regulator gas', '2020-09-03 14:16:28', NULL),
+(10, 'saklar & stop kontak masko', '2020-09-03 14:17:46', NULL);
 
 -- --------------------------------------------------------
 
@@ -93,10 +113,10 @@ CREATE TABLE `p_satuanbarang` (
 --
 
 INSERT INTO `p_satuanbarang` (`unit_id`, `name`, `created`, `updated`) VALUES
-(1, 'Pcs', '2020-09-02 08:06:29', NULL),
-(3, 'Gram', '2020-09-02 13:10:32', NULL),
-(4, 'Kg', '2020-09-02 13:10:41', NULL),
-(5, 'Kotak', '2020-09-02 13:21:10', NULL);
+(1, 'Pcs', '2020-09-03 09:36:41', NULL),
+(2, 'Gram', '2020-09-03 09:36:51', NULL),
+(3, 'Kilogram', '2020-09-03 09:37:12', NULL),
+(4, 'Kotak', '2020-09-03 09:37:26', NULL);
 
 -- --------------------------------------------------------
 
@@ -113,13 +133,6 @@ CREATE TABLE `supplier` (
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `supplier`
---
-
-INSERT INTO `supplier` (`supplier_id`, `name`, `phone`, `address`, `description`, `created`, `updated`) VALUES
-(1, 'Toko A', '085249660956', 'Kapuas', 'Elektronik', '2020-09-02 13:50:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -163,12 +176,10 @@ CREATE TABLE `t_sale` (
 --
 
 INSERT INTO `t_sale` (`sale_id`, `invoice`, `customer_id`, `total_price`, `discount`, `final_price`, `cash`, `remaining`, `note`, `date`, `user_id`, `created`) VALUES
-(1, 'TP2009020001', 0, 2604, 3, 2601, 30000, 27399, '', '2020-09-02', 3, '2020-09-02 10:10:04'),
-(2, 'TP2009020002', 0, 222, 12, 210, 22, -188, '', '2020-09-02', 3, '2020-09-02 10:11:24'),
-(3, 'TP2009020003', 0, 444, 0, 444, 4444, 4000, '', '2020-09-02', 3, '2020-09-02 10:20:47'),
-(4, 'TP2009020004', 0, 222, 0, 222, 5000, 4778, '', '2020-09-01', 3, '2020-09-02 18:41:20'),
-(5, 'TP2009020005', 0, 222, 0, 222, 666, 444, '', '2020-09-03', 3, '2020-09-02 21:02:29'),
-(6, 'TP2009020006', 0, 222, 0, 222, 1110, 888, '', '2020-09-02', 3, '2020-09-02 21:16:29');
+(1, 'TP2009030001', 0, 36000, 500, 35500, 36000, 500, '', '2020-09-03', 1, '2020-09-03 13:14:10'),
+(2, 'TP2009110001', 0, 113000, 0, 113000, 115000, 2000, '', '2020-09-11', 1, '2020-09-11 19:34:28'),
+(3, 'TP2009120001', 0, 131000, 0, 131000, 1200000, 1069000, '', '2020-09-12', 4, '2020-09-12 05:53:22'),
+(4, 'TP2009120002', 0, 95000, 0, 95000, 121212, 26212, '', '2020-09-12', 4, '2020-09-12 05:58:43');
 
 -- --------------------------------------------------------
 
@@ -192,12 +203,12 @@ CREATE TABLE `t_sale_detail` (
 --
 
 INSERT INTO `t_sale_detail` (`detail_id`, `sale_id`, `item_id`, `price`, `qty`, `discount_item`, `total`, `user_id`) VALUES
-(1, 1, 2, 222, 12, 5, 2604, 3),
-(2, 2, 2, 222, 1, 0, 222, 3),
-(3, 3, 2, 222, 2, 0, 444, 3),
-(4, 4, 2, 222, 1, 0, 222, 3),
-(5, 5, 2, 222, 1, 0, 222, 3),
-(6, 6, 2, 222, 1, 0, 222, 3);
+(1, 1, 1, 18000, 2, 0, 36000, 1),
+(2, 2, 1, 18000, 1, 0, 18000, 1),
+(3, 2, 2, 95000, 1, 0, 95000, 1),
+(4, 3, 2, 95000, 1, 0, 95000, 4),
+(5, 3, 1, 18000, 2, 0, 36000, 4),
+(6, 4, 2, 95000, 1, 0, 95000, 4);
 
 --
 -- Triggers `t_sale_detail`
@@ -234,10 +245,8 @@ CREATE TABLE `t_stock` (
 --
 
 INSERT INTO `t_stock` (`stock_id`, `item_id`, `type`, `detail`, `supplier_id`, `qty`, `harga`, `date`, `created`, `user_id`) VALUES
-(1, 2, 'in', '', NULL, 6, 600, '2020-09-02', '2020-09-02 10:06:04', 1),
-(2, 2, 'in', '', NULL, 6, 600, '2020-09-02', '2020-09-02 10:06:04', 1),
-(3, 2, 'in', 'tambahan', NULL, 12, 2664, '2020-09-02', '2020-09-02 10:10:48', 3),
-(5, 2, 'out', 'rusak', NULL, 1, 0, '2020-09-02', '2020-09-02 14:59:49', 3);
+(1, 1, 'in', 'Barang awal', NULL, 5, 100000, '2020-09-03', '2020-09-03 13:13:44', 1),
+(2, 2, 'in', 'Barang awal', NULL, 10, 100000, '2020-09-03', '2020-09-03 21:20:27', 1);
 
 -- --------------------------------------------------------
 
@@ -247,25 +256,33 @@ INSERT INTO `t_stock` (`stock_id`, `item_id`, `type`, `detail`, `supplier_id`, `
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `telp` varchar(50) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `level` int(1) NOT NULL COMMENT '1:admin, 2:kasir'
+  `level` int(1) NOT NULL COMMENT '1:admin, 2:kasir',
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `password`, `name`, `address`, `level`) VALUES
-(1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'Fajar Ramadhan Akbar', 'Kalteng', 1),
-(2, 'kasir1', '874c0ac75f323057fe3b7fb3f5a8a41df2b94b1d', 'Taufik Nur', 'Kalteng', 2),
-(3, 'fajar', '1323a6263ede96cf1a7ca60834f80eaa7c1726af', 'Septianor Nugraha', 'Kapuas', 1);
+INSERT INTO `user` (`user_id`, `name`, `telp`, `address`, `username`, `password`, `level`, `created`, `updated`) VALUES
+(1, 'Fajar Ramadhan Akbar', '085249660956', 'Kapuas', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, '2020-09-05 09:15:44', NULL),
+(4, 'Nurhidayat', '0872', 'Kaltim', 'dayat', '356a192b7913b04c54574d18c28d46e6395428ab', 2, '2020-09-05 09:21:04', '2020-09-11 06:05:04');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `outlet`
+--
+ALTER TABLE `outlet`
+  ADD PRIMARY KEY (`outlet_id`);
 
 --
 -- Indexes for table `p_item`
@@ -335,34 +352,40 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `outlet`
+--
+ALTER TABLE `outlet`
+  MODIFY `outlet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `p_item`
 --
 ALTER TABLE `p_item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `p_kategori`
 --
 ALTER TABLE `p_kategori`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `p_satuanbarang`
 --
 ALTER TABLE `p_satuanbarang`
-  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_sale`
 --
 ALTER TABLE `t_sale`
-  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `t_sale_detail`
@@ -374,13 +397,13 @@ ALTER TABLE `t_sale_detail`
 -- AUTO_INCREMENT for table `t_stock`
 --
 ALTER TABLE `t_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

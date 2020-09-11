@@ -152,8 +152,8 @@
 
               </ul>
             </li>
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
                 <p>
                   Kelola Produk
@@ -168,7 +168,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="kategori.php" class="nav-link active">
+                  <a href="kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
@@ -215,7 +215,7 @@
               </ul>
             </li>
             <li class="nav-item has-treeview">
-              <a href="daftaruser.php" class="nav-link">
+              <a href="daftaruser.php" class="nav-link active">
                 <i class="nav-icon fas fa-user"></i>
                 <p>
                   User
@@ -251,40 +251,64 @@
               <!-- general form elements -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Ubah Kategori</h3>
+                  <h3 class="card-title">Ubah User</h3>
                 </div>
                 <!-- /.card-header -->
                 <?php
-                $id = $_GET['id'];
-                if(!isset($_GET['id']))
-                {
-                  echo "
-                  <script>alert('Tidak ada ID yang terdeteksi');</script>
-                  ";
-                }
-                $query = "SELECT * FROM p_kategori WHERE category_id = '$id'";
-                $result = mysqli_query($koneksi, $query);
-
-                while($kategori = mysqli_fetch_assoc($result))
-                { ?>
+                  $user_id = $_GET['id'];
+                  if(!isset($_GET['id']))
+                  {
+                    echo"
+                      <script>alert('Tidak ada ID yang terdeteksi');
+                      window.location = 'daftaruser.php';</script>
+                      ";
+                  }
+                  $query = "SELECT * FROM user WHERE user_id = '$user_id'";
+                  $result = mysqli_query($koneksi,$query);
+                  while ($user = mysqli_fetch_assoc($result)) { ?>
                 <!-- form start -->
-                <form action="proseskategori.php" method="post">
+                <form action="prosesuser.php" method="post">
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="namakategori">Nama Kategori *</label>
-                      <input type="hidden" name="id" class="form-control" id="#"
-                        value="<?php echo $kategori['category_id']; ?>">
-                      <input type="text" name="namakategori" class="form-control" id="#" value="<?php echo $kategori['name']; ?>" required>
+                      <label for="namalengkap">Nama Lengkap *</label>
+                      <input type="hidden" name="user_id" class="form-control" id="#" value="<?php echo $user['user_id']; ?>">
+                      <input type="text" name="namalengkap" class="form-control" id="#" value="<?php echo $user['name']; ?>" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="telp">No HP *</label>
+                      <input type="text" name="telp" class="form-control" id="#" value="<?php echo $user['telp']; ?>" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="alamat">Alamat</label>
+                      <textarea type="text" name="alamat" class="form-control" id="#"><?php echo $user['address']; ?></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="username">Username *</label>
+                      <input type="text" name="username" class="form-control" id="#" value="<?php echo $user['username']; ?>" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="pass">Password *</label>
+                      <input type="password" name="pass" class="form-control" id="#" placeholder= "Ketik Ulang Password" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="level">Hak Akses *</label>
+                      <select  value="<?php echo $user['level']; ?>" name="level" class="form-control">
+                      <option value="<?php echo "$user[level]"; ?>">
+                      <?php $hakakses =$user['level'] == 1 ? "Administrator": "Kasir"; echo strval($hakakses); ?>
+                        </option>
+                        <option value="1">Administrator</option>
+                        <option value="2">Kasir</option>
+                      </select>
                     </div>
                   </div>
                   <!-- /.card-body -->
 
-                  <div class=" card-footer">
-                      <a href="kategori.php" name="cancel" class="btn btn-secondary">Batal</a>
-                      <button type="submit" name="ubahkategori" class="btn btn-primary">Simpan</button>
-                    </div>
+                  <div class="card-footer">
+                    <a href="daftaruser.php" name="cancel" class="btn btn-secondary">Batal</a>
+                    <button type="submit" name="ubahuser" class="btn btn-primary">Simpan</button>
+                  </div>
                 </form>
-                <?php } ?>
+                  <?php } ?>
               </div>
               <!-- /.card -->
             </div>

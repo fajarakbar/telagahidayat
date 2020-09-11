@@ -217,9 +217,16 @@
                 </li>
               </ul>
             </li>
-
             <li class="nav-item has-treeview">
-              <a href="../logout.php" class="nav-link">
+              <a href="daftaruser.php" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
                   Log Out
@@ -238,7 +245,7 @@
     <div class="content-wrapper">
 
       <!-- Main content -->
-      <section class="content">
+      <section class="content" style="padding-top:13px">
         <div class="container-fluid">
           <div class="row">
             <div class="col-12">
@@ -270,7 +277,7 @@
                         <th>Produk</th>
                         <th>Jumlah</th>
                         <th>Keterangan</th>
-                        <th>tanggal</th>
+                        <th>Tanggal</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -282,7 +289,7 @@
                         <td><?php echo "$stokkeluar[item_name]"; ?></td>
                         <td><?php echo "$stokkeluar[qty]"; ?></td>
                         <td><?php echo "$stokkeluar[detail]"; ?></td>
-                        <td><?php echo "$stokkeluar[date]"; ?></td>
+                        <td><?php echo date('d-m-Y', strtotime($stokkeluar['date'])); ?>
                         <td style="width:15%">
                           <div class="dropdown">
                             <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"

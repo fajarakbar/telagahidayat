@@ -217,9 +217,16 @@
                 </li>
               </ul>
             </li>
-
             <li class="nav-item has-treeview">
-              <a href="../logout.php" class="nav-link">
+              <a href="daftaruser.php" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
                   Log Out
@@ -238,7 +245,7 @@
     <div class="content-wrapper">
 
       <!-- Main content -->
-      <section class="content">
+      <section class="content" style="padding-top:13px">
         <div class="container-fluid">
           <div class="row">
             <div class="col-12">
@@ -271,19 +278,25 @@
                         <th>Produk</th>
                         <th>Jumlah</th>
                         <th>Harga</th>
-                        <th>tanggal</th>
+                        <th>Tanggal</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php while ($stokmasuk = mysqli_fetch_assoc($result)) { ?>
+                    </td>
+                      <?php
+                        function rupiah($angka){
+                          $hasil_rupiah = "Rp. " . number_format($angka,0,'','.');
+                          return $hasil_rupiah;
+                        }
+                         while ($stokmasuk = mysqli_fetch_assoc($result)) { ?>
                       <tr>
                         <td style="width:10%"><?php echo $no++; ?></td>
                         <td><?php echo "$stokmasuk[barcode]"; ?></td>
                         <td><?php echo "$stokmasuk[item_name]"; ?></td>
                         <td><?php echo "$stokmasuk[qty]"; ?></td>
-                        <td><?php echo "$stokmasuk[harga]"; ?></td>
-                        <td><?php echo "$stokmasuk[date]"; ?></td>
+                        <td><?php echo rupiah("$stokmasuk[harga]"); ?></td>
+                        <td><?php echo date('d-m-Y', strtotime($stokmasuk['date'])); ?>
                         <td style="width:15%">
                           <div class="dropdown">
                             <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"

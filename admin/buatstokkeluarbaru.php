@@ -218,9 +218,16 @@
                 </li>
               </ul>
             </li>
-
             <li class="nav-item has-treeview">
-              <a href="../logout.php" class="nav-link">
+              <a href="daftaruser.php" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
                   Log Out
@@ -239,7 +246,7 @@
     <div class="content-wrapper">
 
       <!-- Main content -->
-      <section class="content">
+      <section class="content" style="padding-top:13px">
         <div class="container-fluid">
           <div class="row">
             <!-- left column -->
@@ -339,12 +346,17 @@
                 </tr>
               </thead>
               <tbody>
-                <?php while ($produk = mysqli_fetch_assoc($result)) { ?>
+                <?php
+                        function rupiah($angka){
+                          $hasil_rupiah = "Rp. " . number_format($angka,0,'','.');
+                          return $hasil_rupiah;
+                        }
+                         while ($produk = mysqli_fetch_assoc($result)) { ?>
                 <tr>
                   <td><?php echo "$produk[barcode]"; ?></td>
                   <td><?php echo "$produk[name]"; ?></td>
                   <td><?php echo "$produk[unit_name]"; ?></td>
-                  <td><?php echo "$produk[price]"; ?></td>
+                  <td><?php echo rupiah("$produk[price]"); ?></td>
                   <td><?php echo "$produk[stock]"; ?></td>
                   <td>
                     <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]";?>"

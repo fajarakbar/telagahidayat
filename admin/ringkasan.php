@@ -189,7 +189,7 @@
   <div class="content-wrapper">
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" style="padding-top:13px">
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
