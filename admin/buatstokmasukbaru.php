@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 
@@ -57,8 +57,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -227,6 +226,14 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
+              <a href="daftaroutlet.php" class="nav-link">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  Outlet
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
               <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
@@ -263,7 +270,23 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label for="tanggal">Date *</label>
-                      <input type="date" name="date" value="<?= date('Y-m-d')?>" class="form-control" required>
+                      <input type="date" name="date" value="<?= date('Y-m-d') ?>" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="outlet">Outlet *</label>
+                      <select name="outlet" id="outlet" class="form-control" style="width: 100%;" required>
+                        <option disabled selected="selected">- Pilih -</option>
+                        <?php
+                        $query = "SELECT * FROM outlet";
+                        $result = mysqli_query($koneksi, $query);
+
+                        while ($outlet = mysqli_fetch_assoc($result)) { ?>
+                          <option value="<?php echo "$outlet[outlet_id]"; ?>"><?php echo "$outlet[name]"; ?>
+                          </option>
+                        <?php
+                        }
+                        ?>
+                      </select>
                     </div>
                     <div>
                       <label for="barcode">Barcode *</label>
@@ -279,7 +302,7 @@
                     </div>
                     <div class="form-group">
                       <label for="item_name">Nama Produk *</label>
-                      <input type="text" name="item_name" id="item_name" class="form-control" readonly>
+                      <input type="text" name="item_name" id="item_name" class="form-control">
                     </div>
                     <div class="row form-group">
                       <div class="col-md-8">
@@ -303,7 +326,7 @@
                         $query = "SELECT * FROM supplier";
                         $result = mysqli_query($koneksi, $query);
                         while ($supplier = mysqli_fetch_assoc($result)) { ?>
-                        <option value="<?php echo $supplier['supplier_id'];?>"><?php echo "$supplier[name]"; ?></option>
+                        <option value="<?php echo $supplier['supplier_id']; ?>"><?php echo "$supplier[name]"; ?></option>
                         <?php } ?>
                       </select>
                     </div> -->
@@ -341,18 +364,22 @@
             </button>
           </div>
           <?php
-                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+          $query = "SELECT outlet.name AS outlet_name, p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
                   FROM p_item 
                   INNER JOIN p_kategori
                   ON p_kategori.category_id=p_item.category_id
                   INNER JOIN p_satuanbarang
-                  ON p_satuanbarang.unit_id=p_item.unit_id";
+                  ON p_satuanbarang.unit_id=p_item.unit_id
+                  INNER JOIN outlet
+                  ON outlet.outlet_id=p_item.outlet_id";
+          // WHERE p_item.outlet_id='$outlet";
 
-                  $result = mysqli_query($koneksi, $query); ?>
+          $result = mysqli_query($koneksi, $query); ?>
           <div class="modal-body">
             <table class="table table-bordered table-striped" id="example1">
               <thead col-sm-4>
                 <tr>
+                  <th>Outlet</th>
                   <th>Barcode</th>
                   <th>Nama</th>
                   <th>Satuan</th>
@@ -363,27 +390,27 @@
               </thead>
               <tbody>
                 <?php
-                        function rupiah($angka){
-                          $hasil_rupiah = "Rp. " . number_format($angka,0,'','.');
-                          return $hasil_rupiah;
-                        }
-                         while ($produk = mysqli_fetch_assoc($result)) { ?>
-                <tr>
-                  <td><?php echo "$produk[barcode]"; ?></td>
-                  <td><?php echo "$produk[name]"; ?></td>
-                  <td><?php echo "$produk[unit_name]"; ?></td>
-                  <td><?php echo rupiah("$produk[price]"); ?></td>
-                  <td><?php echo "$produk[stock]"; ?></td>
-                  <td>
-                    <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]";?>"
-                      data-barcode="<?= "$produk[barcode]";?>" data-name="<?= "$produk[name]";?>"
-                      data-unit="<?= "$produk[unit_name]";?>" data-stock="<?= "$produk[stock]";?>">
-                      <i type="button" class="fa fa-check"></i> Select
-                    </button>
-                  </td>
-                </tr>
+                function rupiah($angka)
+                {
+                  $hasil_rupiah = "Rp. " . number_format($angka, 0, '', '.');
+                  return $hasil_rupiah;
+                }
+                while ($produk = mysqli_fetch_assoc($result)) { ?>
+                  <tr>
+                    <td><?php echo "$produk[outlet_name]"; ?></td>
+                    <td><?php echo "$produk[barcode]"; ?></td>
+                    <td><?php echo "$produk[name]"; ?></td>
+                    <td><?php echo "$produk[unit_name]"; ?></td>
+                    <td><?php echo rupiah("$produk[price]"); ?></td>
+                    <td><?php echo "$produk[stock]"; ?></td>
+                    <td>
+                      <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]"; ?>" data-barcode="<?= "$produk[barcode]"; ?>" data-name="<?= "$produk[name]"; ?>" data-unit="<?= "$produk[unit_name]"; ?>" data-stock="<?= "$produk[stock]"; ?>">
+                        <i type="button" class="fa fa-check"></i> Select
+                      </button>
+                    </td>
+                  </tr>
                 <?php }
-                  ?>
+                ?>
               </tbody>
             </table>
           </div>
@@ -400,19 +427,15 @@
   </div>
   <!-- /.content-wrapper -->
   <?php
-$tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
-$tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
-?>
+  $tanggal = time();
+  //Untuk mengambil data waktu dan tanggal saat ini dari server 
+  $tahun = date("Y", $tanggal);
+  ?>
   <footer class="main-footer">
-    <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1
-    </div>
+    <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 1
+      </div>
   </footer>
 
   <!-- Control Sidebar -->
@@ -440,14 +463,18 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
 
   <script>
-    $(document).ready(function () {
-      $(function () {
+    $(document).ready(function() {
+      $(function() {
         $("#example1").DataTable({
           "responsive": true,
           "autoWidth": false,
         });
       });
-      $(document).on('click', '#select', function () {
+      $(document).on('click', '#example1', function() {
+        var outlet = $('#outlet').val()
+        $('#modal-item').val(outlet);
+      })
+      $(document).on('click', '#select', function() {
         var item_id = $(this).data('id');
         var barcode = $(this).data('barcode');
         var name = $(this).data('name');
@@ -461,30 +488,54 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
         $('#modal-item').modal('hide');
       })
 
-      $(document).on('keyup', '#barcode', function () {
+      $(document).on('keyup', '#barcode', function() {
         var barkode = $('#barcode').val()
+        var outlet = $('#outlet').val()
         $.ajax({
           type: 'POST',
           url: 'prosesstokmasuk.php',
           data: {
             'barcode': true,
-            'barcode': barkode
+            'barcode': barkode,
+            'outlet': outlet
           },
           dataType: 'json',
-          success: function (data) {
+          success: function(data) {
             $('#item_id').val(data.item_id);
             $('#item_name').val(data.name);
             $('#unit_name').val(data.satuan);
             $('#stock').val(data.stock);
           },
-          error: function (xhr, status, error) {
+          error: function(xhr, status, error) {
             alert(xhr.responseText);
           }
         })
-
+      })
+      $(document).on('keyup', '#item_name', function() {
+        var item_name = $('#item_name').val()
+        var outlet = $('#outlet').val()
+        $.ajax({
+          type: 'POST',
+          url: 'prosesstokmasuk.php',
+          data: {
+            'item_name': true,
+            'item_name': item_name,
+            'outlet': outlet
+          },
+          dataType: 'json',
+          success: function(data) {
+            $('#item_id').val(data.item_id);
+            $('#barcode').val(data.barcode);
+            $('#item_name').val(data.name);
+            $('#unit_name').val(data.satuan);
+            $('#stock').val(data.stock);
+          },
+          error: function(xhr, status, error) {
+            alert(xhr.responseText);
+          }
+        })
       })
     })
-
   </script>
 
 </body>

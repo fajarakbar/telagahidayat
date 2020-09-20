@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 
@@ -53,8 +53,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -279,11 +278,22 @@
                     </div>
                     <div class="form-group">
                       <label for="level">Hak Akses *</label>
-                      <select value="" name="level" class="form-control">
+                      <select value="" name="level" class="form-control" required>
                         <option value="">- Pilih -</option>
                         <option value="1">Administrator</option>
                         <option value="2">Kasir</option>
                       </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="outket">Outlet *</label>
+                      <select value="" name="outlet" class="form-control" required>
+                        <option value="">- Pilih -</option>
+                        <?php
+                        $result = mysqli_query($koneksi, "SELECT * FROM outlet");
+                        while ($outlet = mysqli_fetch_assoc($result)) { ?>
+                          <option value="<?php echo $outlet['outlet_id']; ?>"><?php echo $outlet['name']; ?></option>
+                      </select>
+                    <?php } ?>
                     </div>
                   </div>
                   <!-- /.card-body -->
@@ -305,14 +315,10 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-$tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
-$tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
-?>
+    $tanggal = time();
+    //Untuk mengambil data waktu dan tanggal saat ini dari server 
+    $tahun = date("Y", $tanggal);
+    ?>
     <footer class="main-footer">
       <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
       <div class="float-right d-none d-sm-inline-block">

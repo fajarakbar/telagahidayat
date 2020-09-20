@@ -263,7 +263,7 @@
                       window.location = 'daftaruser.php';</script>
                       ";
                   }
-                  $query = "SELECT * FROM user WHERE user_id = '$user_id'";
+                  $query = "SELECT user.user_id, user.name, user.telp, user.address, user.username, user.level, outlet.outlet_id, outlet.name AS outlet_name FROM user JOIN outlet ON outlet.outlet_id=user.outlet_id WHERE user.user_id = $user_id";
                   $result = mysqli_query($koneksi,$query);
                   while ($user = mysqli_fetch_assoc($result)) { ?>
                 <!-- form start -->
@@ -284,7 +284,7 @@
                     </div>
                     <div class="form-group">
                       <label for="username">Username *</label>
-                      <input type="text" name="username" class="form-control" id="#" value="<?php echo $user['username']; ?>" required>
+                      <input type="text" name="username" class="form-control" id="#" value="<?php echo $user['username']; ?>" disabled>
                     </div>
                     <div class="form-group">
                       <label for="pass">Password *</label>
@@ -293,11 +293,25 @@
                     <div class="form-group">
                       <label for="level">Hak Akses *</label>
                       <select  value="<?php echo $user['level']; ?>" name="level" class="form-control">
-                      <option value="<?php echo "$user[level]"; ?>">
+                      <!-- <option value="<?php echo "$user[level]"; ?>"> -->
                       <?php $hakakses =$user['level'] == 1 ? "Administrator": "Kasir"; echo strval($hakakses); ?>
                         </option>
                         <option value="1">Administrator</option>
                         <option value="2">Kasir</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="outlet">Outlet *</label>
+                      <select  value="<?php echo $user['outlet_id']; ?>" name="outlet" class="form-control" required>
+                      <!-- <option value="<?php echo "$user[outlet_id]"; ?>"><?php echo "$user[outlet_name]"; ?></option> -->
+                      <?php
+                            $query = "SELECT * FROM outlet";
+                            $result = mysqli_query($koneksi, $query);
+                            while ($outlet = mysqli_fetch_assoc($result)) 
+                            { ?>
+                              <option value="<?php echo "$outlet[outlet_id]"; ?>"><?php echo "$outlet[name]"; ?>
+                              </option>
+                            <?php } ?>
                       </select>
                     </div>
                   </div>
@@ -321,16 +335,12 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-$tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
-$tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
-?>
+    $tanggal = time () ;
+    //Untuk mengambil data waktu dan tanggal saat ini dari server 
+    $tahun= date("Y",$tanggal);
+    ?>
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
       <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1
       </div>

@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 
@@ -56,8 +56,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -226,6 +225,14 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
+              <a href="daftaroutlet.php" class="nav-link">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  Outlet
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
               <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
@@ -254,26 +261,27 @@
                   <h3 class="card-title">Daftar Stok Masuk</h3>
                   <table style="float:right">
                     <td>
-                      <a href="buatstokmasukbaru.php"><button type="button"
-                          class="btn btn-block btn-primary btn-sm">Tambah</button></a>
-                    </td>                    
+                      <a href="buatstokmasukbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Tambah</button></a>
+                    </td>
                   </table>
                 </div>
                 <!-- /.card-header -->
                 <?php
-                  $no = 1;
-                  $query = "SELECT t_stock.stock_id,t_stock.item_id, p_item.barcode, p_item.name AS item_name, t_stock.type, t_stock.detail, supplier.name AS supplier_name, t_stock.qty, t_stock.harga, t_stock.date,t_stock.created 
+                $no = 1;
+                $query = "SELECT outlet.name AS outlet_name, t_stock.stock_id,t_stock.item_id, p_item.barcode, p_item.name AS item_name, t_stock.type, t_stock.detail, supplier.name AS supplier_name, t_stock.qty, t_stock.harga, t_stock.date,t_stock.created 
                   FROM t_stock 
                   INNER JOIN p_item ON p_item.item_id=t_stock.item_id 
+                  INNER JOIN outlet ON outlet.outlet_id=p_item.outlet_id
                   LEFT JOIN supplier ON supplier.supplier_id=t_stock.supplier_id 
                   WHERE t_stock.type = 'in'
                   ORDER BY t_stock.created DESC";
-                  $result = mysqli_query($koneksi, $query); ?>
+                $result = mysqli_query($koneksi, $query); ?>
                 <div class="card-body">
                   <table class="table table-hover text-nowrap" id="example1">
                     <thead>
                       <tr>
                         <th>#</th>
+                        <th>Outlet</th>
                         <th>Barcode</th>
                         <th>Produk</th>
                         <th>Jumlah</th>
@@ -283,41 +291,35 @@
                       </tr>
                     </thead>
                     <tbody>
-                    </td>
+                      </td>
                       <?php
-                        function rupiah($angka){
-                          $hasil_rupiah = "Rp. " . number_format($angka,0,'','.');
-                          return $hasil_rupiah;
-                        }
-                         while ($stokmasuk = mysqli_fetch_assoc($result)) { ?>
-                      <tr>
-                        <td style="width:10%"><?php echo $no++; ?></td>
-                        <td><?php echo "$stokmasuk[barcode]"; ?></td>
-                        <td><?php echo "$stokmasuk[item_name]"; ?></td>
-                        <td><?php echo "$stokmasuk[qty]"; ?></td>
-                        <td><?php echo rupiah("$stokmasuk[harga]"); ?></td>
-                        <td><?php echo date('d-m-Y', strtotime($stokmasuk['date'])); ?>
-                        <td style="width:15%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a href="" id="set_detail" class="dropdown-item" data-toggle="modal"
-                                data-target="#modal-detail" data-barcode="<?php echo $stokmasuk['barcode'];?>"
-                                data-itemname="<?php echo $stokmasuk['item_name'];?>"
-                                data-detail="<?php echo $stokmasuk['detail'];?>"
-                                data-suppliername="<?php echo $stokmasuk['supplier_name'];?>"
-                                data-qty="<?php echo $stokmasuk['qty'];?>"
-                                data-date="<?php echo $stokmasuk['date'];?>">Detail</a>
-                              <a class="dropdown-item"
-                                href="hapusstokmasuk.php?id=<?php echo $stokmasuk['stock_id']?>&itemid=<?php echo "$stokmasuk[item_id]"; ?>&qty=<?php echo "$stokmasuk[qty]"; ?>">Hapus</a>
+                      function rupiah($angka)
+                      {
+                        $hasil_rupiah = "Rp. " . number_format($angka, 0, '', '.');
+                        return $hasil_rupiah;
+                      }
+                      while ($stokmasuk = mysqli_fetch_assoc($result)) { ?>
+                        <tr>
+                          <td style="width:10%"><?php echo $no++; ?></td>
+                          <td><?php echo "$stokmasuk[outlet_name]"; ?></td>
+                          <td><?php echo "$stokmasuk[barcode]"; ?></td>
+                          <td><?php echo "$stokmasuk[item_name]"; ?></td>
+                          <td><?php echo "$stokmasuk[qty]"; ?></td>
+                          <td><?php echo rupiah("$stokmasuk[harga]"); ?></td>
+                          <td><?php echo date('d-m-Y', strtotime($stokmasuk['date'])); ?>
+                          <td style="width:15%">
+                            <div class="dropdown">
+                              <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a href="" id="set_detail" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-barcode="<?php echo $stokmasuk['barcode']; ?>" data-itemname="<?php echo $stokmasuk['item_name']; ?>" data-detail="<?php echo $stokmasuk['detail']; ?>" data-suppliername="<?php echo $stokmasuk['supplier_name']; ?>" data-qty="<?php echo $stokmasuk['qty']; ?>" data-date="<?php echo $stokmasuk['date']; ?>">Detail</a>
+                                <a class="dropdown-item" href="hapusstokmasuk.php?id=<?php echo $stokmasuk['stock_id'] ?>&itemid=<?php echo "$stokmasuk[item_id]"; ?>&qty=<?php echo "$stokmasuk[qty]"; ?>">Hapus</a>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
                       <?php }
-                  ?>
+                      ?>
                     </tbody>
                   </table>
                 </div>
@@ -378,19 +380,15 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-$tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
-$tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
-?>
+    $tanggal = time();
+    //Untuk mengambil data waktu dan tanggal saat ini dari server 
+    $tahun = date("Y", $tanggal);
+    ?>
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
     </footer>
 
     <!-- Control Sidebar -->
@@ -415,8 +413,8 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $(document).ready(function () {
-      $(document).on('click', '#set_detail', function () {
+    $(document).ready(function() {
+      $(document).on('click', '#set_detail', function() {
         var barcode = $(this).data('barcode');
         var itemname = $(this).data('itemname');
         var detail = $(this).data('detail');
@@ -430,14 +428,13 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
         $('#qty').text(qty);
         $('#date').text(date);
       })
-      $(function () {
-      $("#example1").DataTable({
-        "responsive": true,
-        "autoWidth": false,
+      $(function() {
+        $("#example1").DataTable({
+          "responsive": true,
+          "autoWidth": false,
+        });
       });
-    });
     })
-
   </script>
 </body>
 

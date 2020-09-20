@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 
@@ -56,8 +56,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -186,7 +185,7 @@
             </li>
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
+                <i class="nav-icon fas fa-shopping-cart"></i>
                 <p>
                   Transaksi
                   <i class="fas fa-angle-left right"></i>
@@ -261,6 +260,22 @@
                 <form action="prosesproduk.php" method="post">
                   <div class="card-body">
                     <div class="form-group">
+                      <label for="outlet">Outlet *</label>
+                      <select name="outlet" class="form-control" style="width: 100%;" required>
+                        <option disabled selected="selected">- Pilih -</option>
+                        <?php
+                        $query = "SELECT * FROM outlet";
+                        $result = mysqli_query($koneksi, $query);
+
+                        while ($outlet = mysqli_fetch_assoc($result)) { ?>
+                          <option value="<?php echo "$outlet[outlet_id]"; ?>"><?php echo "$outlet[name]"; ?>
+                          </option>
+                        <?php
+                        }
+                        ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
                       <label for="barcode">Barcode</label>
                       <input type="text" name="barcode" class="form-control">
                     </div>
@@ -279,26 +294,29 @@
                         $query = "SELECT * FROM p_satuanbarang";
                         $result = mysqli_query($koneksi, $query);
 
-                        while ($satuanbarang = mysqli_fetch_assoc($result)) 
-                        { ?>
-                        <option value="<?php echo "$satuanbarang[unit_id]"; ?>"><?php echo "$satuanbarang[name]"; ?>
-                        </option>
+                        while ($satuanbarang = mysqli_fetch_assoc($result)) { ?>
+                          <option value="<?php echo "$satuanbarang[unit_id]"; ?>"><?php echo "$satuanbarang[name]"; ?>
+                          </option>
                         <?php
                         }
                         ?>
                       </select>
-                      </>
-                      <div class="form-group" style="padding-top:10px">
-                        <label for="harga">Harga *</label>
-                        <input type="text" name="harga" id="rupiah" class="form-control" id="#" required>
-                      </div>
                     </div>
-                    <!-- /.card-body -->
+                    <div class="form-group">
+                      <label for="harga">Harga *</label>
+                      <input type="text" name="harga" id="rupiah" class="form-control" id="#" required>
+                    </div>
+                    <div class="form-group">
+                      <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#modal-varian">Tambah Varian Produk
+                      </button>
+                    </div>
 
-                    <div class="card-footer">
-                      <a href="daftarproduk.php" name="cancel" class="btn btn-secondary">Batal</a>
-                      <button type="submit" name="simpanproduk" class="btn btn-primary">Simpan</button>
-                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                  <div class="card-footer">
+                    <a href="daftarproduk.php" name="cancel" class="btn btn-secondary">Batal</a>
+                    <button type="submit" name="simpanproduk" class="btn btn-primary">Simpan</button>
+                  </div>
                 </form>
               </div>
               <!-- /.card -->
@@ -337,37 +355,61 @@
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <?php
-$tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
-$tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
-?>
-  <footer class="main-footer">
-    <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1
-    </div>
-  </footer>
+        <div class="modal fade" id="modal-varian">
+          <div class="modal-dialog modal-default">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Kategori Baru</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+              <!-- <div class="modal-body"> -->
+              <!-- <form action="" method=""> -->
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="namakategori">Nama Kategori *</label>
+                  <input type="text" name="namakategori" class="form-control" id="nama_kategori">
+                </div>
+              </div>
+              <!-- /.card-body -->
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="button" id="simpankategori" class="btn btn-primary">Simpan</button>
+              </div>
+              <!-- </form> -->
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <?php
+    $tanggal = time();
+    //Untuk mengambil data waktu dan tanggal saat ini dari server 
+    $tahun = date("Y", $tanggal);
+    ?>
+    <footer class="main-footer">
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
 
-  
+
   <!-- jQuery -->
   <script src="../plugins/jquery/jquery.min.js"></script>
   <!-- Select2 -->
@@ -378,12 +420,12 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
-  
+
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       loadData()
     })
-    $(document).on('click', '#simpankategori', function () {
+    $(document).on('click', '#simpankategori', function() {
       // $('.select2').select2({
       //   tags: true
       // })
@@ -400,9 +442,9 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
             'namakategori': namakategori
           },
           dataType: 'json',
-          success: function (result) {
+          success: function(result) {
             if (result.success == true) {
-              $('#kategori').load('tampilkategori.php', function (xhr, status, error) {
+              $('#kategori').load('tampilkategori.php', function(xhr, status, error) {
                 // alert(xhr.responseText);
                 $('#modal-kategori').modal('hide')
               })

@@ -262,7 +262,7 @@
                 <!-- /.card-header -->
                 <?php
                   $no = 1;
-                  $query = "SELECT * FROM user ORDER BY level ASC";
+                  $query = "SELECT user.user_id, user.name, user.telp, user.address, user.username,user.level, outlet.name AS outlet_name FROM user JOIN outlet ON outlet.outlet_id=user.outlet_id ORDER BY level ASC";
                   $result = mysqli_query($koneksi, $query); ?>
                 <div class="card-body">
                   <table class="table table-hover text-nowrap" id="example1">
@@ -273,6 +273,7 @@
                         <th>No Telepon</th>
                         <th>Username</th>
                         <th>Hak Akses</th>
+                        <th>Outlet</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -285,8 +286,8 @@
                         <td><?php echo "$user[name]"; ?></td>
                         <td><?php echo "$user[telp]"; ?></td>
                         <td><?php echo "$user[username]"; ?></td>
-                        <td><?php $hakakses =$user['level'] == 1 ? "Administrator": "Kasir"; echo strval($hakakses); ?>
-                        </td>
+                        <td><?php $hakakses =$user['level'] == 1 ? "Administrator": "Kasir"; echo strval($hakakses); ?></td>
+                        <td><?php echo "$user[outlet_name]"; ?></td>
                         <td style="width:15%">
                           <div class="dropdown">
                             <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
@@ -315,16 +316,12 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-$tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
-$tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
-?>
+    $tanggal = time () ;
+    //Untuk mengambil data waktu dan tanggal saat ini dari server 
+    $tahun= date("Y",$tanggal);
+    ?>
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
       <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1
       </div>

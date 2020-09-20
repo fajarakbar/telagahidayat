@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../kasir/index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../kasir/index.php");
+  exit;
+}
 ?>
 
 
@@ -48,13 +48,13 @@
   <script src="../plugins/charts/highcharts.js"></script>
   <script src="../plugins/charts/exporting.js"></script>
   <script>
-    $(function () {
+    $(function() {
       //Highcharts with mysqli and PHP - Ajax101.com
 
       var months = [];
       var transaksi = [];
       var switch1 = true;
-      $.get('values.php', function (data) {
+      $.get('values.php', function(data) {
 
         data = data.split('/');
         for (var i in data) {
@@ -90,7 +90,7 @@
               text: 'Transaksi'
             },
             labels: {
-              formatter: function () {
+              formatter: function() {
                 return this.value;
               }
             }
@@ -139,8 +139,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -309,6 +308,14 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
+              <a href="daftaroutlet.php" class="nav-link">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  Outlet
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
               <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
@@ -338,11 +345,11 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Total Transaksi</span>
                   <!-- total produk diambil dari database -->
-                  <?php 
-                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS trans FROM t_sale");
-                  if(mysqli_num_rows($result) > 0){
-                  $row = mysqli_fetch_assoc($result);?>
-                  <span class="info-box-number"><?php echo $row['trans']; ?> Transaksi</span>
+                  <?php
+                  $result = mysqli_query($koneksi, "SELECT COUNT(*) AS trans FROM t_sale");
+                  if (mysqli_num_rows($result) > 0) {
+                    $row = mysqli_fetch_assoc($result); ?>
+                    <span class="info-box-number"><?php echo $row['trans']; ?> Transaksi</span>
                   <?php } ?>
                 </div>
                 <!-- /.info-box-content -->
@@ -357,11 +364,11 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Total Produk</span>
                   <!-- total produk diambil dari database -->
-                  <?php 
-                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS total FROM p_item");
-                  if(mysqli_num_rows($result) > 0){
-                  $row = mysqli_fetch_assoc($result);?>
-                  <span class="info-box-number"><?php echo $row['total']; ?> Item</span>
+                  <?php
+                  $result = mysqli_query($koneksi, "SELECT COUNT(*) AS total FROM p_item");
+                  if (mysqli_num_rows($result) > 0) {
+                    $row = mysqli_fetch_assoc($result); ?>
+                    <span class="info-box-number"><?php echo $row['total']; ?> Item</span>
                   <?php } ?>
                 </div>
                 <!-- /.info-box-content -->
@@ -379,11 +386,11 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Karyawan</span>
                   <!-- total produk diambil dari database -->
-                  <?php 
-                  $result = mysqli_query($koneksi,"SELECT COUNT(*) AS karyawan FROM user WHERE level = 2");
-                  if(mysqli_num_rows($result) > 0){
-                  $row = mysqli_fetch_assoc($result);?>
-                  <span class="info-box-number"><?php echo $row['karyawan']; ?> Orang</span>
+                  <?php
+                  $result = mysqli_query($koneksi, "SELECT COUNT(*) AS karyawan FROM user WHERE level = 2");
+                  if (mysqli_num_rows($result) > 0) {
+                    $row = mysqli_fetch_assoc($result); ?>
+                    <span class="info-box-number"><?php echo $row['karyawan']; ?> Orang</span>
                   <?php } ?>
                 </div>
                 <!-- /.info-box-content -->
@@ -435,15 +442,15 @@
                     </thead>
                     <tbody>
                       <?php
-                  $no = 1;
-                  $result = mysqli_query($koneksi,"SELECT * FROM p_item WHERE stock < 3"); 
-                  while($stokhabis = mysqli_fetch_assoc($result)) {?>
-                      <tr>
-                        <td><?php echo $no++; ?></td>
-                        <td><?php echo "$stokhabis[barcode]"; ?></td>
-                        <td><?php echo "$stokhabis[name]"; ?></td>
-                        <td><?php echo "$stokhabis[stock]"; ?></td>
-                      </tr>
+                      $no = 1;
+                      $result = mysqli_query($koneksi, "SELECT * FROM p_item WHERE stock < 3");
+                      while ($stokhabis = mysqli_fetch_assoc($result)) { ?>
+                        <tr>
+                          <td><?php echo $no++; ?></td>
+                          <td><?php echo "$stokhabis[barcode]"; ?></td>
+                          <td><?php echo "$stokhabis[name]"; ?></td>
+                          <td><?php echo "$stokhabis[stock]"; ?></td>
+                        </tr>
                       <?php } ?>
                     </tbody>
                   </table>
@@ -472,9 +479,9 @@
     </aside>
     <!-- /.control-sidebar -->
     <?php
-$tanggal = time () ;
-$tahun= date("Y",$tanggal);
-?>
+    $tanggal = time();
+    $tahun = date("Y", $tanggal);
+    ?>
     <!-- Main Footer -->
     <footer class="main-footer">
       <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
@@ -485,7 +492,7 @@ $tahun= date("Y",$tanggal);
   </div>
   <!-- ./wrapper -->
 
-  
+
 </body>
 
 </html>

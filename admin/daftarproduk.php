@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 
@@ -22,7 +22,6 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <title>Telaga</title>
-
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- overlayScrollbars -->
@@ -56,8 +55,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -78,7 +76,7 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+with font-awesome or any other icon font library -->
             <li class="nav-item has-treeview">
               <a href="index.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -226,6 +224,14 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
+              <a href="daftaroutlet.php" class="nav-link">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  Outlet
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
               <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
@@ -243,7 +249,6 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-
       <!-- Main content -->
       <section class="content" style="padding-top:13px">
         <div class="container-fluid">
@@ -254,30 +259,32 @@
                   <h3 style="padding-top:6px" class="card-title">Daftar Produk</h3>
                   <table style="float:right">
                     <td>
-                      <a href="buatprodukbaru.php"><button type="button"
-                          class="btn btn-block btn-primary btn-sm">Tambah</button></a>
+                      <a href="buatprodukbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Tambah</button></a>
                     </td>
                   </table>
                 </div>
                 <?php
-                  $no = 1;
+                $no = 1;
+                $query = "SELECT outlet.name AS outlet_name, p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                FROM p_item
+                INNER JOIN p_kategori
+                ON p_kategori.category_id=p_item.category_id
+                INNER JOIN p_satuanbarang
+                ON p_satuanbarang.unit_id=p_item.unit_id
+                INNER JOIN outlet
+                ON outlet.outlet_id=p_item.outlet_id";
 
-                  $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
-                  FROM p_item
-                  INNER JOIN p_kategori
-                  ON p_kategori.category_id=p_item.category_id
-                  INNER JOIN p_satuanbarang
-                  ON p_satuanbarang.unit_id=p_item.unit_id";
-
-                  $result = mysqli_query($koneksi, $query);
-                  ?>
+                $result = mysqli_query($koneksi, $query);
+                ?>
                 <!-- /.card-header -->
                 <div class="card-body">
-
-                  <table id="example1" class="table table-hover table-nowrap">
+                  <div class="form-group col-sm-2">
+                  </div>
+                  <table id="empTable" class="table table-hover table-nowrap">
                     <thead>
                       <tr>
                         <th>#</th>
+                        <th>Outlet</th>
                         <th>Barcode</th>
                         <th>Nama</th>
                         <th>Kategori</th>
@@ -290,34 +297,33 @@
                     <tbody>
                       <tr>
                         <?php
-                        function rupiah($angka){
-                          $hasil_rupiah = "Rp. " . number_format($angka,0,'','.');
+                        function rupiah($angka)
+                        {
+                          $hasil_rupiah = "Rp. " . number_format($angka, 0, '', '.');
                           return $hasil_rupiah;
                         }
                         while ($produk = mysqli_fetch_assoc($result)) { ?>
-                        <td><?php echo $no++; ?></td>
-                        <td><?php echo "$produk[barcode]"; ?></td>
-                        <td><?php echo "$produk[name]"; ?></td>
-                        <td><?php echo "$produk[category_name]"; ?></td>
-                        <td><?php echo "$produk[unit_name]"; ?></td>
-                        <td><?php echo rupiah("$produk[price]"); ?></td>
-                        <td><?php echo "$produk[stock]"; ?></td>
-                        <td style="width:10%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a class="dropdown-item"
-                                href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Ubah</a>
-                              <a class="dropdown-item"
-                                href="hapusproduk.php?id=<?php echo $produk['item_id']?>">Hapus</a>
+                          <td><?php echo $no++; ?></td>
+                          <td><?php echo "$produk[outlet_name]"; ?></td>
+                          <td><?php echo "$produk[barcode]"; ?></td>
+                          <td><?php echo "$produk[name]"; ?></td>
+                          <td><?php echo "$produk[category_name]"; ?></td>
+                          <td><?php echo "$produk[unit_name]"; ?></td>
+                          <td><?php echo rupiah("$produk[price]"); ?></td>
+                          <td><?php echo "$produk[stock]"; ?></td>
+                          <td style="width:10%">
+                            <div class="dropdown">
+                              <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Ubah</a>
+                                <a class="dropdown-item" href="hapusproduk.php?id=<?php echo $produk['item_id'] ?>">Hapus</a>
+                              </div>
                             </div>
-                          </div>
-                        </td>
+                          </td>
 
                       </tr>
-                      <?php } ?>
+                    <?php } ?>
                     </tbody>
                   </table>
                 </div>
@@ -332,19 +338,15 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-$tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
-$tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
-?>
+    $tanggal = time();
+    //Untuk mengambil data waktu dan tanggal saat ini dari server 
+    $tahun = date("Y", $tanggal);
+    ?>
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
     </footer>
 
     <!-- Control Sidebar -->
@@ -368,23 +370,16 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
   <script>
-    $(function () {
-      $("#example1").DataTable({
+    $(function() {
+      $("#empTable").DataTable({
         "responsive": true,
         "autoWidth": false,
-
-      });
-
-      var table = $('#example1').DataTable();
-
-      // #myInput is a <input type="text"> element
-      $('#myInput').on('keyup', function () {
-        table.search(this.value).draw();
       });
     });
-
   </script>
+
 </body>
 
 </html>

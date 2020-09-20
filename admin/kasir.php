@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 
@@ -58,8 +58,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -244,7 +243,7 @@
     </aside>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-<section class="content" style="padding-top:13px">
+      <section class="content" style="padding-top:13px">
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-4">
@@ -252,28 +251,27 @@
                 <div class="card-body">
                   <table width="100%">
                     <tr>
-                      <td style="vertical-allign:top">
+                      <td>
                         <label for="date">Tanggal</label>
                       </td>
                       <td>
                         <div class="form-group">
-                          <input type="date" id="date" value="<?php echo date('Y-m-d');?>" class="form-control">
+                          <input type="date" id="date" value="<?php echo date('Y-m-d'); ?>" class="form-control">
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <td style="vertical-allign:top; width:30%">
+                      <td style="width:30%">
                         <label for="user">Kasir</label>
                       </td>
                       <td>
                         <div class="form-group">
-                          <input type="text" id="user" value="<?php echo $_SESSION['nama'];?>" class="form-control"
-                            readonly>
+                          <input type="text" id="user" value="<?php echo $_SESSION['nama']; ?>" class="form-control" readonly>
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <td style="vertical-allign:top">
+                      <td>
                         <label for="customer">Customer</label>
                       </td>
                       <td>
@@ -293,7 +291,7 @@
                 <div class="card-body">
                   <table width="100%">
                     <tr>
-                      <td style="vertical-allign:top; width:30%">
+                      <td style="width:30%">
                         <label for="barcode">Barcode</label>
                       </td>
                       <td>
@@ -304,8 +302,7 @@
                           <input type="hidden" id="qty_cart">
                           <input type="text" id="barcode" class="form-control" autofocus>
                           <span class="input-group-btn">
-                            <button type="button" class="btn btn-info btn-flat" data-toggle="modal"
-                              data-target="#modal-item">
+                            <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-item">
                               <i class="fas fa-search"></i>
                             </button>
                           </span>
@@ -313,7 +310,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td style="vertical-allign:top">
+                      <td>
                         <label for="qty">Qty</label>
                       </td>
                       <td>
@@ -338,14 +335,14 @@
             </div>
 
             <?php
-              // $date = date("ymd");
-              // $query = "SELECT MAX(MID(invoice,9,4)) AS invoice_no FROM t_sale WHERE (MID(invoice,3,6)) = '$date'";
-              // $result = mysqli_query($koneksi,$query);
-              // $data = mysqli_fetch_assoc($result);
-              // $row = $data['invoice_no'];
-              // $n = ((int)$row) + 1;
-              // $no = sprintf("%'.04d", $n);
-              // $invoice = "TP".date('ymd').$no;
+            // $date = date("ymd");
+            // $query = "SELECT MAX(MID(invoice,9,4)) AS invoice_no FROM t_sale WHERE (MID(invoice,3,6)) = '$date'";
+            // $result = mysqli_query($koneksi,$query);
+            // $data = mysqli_fetch_assoc($result);
+            // $row = $data['invoice_no'];
+            // $n = ((int)$row) + 1;
+            // $no = sprintf("%'.04d", $n);
+            // $invoice = "TP".date('ymd').$no;
             ?>
 
             <div class="col-md-4">
@@ -498,12 +495,12 @@
                   </button>
                 </div>
                 <?php
-                        $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category_id, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category_id, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
                         FROM p_item 
                         INNER JOIN p_satuanbarang
                         ON p_satuanbarang.unit_id=p_item.unit_id";
 
-                        $result = mysqli_query($koneksi, $query); ?>
+                $result = mysqli_query($koneksi, $query); ?>
                 <div class="modal-body">
                   <table class="table table-bordered table-striped" id="example1">
                     <thead col-sm-4>
@@ -518,25 +515,24 @@
                     </thead>
                     <tbody id="isi_modal">
                       <?php
-                      function rupiah($angka){
-                        $hasil_rupiah = "Rp. " . number_format($angka,0,'','.');
+                      function rupiah($angka)
+                      {
+                        $hasil_rupiah = "Rp. " . number_format($angka, 0, '', '.');
                         return $hasil_rupiah;
                       }
-                       while ($produk = mysqli_fetch_assoc($result)) { ?>
-                      <tr>
-                        <td><?php echo "$produk[barcode]"; ?></td>
-                        <td><?php echo "$produk[name]"; ?></td>
-                        <td><?php echo "$produk[unit_name]"; ?></td>
-                        <td><?php echo rupiah("$produk[price]"); ?></td>
-                        <td><?php echo "$produk[stock]"; ?></td>
-                        <td>
-                          <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]";?>"
-                            data-barcode="<?= "$produk[barcode]";?>" data-price="<?= "$produk[price]";?>"
-                            data-stock="<?= "$produk[stock]";?>">
-                            <i type="button" class="fa fa-check"></i> Select
-                          </button>
-                        </td>
-                      </tr>
+                      while ($produk = mysqli_fetch_assoc($result)) { ?>
+                        <tr>
+                          <td><?php echo "$produk[barcode]"; ?></td>
+                          <td><?php echo "$produk[name]"; ?></td>
+                          <td><?php echo "$produk[unit_name]"; ?></td>
+                          <td><?php echo rupiah("$produk[price]"); ?></td>
+                          <td><?php echo "$produk[stock]"; ?></td>
+                          <td>
+                            <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]"; ?>" data-barcode="<?= "$produk[barcode]"; ?>" data-price="<?= "$produk[price]"; ?>" data-stock="<?= "$produk[stock]"; ?>">
+                              <i type="button" class="fa fa-check"></i> Select
+                            </button>
+                          </td>
+                        </tr>
                       <?php } ?>
                     </tbody>
                   </table>
@@ -619,7 +615,8 @@
           </div>
           <!--/modal edit item-->
         </div>
-      </div>
+        <!-- </div> -->
+      </section>
     </div>
     <!-- /.content-wrapper -->
 
@@ -629,15 +626,15 @@
     </aside>
     <!-- /.control-sidebar -->
     <?php
-      $tanggal = time () ;
-      $tahun= date("Y",$tanggal);
+    $tanggal = time();
+    $tahun = date("Y", $tanggal);
     ?>
     <!-- Main Footer -->
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
     </footer>
   </div>
   <!-- ./wrapper -->
@@ -660,23 +657,23 @@
   <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $(function () {
+    $(function() {
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,
       });
     });
-    $(document).ready(function () {
+    $(document).ready(function() {
       loadData()
 
-      setInterval(function () {
+      setInterval(function() {
         $("#invoice").load('invoice_no.php')
       }, 20000);
       // setInterval(function() {
       //   $("#invoice").load('invoice_no.php')
       // }, 2000);
 
-      $(document).on('click', '#select', function () {
+      $(document).on('click', '#select', function() {
         $('#item_id').val($(this).data('id'))
         $('#barcode').val($(this).data('barcode'))
         $('#price').val($(this).data('price'))
@@ -686,7 +683,7 @@
         $('#qty').focus()
       })
 
-      $(document).on('click', '#add_cart', function () {
+      $(document).on('click', '#add_cart', function() {
         var item_id = $('#item_id').val()
         var price = $('#price').val()
         var stock = $('#stock').val()
@@ -714,9 +711,9 @@
               'qty': qty
             },
             dataType: 'json',
-            success: function (result) {
+            success: function(result) {
               if (result.success == true) {
-                $('#cart_table').load('tampilcart.php', function (xhr, status, error) {
+                $('#cart_table').load('tampilcart.php', function(xhr, status, error) {
                   // alert(xhr.responseText);
                   calculate()
                 })
@@ -728,14 +725,14 @@
                 alert('Gagal tambah item cart')
               }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
               alert(xhr.responseText);
             }
           })
         }
       })
 
-      $(document).on('click', '#edit_cart', function () {
+      $(document).on('click', '#edit_cart', function() {
         var cart_id = $('#cartid_item').val()
         var price = $('#price_item').val()
         var qty = $('#qty_item').val()
@@ -764,9 +761,9 @@
               'total': total
             },
             dataType: 'json',
-            success: function (result) {
+            success: function(result) {
               if (result.success == true) {
-                $('#cart_table').load('tampilcart.php', function (xhr, status, error) {
+                $('#cart_table').load('tampilcart.php', function(xhr, status, error) {
                   // alert(xhr.responseText);
                   calculate()
                 })
@@ -777,14 +774,14 @@
                 $('#modal-item-edit').modal('hide')
               }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
               alert(xhr.responseText);
             }
           })
         }
       })
 
-      $(document).on('click', '#del_cart', function () {
+      $(document).on('click', '#del_cart', function() {
         if (confirm('Apakah Anda Yakin ?')) {
           var cart_id = $(this).data('cartid')
           $.ajax({
@@ -795,9 +792,9 @@
               'cart_id': cart_id
             },
             dataType: 'json',
-            success: function (result) {
+            success: function(result) {
               if (result.success == true) {
-                $('#cart_table').load('tampilcart.php', function (xhr, status, error) {
+                $('#cart_table').load('tampilcart.php', function(xhr, status, error) {
                   // alert(xhr.responseText);
                   calculate()
                 })
@@ -809,7 +806,7 @@
         }
       })
 
-      $(document).on('click', '#update_cart', function () {
+      $(document).on('click', '#update_cart', function() {
         $('#cartid_item').val($(this).data('cartid'))
         $('#barcode_item').val($(this).data('barcode'))
         $('#product_item').val($(this).data('product'))
@@ -821,14 +818,14 @@
         $('#total_item').val($(this).data('total'))
       })
 
-      $(document).on('keyup mouseup', '#price_item, #qty_item, #discount_item', function () {
+      $(document).on('keyup mouseup', '#price_item, #qty_item, #discount_item', function() {
         count_edit_modal()
       })
-      $(document).on('keyup mouseup', '#discount, #cash', function () {
+      $(document).on('keyup mouseup', '#discount, #cash', function() {
         calculate()
       })
 
-      $(document).on('click', '#process_payment', function () {
+      $(document).on('click', '#process_payment', function() {
         var invoice = $('#invoice').text()
         var customer_id = $('#customer').val()
         var subtotal = $('#sub_total').val()
@@ -866,17 +863,17 @@
                 'date': date,
               },
               dataType: 'json',
-              success: function (result) {
+              success: function(result) {
                 if (result.success) {
                   alert('Transaksi Berhasil')
-                  window.open('<?= 'receipt_print.php?sale_id= '?>' + result.sale_id, '_blank')
+                  window.open('<?= 'receipt_print.php?sale_id= ' ?>' + result.sale_id, '_blank')
                 } else {
                   alert('Transaksi Gagal');
                 }
                 location.href = '<?php '
                 kasir.php '; ?>'
               },
-              error: function (xhr, status, error) {
+              error: function(xhr, status, error) {
                 alert(xhr.responseText);
               }
 
@@ -885,7 +882,7 @@
         }
       })
 
-      $(document).on('keyup', '#barcode', function () {
+      $(document).on('keyup', '#barcode', function() {
         var barkode = $('#barcode').val()
         $.ajax({
           type: 'POST',
@@ -895,19 +892,19 @@
             'barcode': barkode
           },
           dataType: 'json',
-          success: function (data) {
+          success: function(data) {
             $('#item_id').val(data.item_id);
             $('#price').val(data.price);
             $('#stock').val(data.stock);
           },
-          error: function (xhr, status, error) {
+          error: function(xhr, status, error) {
             alert(xhr.responseText);
           }
         })
 
       })
 
-      $(document).on('click', '#cancel_payment', function () {
+      $(document).on('click', '#cancel_payment', function() {
         if (confirm('Apakah Anda Yakin ?')) {
           $.ajax({
             type: 'POST',
@@ -916,10 +913,10 @@
             data: {
               'cancel_payment': true
             },
-            success: function (result) {
+            success: function(result) {
               if (result.success == true) {
                 $('#cart_table').load(('tampilcart.php'),
-                  function () {
+                  function() {
                     calculate()
                   })
               }
@@ -938,7 +935,7 @@
     })
 
     function get_cart_qty(barcode) {
-      $('#cart_table tr').each(function () {
+      $('#cart_table tr').each(function() {
         var qty_cart = $("#cart_table td.barcode:contains('" + barcode + "')").parent().find("td").eq(4).html()
         if (qty_cart != null) {
           $('#qty_cart').val(qty_cart)
@@ -950,7 +947,7 @@
 
     function calculate() {
       var subtotal = 0;
-      $('#cart_table tr').each(function () {
+      $('#cart_table tr').each(function() {
         subtotal += parseInt($(this).find('#total').text())
       })
       isNaN(subtotal) ? $('#sub_total').val(0) : $('#sub_total').val(subtotal)
@@ -991,7 +988,7 @@
       $.ajax({
         url: 'tampilcart.php',
         type: 'get',
-        success: function (data) {
+        success: function(data) {
           $('#cart_table').html(data);
           calculate()
           nomor()
@@ -1003,7 +1000,7 @@
       $.ajax({
         url: 'invoice_no.php',
         type: 'get',
-        success: function (data) {
+        success: function(data) {
           $('#invoice').html(data);
         }
       });
@@ -1013,12 +1010,11 @@
       $.ajax({
         url: 'modal-item.php',
         type: 'get',
-        success: function (data) {
+        success: function(data) {
           $('#isi_modal').html(data);
         }
       });
     }
-
   </script>
 </body>
 

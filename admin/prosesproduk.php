@@ -1,105 +1,93 @@
 <?php
-    include '../koneksi.php';
-    if(isset($_POST['simpanproduk']))
-    {
-        $barcode        = $_POST['barcode'];
-        $namaproduk     = $_POST['namaproduk'];
-        $kategori       = $_POST['kategori'];
-        $satuanbarang   = $_POST['satuanbarang'];    
-        $harga          = $_POST['harga'];
+include '../koneksi.php';  
+session_start();
 
-        // $query = "INSERT INTO p_item (barcode,name,category_id,unit_id,price) VALUES (
-        //     '$barcode',
-        //     '$namaproduk',
-        //     '$kategori',
-        //     '$satuanbarang',
-        //     '$harga'
-        //     )";
-        // var_dump ($barcode,$namaproduk,$kategori,$satuanbarang,$harga);
-        // mysqli_query($koneksi, $query);
-        if(empty($namaproduk) || empty($kategori) || empty($harga) || empty($kategori) || empty($satuanbarang))
-        {
-            echo"
-            <script>alert('Data Gagal Ditambahkan');
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../index.php");
+  exit;
+}
+
+if (isset($_POST['simpanproduk'])) {
+    $outlet         = $_POST['outlet'];
+    $barcode        = $_POST['barcode'];
+    $namaproduk     = $_POST['namaproduk'];
+    $kategori       = $_POST['kategori'];
+    $satuanbarang   = $_POST['satuanbarang'];
+    $harga          = $_POST['harga'];
+    $user_id        = $_SESSION['userid'];
+
+    if (empty($outlet) || empty($namaproduk) || empty($kategori) || empty($harga) || empty($kategori) || empty($satuanbarang)) {
+        echo "
+            <script>alert('Form wajib diisi');
             window.location = 'buatprodukbaru.php';</script>
             ";
-        }
-        else
-        {
-            $query = "INSERT INTO p_item (barcode,name,category_id,unit_id,price) VALUES (
+    } else {
+        $query = "INSERT INTO p_item (barcode,name,category_id,unit_id,price,user_id,outlet_id) VALUES (
                 '$barcode',
                 '$namaproduk',
                 '$kategori',
                 '$satuanbarang',
-                '$harga'
+                '$harga',
+                '$user_id',
+                '$outlet'
                 )";
-            mysqli_query($koneksi, $query);
-            echo"
+        mysqli_query($koneksi, $query);
+        echo "
             <script>alert('Data Berhasil Ditambahkan');
             window.location = 'daftarproduk.php';</script>
             ";
-        }
     }
+} elseif (isset($_POST['ubahproduk'])) {
+    $id             = $_POST['id'];
+    $barcode        = $_POST['barcode'];
+    $namaproduk     = $_POST['namaproduk'];
+    $kategori       = $_POST['kategori'];
+    $satuanbarang   = $_POST['satuanbarang'];
+    $harga          = $_POST['harga'];
+    $updated        = date('Y-m-d H:i:s');
 
-    elseif(isset($_POST['ubahproduk']))
-    {
-        $id             = $_POST['id'];
-        $barcode        = $_POST['barcode'];
-        $namaproduk     = $_POST['namaproduk'];
-        $kategori       = $_POST['kategori'];
-        $satuanbarang   = $_POST['satuanbarang'];    
-        $harga          = $_POST['harga'];
-        $updated        = date('Y-m-d H:i:s');
-
-        $query = "UPDATE p_item SET
-        barcode= '$barcode',
-        name= '$namaproduk',
-        category_id= '$kategori',
-        unit_id= '$satuanbarang',
-        price= '$harga',
-        updated= '$updated'
+    $query = "UPDATE p_item SET
+        barcode = '$barcode',
+        name = '$namaproduk',
+        category_id = '$kategori',
+        unit_id = '$satuanbarang',
+        price = '$harga',
+        updated = '$updated'
         WHERE item_id = '$id'
         ";
 
-        // var_dump($id,$barcode,$namaproduk,$kategori,$satuanbarang,$harga,$updated);
-        if(mysqli_query($koneksi, $query))
-        {
-            echo"
+    // var_dump($id,$barcode,$namaproduk,$kategori,$satuanbarang,$harga,$updated);
+    if (mysqli_query($koneksi, $query)) {
+        echo "
             <script>alert('Data Berhasil Diubah');
             window.location = 'daftarproduk.php';</script>
             ";
-        }
-        else
-        {
-            echo"
+    } else {
+        echo "
             <script>alert('Data Gagal Diubah');
             window.location = 'ubahproduk.php?id=$id';</script>
             ";
-        }
     }
-    elseif(isset(($_POST['hapusproduk'])))
-    {
-        $id = $_POST['id'];
-        $query = "DELETE FROM p_item WHERE item_id = '$id'";
-        // var_dump($query);
-        
-        if(mysqli_query($koneksi, $query))
-        {
-            echo"
+} elseif (isset(($_POST['hapusproduk']))) {
+    $id = $_POST['id'];
+    $query = "DELETE FROM p_item WHERE item_id = '$id'";
+    // var_dump($query);
+
+    if (mysqli_query($koneksi, $query)) {
+        echo "
             <script>alert('Data Berhasil Dihapus');
             window.location = 'daftarproduk.php';</script>
             ";
-        }
-        else
-        {
-            echo"
+    } else {
+        echo "
             <script>alert('Data Gagal Dihapus');
             window.location = 'daftarproduk.php';</script>
             ";
-        }
     }
-    else
-    {
-        header('location: daftarproduk.php');
-    }
-?>
+} else {
+    header('location: daftarproduk.php');
+}
