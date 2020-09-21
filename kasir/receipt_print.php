@@ -1,15 +1,16 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
+$outlet_id = $_SESSION['outlet_id'];
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '2') {
-    header("Location: ../admin/index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '2') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 <html moznomarginboxes mozdisallowselectionprint>
@@ -59,7 +60,6 @@
         margin: 0mm;
       }
     }
-
   </style>
 </head>
 
@@ -71,38 +71,38 @@
       Jl.....
     </div>
     <?php
-        $sale_id = $_GET['sale_id'];
-        $query = "SELECT t_sale.invoice, t_sale.customer_id, t_sale.total_price, t_sale.discount, t_sale.final_price,
+    $sale_id = $_GET['sale_id'];
+    $query = "SELECT t_sale.invoice, t_sale.customer_id, t_sale.total_price, t_sale.discount, t_sale.final_price,
                     t_sale.cash, t_sale.remaining, t_sale.note, t_sale.date, t_sale.user_id, t_sale.created AS sale_created, user.username AS user_name  
                     FROM t_sale 
                     INNER JOIN user
                     ON t_sale.user_id=user.user_id
                     WHERE t_sale.sale_id = '$sale_id'";
-        $result = mysqli_query($koneksi, $query);
-        $data = mysqli_fetch_assoc($result);
-        $query1 = "SELECT * FROM t_sale_detail
+    $result = mysqli_query($koneksi, $query);
+    $data = mysqli_fetch_assoc($result);
+    $query1 = "SELECT * FROM t_sale_detail
                     INNER JOIN p_item
                     ON t_sale_detail.item_id=p_item.item_id
                     WHERE t_sale_detail.sale_id = '$sale_id'";
-        $result1 = mysqli_query($koneksi, $query1);
-        // $data1 = mysqli_fetch_assoc($result1);
+    $result1 = mysqli_query($koneksi, $query1);
+    // $data1 = mysqli_fetch_assoc($result1);
     ?>
     <div class="head">
       <table cellspacing="0" cellpadding="0">
         <tr>
           <td style="width:200px">
-            <?php echo Date("d/m/Y", strtotime($data['date']))." ". Date("H:i", strtotime($data['sale_created'])); ?>
+            <?php echo Date("d/m/Y", strtotime($data['date'])) . " " . Date("H:i", strtotime($data['sale_created'])); ?>
           </td>
           <td>Cashier</td>
           <td style="text-align:center; width: 10px">:</td>
-          <td style="text-align:right"><?=ucfirst($data['user_name'])?></td>
+          <td style="text-align:right"><?= ucfirst($data['user_name']) ?></td>
         </tr>
         <tr>
-          <td><?=$data['invoice']?></td>
+          <td><?= $data['invoice'] ?></td>
           <td>Customer</td>
           <td style="text-align:center">:</td>
           <td style="text-align:right">
-            <?=$data['customer_id'] == null ? "Umum" : "Umum"?>
+            <?= $data['customer_id'] == null ? "Umum" : "Umum" ?>
           </td>
         </tr>
       </table>
@@ -110,35 +110,35 @@
     <div class="transaction">
       <table class="transaction-table" cellspacing="0" cellpadding="0">
         <?php
-$arr_discount = array();
-while ($data1 = mysqli_fetch_assoc($result1)) { ?>
-        <tr>
-          <td style="width: 165px"><?=$data1['name']?></td>
-          <td><?=$data1['qty']?></td>
-          <td style="text-align:right; width:60px"><?=$data1['price']?></td>
-          <td style="text-align:right; width:60px">
-            <?=($data1['price'] - $data1['discount_item'] * $data1['qty'])?>
-          </td>
-        </tr>
-        <?php if ($data1['discount_item'] > 0) { 
-            $no=0;?>
+        $arr_discount = array();
+        while ($data1 = mysqli_fetch_assoc($result1)) { ?>
+          <tr>
+            <td style="width: 165px"><?= $data1['name'] ?></td>
+            <td><?= $data1['qty'] ?></td>
+            <td style="text-align:right; width:60px"><?= $data1['price'] ?></td>
+            <td style="text-align:right; width:60px">
+              <?= ($data1['price'] * $data1['qty']) ?>
+            </td>
+          </tr>
+          <?php if ($data1['discount_item'] > 0) {
+            $no = 0; ?>
             <tr>
-          <td></td>
-          <td colspan="2" style="text-align:right">Disc. <?=($no+1)?></td>
-          <td style="text-align:right"><?=$data1['discount_item']?></td>
-        </tr>
+              <td></td>
+              <td colspan="2" style="text-align:right">Disc. <?= ($no + 1) ?></td>
+              <td style="text-align:right"><?= $data1['discount_item'] ?></td>
+            </tr>
         <?php
-        }
-    }?>
+          }
+        } ?>
 
 
 
         <?php foreach ($arr_discount as $key => $value) { ?>
-        <tr>
-          <td></td>
-          <td colspan="2" style="text-align:right">Disc. <?=($key+1)?></td>
-          <td style="text-align:right"><?=$value?></td>
-        </tr>
+          <tr>
+            <td></td>
+            <td colspan="2" style="text-align:right">Disc. <?= ($key + 1) ?></td>
+            <td style="text-align:right"><?= $value ?></td>
+          </tr>
         <?php } ?>
 
 
@@ -149,30 +149,30 @@ while ($data1 = mysqli_fetch_assoc($result1)) { ?>
           <td colspan="2"></td>
           <td style="text-align:right; padding-top:5px">Sub Total</td>
           <td style="text-align:right; padding-top:5px">
-            <?=$data['total_price']?>
+            <?= $data['total_price'] ?>
           </td>
         </tr>
-        <?php if ($data['discount'] > 0) {?>
-        <tr>
-          <td colspan="2"></td>
-          <td style="text-align:right; padding-bottom:5px">Disc.Sale</td>
-          <td style="text-align:right; padding-bottom:5px"><?= $data['discount']?></td>
-        </tr>
+        <?php if ($data['discount'] > 0) { ?>
+          <tr>
+            <td colspan="2"></td>
+            <td style="text-align:right; padding-bottom:5px">Disc.Sale</td>
+            <td style="text-align:right; padding-bottom:5px"><?= $data['discount'] ?></td>
+          </tr>
         <?php } ?>
         <tr>
           <td colspan="2"></td>
           <td style="border-top:1px dashed; text-align:right; padding-bottom:5px 0">Grand Total</td>
-          <td style="border-top:1px dashed; text-align:right; padding-bottom:5px 0"><?= $data['final_price']?></td>
+          <td style="border-top:1px dashed; text-align:right; padding-bottom:5px 0"><?= $data['final_price'] ?></td>
         </tr>
         <tr>
           <td colspan="2"></td>
           <td style="border-top:1px dashed; text-align:right; padding-bottom:5px">Cash</td>
-          <td style="border-top:1px dashed; text-align:right; padding-bottom:5px"><?= $data['cash']?></td>
+          <td style="border-top:1px dashed; text-align:right; padding-bottom:5px"><?= $data['cash'] ?></td>
         </tr>
         <tr>
           <td colspan="2"></td>
           <td style="text-align:right">Change</td>
-          <td style="text-align:right"><?= $data['remaining']?></td>
+          <td style="text-align:right"><?= $data['remaining'] ?></td>
         </tr>
       </table>
     </div>

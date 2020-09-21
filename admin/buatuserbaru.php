@@ -285,15 +285,16 @@ if ($_SESSION['level'] != '1') {
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="outket">Outlet *</label>
+                      <label for="outlet">Outlet *</label>
                       <select value="" name="outlet" class="form-control" required>
-                        <option value="">- Pilih -</option>
+                        <option disabled selected="selected">- Pilih -</option>
                         <?php
                         $result = mysqli_query($koneksi, "SELECT * FROM outlet");
                         while ($outlet = mysqli_fetch_assoc($result)) { ?>
-                          <option value="<?php echo $outlet['outlet_id']; ?>"><?php echo $outlet['name']; ?></option>
+                          <option value="<?php echo $outlet['outlet_id']; ?>"><?php echo $outlet['name']; ?>
+                          </option>
+                        <?php } ?>
                       </select>
-                    <?php } ?>
                     </div>
                   </div>
                   <!-- /.card-body -->

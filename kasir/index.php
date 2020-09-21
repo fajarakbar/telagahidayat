@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "../koneksi.php"; //cek apakah sudah login
+$outlet_id = $_SESSION['outlet_id'];
 
 if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
   header("Location: ../index.php");
@@ -79,10 +80,9 @@ if ($_SESSION['level'] != '2') {
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+            <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
             <li class="nav-item has-treeview">
-              <a href="index.php" class="nav-link">
+              <a href="index.php" class="nav-link active">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Kasir
@@ -123,7 +123,7 @@ if ($_SESSION['level'] != '2') {
                 <div class="card-body">
                   <table width="100%">
                     <tr>
-                      <td style="vertical-allign:top">
+                      <td style="vertical-align:top">
                         <label for="date">Tanggal</label>
                       </td>
                       <td>
@@ -133,7 +133,7 @@ if ($_SESSION['level'] != '2') {
                       </td>
                     </tr>
                     <tr>
-                      <td style="vertical-allign:top; width:30%">
+                      <td style="vertical-align:top; width:30%">
                         <label for="user">Kasir</label>
                       </td>
                       <td>
@@ -143,7 +143,7 @@ if ($_SESSION['level'] != '2') {
                       </td>
                     </tr>
                     <tr>
-                      <td style="vertical-allign:top">
+                      <td style="vertical-align:top">
                         <label for="customer">Customer</label>
                       </td>
                       <td>
@@ -164,7 +164,7 @@ if ($_SESSION['level'] != '2') {
                 <div class="card-body">
                   <table width="100%">
                     <tr>
-                      <td style="vertical-allign:top; width:30%">
+                      <td style="vertical-align:top; width:30%">
                         <label for="barcode">Barcode</label>
                       </td>
                       <td>
@@ -183,7 +183,7 @@ if ($_SESSION['level'] != '2') {
                       </td>
                     </tr>
                     <tr>
-                      <td style="vertical-allign:top">
+                      <td style="vertical-align:top">
                         <label for="qty">Qty</label>
                       </td>
                       <td>
@@ -211,7 +211,6 @@ if ($_SESSION['level'] != '2') {
               <div class="card">
                 <div class="card-body">
                   <div align="right">
-                    <!-- <div id="invoice"></div> -->
                     <h4>Invoice <b>
                         <div id="invoice"></div>
                       </b></h4>
@@ -364,7 +363,7 @@ if ($_SESSION['level'] != '2') {
                 $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category_id, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
                         FROM p_item 
                         INNER JOIN p_satuanbarang
-                        ON p_satuanbarang.unit_id=p_item.unit_id";
+                        ON p_satuanbarang.unit_id=p_item.unit_id WHERE outlet_id = '$outlet_id'";
 
                 $result = mysqli_query($koneksi, $query); ?>
                 <div class="modal-body">
@@ -636,10 +635,8 @@ if ($_SESSION['level'] != '2') {
                   // alert(xhr.responseText);
                   calculate()
                 })
-                alert('Produk cart berhasil ter -update')
                 $('#modal-item-edit').modal('hide')
               } else {
-                alert('Data produk cart tidak ter -update')
                 $('#modal-item-edit').modal('hide')
               }
             },
@@ -740,8 +737,7 @@ if ($_SESSION['level'] != '2') {
                 } else {
                   alert('Transaksi Gagal');
                 }
-                location.href = '<?php '
-                                kasir.php '; ?>'
+                location.href = '<?php 'kasir.php '; ?>'
               },
               error: function(xhr, status, error) {
                 alert(xhr.responseText);

@@ -293,7 +293,7 @@
                     <div class="form-group">
                       <label for="level">Hak Akses *</label>
                       <select  value="<?php echo $user['level']; ?>" name="level" class="form-control">
-                      <!-- <option value="<?php echo "$user[level]"; ?>"> -->
+                      <option selected="selected" value="<?php echo "$user[level]"; ?>">
                       <?php $hakakses =$user['level'] == 1 ? "Administrator": "Kasir"; echo strval($hakakses); ?>
                         </option>
                         <option value="1">Administrator</option>
@@ -303,7 +303,7 @@
                     <div class="form-group">
                       <label for="outlet">Outlet *</label>
                       <select  value="<?php echo $user['outlet_id']; ?>" name="outlet" class="form-control" required>
-                      <!-- <option value="<?php echo "$user[outlet_id]"; ?>"><?php echo "$user[outlet_name]"; ?></option> -->
+                      <option selected="selected" value="<?php echo "$user[outlet_id]"; ?>"><?php echo "$user[outlet_name]"; ?></option>
                       <?php
                             $query = "SELECT * FROM outlet";
                             $result = mysqli_query($koneksi, $query);

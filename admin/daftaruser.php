@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 
@@ -56,8 +56,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -254,16 +253,15 @@
                   <h3 class="card-title">Daftar Stok Masuk</h3>
                   <table style="float:right">
                     <td>
-                      <a href="buatuserbaru.php"><button type="button"
-                          class="btn btn-block btn-primary btn-sm">Tambah</button></a>
+                      <a href="buatuserbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Tambah</button></a>
                     </td>
                   </table>
                 </div>
                 <!-- /.card-header -->
                 <?php
-                  $no = 1;
-                  $query = "SELECT user.user_id, user.name, user.telp, user.address, user.username,user.level, outlet.name AS outlet_name FROM user JOIN outlet ON outlet.outlet_id=user.outlet_id ORDER BY level ASC";
-                  $result = mysqli_query($koneksi, $query); ?>
+                $no = 1;
+                $query = "SELECT user.user_id, user.name, user.telp, user.address, user.username, user.level, outlet.name AS outlet_name FROM user left JOIN outlet ON outlet.outlet_id=user.outlet_id ORDER BY level ASC";
+                $result = mysqli_query($koneksi, $query); ?>
                 <div class="card-body">
                   <table class="table table-hover text-nowrap" id="example1">
                     <thead>
@@ -280,28 +278,28 @@
                     <tbody>
                       </td>
                       <?php
-                         while ($user = mysqli_fetch_assoc($result)) { ?>
-                      <tr>
-                        <td style="width:10%"><?php echo $no++; ?></td>
-                        <td><?php echo "$user[name]"; ?></td>
-                        <td><?php echo "$user[telp]"; ?></td>
-                        <td><?php echo "$user[username]"; ?></td>
-                        <td><?php $hakakses =$user['level'] == 1 ? "Administrator": "Kasir"; echo strval($hakakses); ?></td>
-                        <td><?php echo "$user[outlet_name]"; ?></td>
-                        <td style="width:15%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="ubahuser.php?id=<?php echo $user['user_id']?>;">Edit</a>
-                              <a class="dropdown-item" href="hapususer.php?id=<?php echo $user['user_id']?>;">Hapus</a>
+                      while ($user = mysqli_fetch_assoc($result)) { ?>
+                        <tr>
+                          <td style="width:10%"><?php echo $no++; ?></td>
+                          <td><?php echo "$user[name]"; ?></td>
+                          <td><?php echo "$user[telp]"; ?></td>
+                          <td><?php echo "$user[username]"; ?></td>
+                          <td><?php $hakakses = $user['level'] == 1 ? "Administrator" : "Kasir";
+                              echo strval($hakakses); ?></td>
+                          <td><?php echo "$user[outlet_name]"; ?></td>
+                          <td style="width:15%">
+                            <div class="dropdown">
+                              <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="ubahuser.php?id=<?php echo $user['user_id'] ?>;">Edit</a>
+                                <a class="dropdown-item" href="hapususer.php?id=<?php echo $user['user_id'] ?>;">Hapus</a>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
                       <?php }
-                  ?>
+                      ?>
                     </tbody>
                   </table>
                 </div>
@@ -316,15 +314,15 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-    $tanggal = time () ;
+    $tanggal = time();
     //Untuk mengambil data waktu dan tanggal saat ini dari server 
-    $tahun= date("Y",$tanggal);
+    $tahun = date("Y", $tanggal);
     ?>
     <footer class="main-footer">
       <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
     </footer>
 
     <!-- Control Sidebar -->
@@ -349,7 +347,7 @@
   <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $(function () {
+    $(function() {
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,

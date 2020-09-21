@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../../koneksi.php";//cek apakah sudah login
+session_start();
+include "../../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../../index.php");
+  exit;
+}
 ?>
 
 
@@ -56,8 +56,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -111,13 +110,13 @@
                   </a>
                 </li> -->
                 <li class="nav-item">
-                  <a href="datatransaksipenjualan.php" class="nav-link active">
+                  <a href="datatransaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Data Transaksi Penjualan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="penjualanproduk.php" class="nav-link">
+                  <a href="penjualanproduk.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Produk</p>
                   </a>
@@ -253,8 +252,7 @@
                   <h3 style="padding-top:6px" class="card-title">Daftar Produk</h3>
                   <table style="float:right">
                     <td>
-                      <a href="buatprodukbaru.php"><button type="button"
-                          class="btn btn-block btn-primary btn-sm">Ekspor</button></a>
+                      <a href="buatprodukbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Ekspor</button></a>
                     </td>
                   </table>
                 </div>
@@ -274,64 +272,55 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Invoice</th>
-                        <th>Tanggal</th>
-                        <th>Costumer</th>
+                        <th>Produk</th>
+                        <th>Terjual</th>
+                        <th>Penjualan Kotor</th>
+                        <th>Diskon Produk</th>
                         <th>Total</th>
-                        <th>Discount</th>
-                        <th>Grand Total</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <?php
-                        function rupiah($angka){
-                          $hasil_rupiah = "Rp. " . number_format($angka,0,'','.');
+                        function rupiah($angka)
+                        {
+                          $hasil_rupiah = "Rp. " . number_format($angka, 0, '', '.');
                           return $hasil_rupiah;
                         }
                         $no = 1;
-
-                        $query = "SELECT *, user.name AS user_name FROM t_sale INNER JOIN user ON user.user_id=t_sale.user_id";
-
+                        $query1 = mysqli_fetch_assoc(mysqli_query($koneksi,"SELECT price, qty FROM t_sale_detail "));
+                        $query = "SELECT p_item.name AS nama_produk, 
+                                  SUM(t_sale_detail.qty) AS terjual, 
+                                  SUM(t_sale_detail.price * t_sale_detail.qty) AS penjualan_kotor, 
+                                  SUM(t_sale_detail.discount_item * t_sale_detail.qty) AS diskon_produk, 
+                                  SUM(t_sale_detail.qty * t_sale_detail.price - t_sale_detail.discount_item * t_sale_detail.qty) AS total
+                        FROM t_sale_detail 
+                        INNER JOIN p_item ON p_item.item_id=t_sale_detail.item_id
+                        GROUP BY t_sale_detail.item_id";
                         $result = mysqli_query($koneksi, $query);
                         while ($data = mysqli_fetch_assoc($result)) { ?>
-                        <td><?php echo $no++; ?></td>
-                        <td><?php echo "$data[invoice]"; ?></td>
-                        <td><?php echo date('d-m-Y', strtotime($data['date'])); ?>
-                        <td><?php $customer = "$data[customer_id]" == NULL ? "Umum":"Umum"; echo($customer); ?></td>
-                        <td><?php echo rupiah("$data[total_price]"); ?></td>
-                        <td><?php echo rupiah("$data[discount]"); ?></td>
-                        <td><?php echo rupiah("$data[final_price]"); ?></td>
-                        <td style="width:10%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a href="" id="set_detail" class="dropdown-item" data-toggle="modal"
-                                data-target="#modal-detail" data-invoice="<?php echo $data['invoice'];?>"
-                                data-date="<?php echo date('d-m-Y', strtotime($data['date'])); ?>"
-                                data-time="<?php echo substr($data['created'], 11, 5);?>"
-                                data-cutomer="<?php $customer = "$data[customer_id]" == NULL ? "Umum":"Umum"; echo($customer); ?>"
-                                data-total="<?php rupiah("$data[total_price]");?>"
-                                data-discount="<?php echo rupiah("$data[discount]");?>"
-                                data-grandtotal="<?php echo rupiah("$data[final_price]");?>"
-                                data-cash="<?php echo rupiah("$data[cash]");?>"
-                                data-remaining="<?php echo rupiah("$data[remaining]");?>"
-                                data-note="<?php echo "$data[note]";?>"
-                                data-cashier="<?php echo "$data[user_name]";?>"
-                                data-saleid="<?php echo "$data[sale_id]";?>">Detail</a>
-                              <a class="dropdown-item"
-                                href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Print</a>
-                              <a class="dropdown-item"
-                                href="hapusproduk.php?id=<?php echo $produk['item_id']?>">Hapus</a>
+                          <td><?php echo $no++; ?></td>
+                          <td><?php echo "$data[nama_produk]"; ?></td>
+                          <td><?php echo "$data[terjual]"; ?></td>
+                          <td><?php echo rupiah("$data[penjualan_kotor]"); ?></td>
+                          <td><?php echo rupiah("$data[diskon_produk]"); ?></td>
+                          <td><?php echo rupiah("$data[total]"); ?></td>
+                          <td style="width:10%">
+                            <div class="dropdown">
+                              <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a href="" id="set_detail" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-invoice="<?php echo $data['invoice']; ?>" data-date="<?php echo date('d-m-Y', strtotime($data['date'])); ?>" data-time="<?php echo substr($data['created'], 11, 5); ?>" data-cutomer="<?php $customer = "$data[customer_id]" == NULL ? "Umum" : "Umum";
+                                                                                                                                                                                                                                                                                                                            echo ($customer); ?>" data-total="<?php rupiah("$data[total_price]"); ?>" data-discount="<?php echo rupiah("$data[discount]"); ?>" data-grandtotal="<?php echo rupiah("$data[final_price]"); ?>" data-cash="<?php echo rupiah("$data[cash]"); ?>" data-remaining="<?php echo rupiah("$data[remaining]"); ?>" data-note="<?php echo "$data[note]"; ?>" data-cashier="<?php echo "$data[user_name]"; ?>" data-saleid="<?php echo "$data[sale_id]"; ?>">Detail</a>
+                                <a class="dropdown-item" href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Print</a>
+                                <a class="dropdown-item" href="hapusproduk.php?id=<?php echo $produk['item_id'] ?>">Hapus</a>
+                              </div>
                             </div>
-                          </div>
-                        </td>
+                          </td>
 
                       </tr>
-                      <?php } ?>
+                    <?php } ?>
                     </tbody>
                   </table>
                   <!-- </div> -->
@@ -369,7 +358,7 @@
                       </tr>
                       <tr>
                         <th>Total
-                        
+
                         </th>
                         <td><span id="detail"></span></td>
                       <tr>
@@ -399,9 +388,9 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-    $tanggal = time () ;  
+    $tanggal = time();
     //Untuk mengambil data waktu dan tanggal saat ini dari server 
-    $tahun= date("Y",$tanggal);
+    $tahun = date("Y", $tanggal);
     ?>
     <footer class="main-footer">
       <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
@@ -432,7 +421,7 @@
   <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $(function () {
+    $(function() {
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,
@@ -442,11 +431,10 @@
       var table = $('#example1').DataTable();
 
       // #myInput is a <input type="text"> element
-      $('#myInput').on('keyup', function () {
+      $('#myInput').on('keyup', function() {
         table.search(this.value).draw();
       });
     });
-
   </script>
 </body>
 

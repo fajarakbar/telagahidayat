@@ -274,12 +274,11 @@ if ($_SESSION['level'] != '1') {
                     </div>
                     <div class="form-group">
                       <label for="outlet">Outlet *</label>
-                      <select name="outlet" id="outlet" class="form-control" style="width: 100%;" required>
+                      <select name="outlet" value="" id="outlet" class="form-control" style="width: 100%;" required>
                         <option disabled selected="selected">- Pilih -</option>
                         <?php
                         $query = "SELECT * FROM outlet";
                         $result = mysqli_query($koneksi, $query);
-
                         while ($outlet = mysqli_fetch_assoc($result)) { ?>
                           <option value="<?php echo "$outlet[outlet_id]"; ?>"><?php echo "$outlet[name]"; ?>
                           </option>
@@ -295,7 +294,7 @@ if ($_SESSION['level'] != '1') {
                       <input type="hidden" name="item_id" id="item_id">
                       <input type="text" name="barcode" id="barcode" class="form-control" autofocus>
                       <span class="input-group-btn">
-                        <button type="button" class="btn btn-info " data-toggle="modal" data-target="#modal-item">
+                        <button type="button" id="produk1" class="btn btn-info " data-toggle="modal" data-target="#modal-item">
                           <i class="fa fa-search"></i>
                         </button>
                       </span>
@@ -355,7 +354,7 @@ if ($_SESSION['level'] != '1') {
         <!-- /.container-fluid -->
     </div>
     <div class="modal fade" id="modal-item">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">Pilih Produk</h4>
@@ -363,18 +362,6 @@ if ($_SESSION['level'] != '1') {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <?php
-          $query = "SELECT outlet.name AS outlet_name, p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
-                  FROM p_item 
-                  INNER JOIN p_kategori
-                  ON p_kategori.category_id=p_item.category_id
-                  INNER JOIN p_satuanbarang
-                  ON p_satuanbarang.unit_id=p_item.unit_id
-                  INNER JOIN outlet
-                  ON outlet.outlet_id=p_item.outlet_id";
-          // WHERE p_item.outlet_id='$outlet";
-
-          $result = mysqli_query($koneksi, $query); ?>
           <div class="modal-body">
             <table class="table table-bordered table-striped" id="example1">
               <thead col-sm-4>
@@ -389,12 +376,22 @@ if ($_SESSION['level'] != '1') {
                 </tr>
               </thead>
               <tbody>
-                <?php
+                <?php $query = "SELECT outlet.name AS outlet_name, p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+            FROM p_item 
+            INNER JOIN p_kategori
+            ON p_kategori.category_id=p_item.category_id
+            INNER JOIN p_satuanbarang
+            ON p_satuanbarang.unit_id=p_item.unit_id
+            INNER JOIN outlet
+            ON outlet.outlet_id=p_item.outlet_id";
+            // WHERE p_item.outlet_id='$outlet'";
+                $result = mysqli_query($koneksi, $query);
                 function rupiah($angka)
                 {
                   $hasil_rupiah = "Rp. " . number_format($angka, 0, '', '.');
                   return $hasil_rupiah;
                 }
+
                 while ($produk = mysqli_fetch_assoc($result)) { ?>
                   <tr>
                     <td><?php echo "$produk[outlet_name]"; ?></td>
@@ -409,8 +406,7 @@ if ($_SESSION['level'] != '1') {
                       </button>
                     </td>
                   </tr>
-                <?php }
-                ?>
+                <?php } ?>
               </tbody>
             </table>
           </div>
@@ -470,10 +466,6 @@ if ($_SESSION['level'] != '1') {
           "autoWidth": false,
         });
       });
-      $(document).on('click', '#example1', function() {
-        var outlet = $('#outlet').val()
-        $('#modal-item').val(outlet);
-      })
       $(document).on('click', '#select', function() {
         var item_id = $(this).data('id');
         var barcode = $(this).data('barcode');
@@ -526,7 +518,7 @@ if ($_SESSION['level'] != '1') {
           success: function(data) {
             $('#item_id').val(data.item_id);
             $('#barcode').val(data.barcode);
-            $('#item_name').val(data.name);
+            // $('#item_name').val(data.name);
             $('#unit_name').val(data.satuan);
             $('#stock').val(data.stock);
           },

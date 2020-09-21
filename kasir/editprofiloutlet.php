@@ -1,16 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  $outlet_id = $_SESSION['outlet_id'];
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '2') {
-    header("Location: ../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '2') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 
@@ -54,8 +53,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -119,44 +117,35 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 style="padding-top:6px" class="card-title">Profil Outlet</h3>
-                  <table style="float:right">
-                    <td>
-                      <a href="editprofiloutlet.php"><button type="button"
-                          class="btn btn-block btn-primary btn-sm">Edit</button></a>
-                    </td>
-                  </table>
+                  <h3 style="padding-top:6px" class="card-title">Edit Profil Outlet</h3>
                 </div>
-                
                 <!-- /.card-header -->
-                <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table">
-                  <?php
-                  $result = mysqli_query($koneksi,"SELECT * FROM outlet WHERE outlet_id = '$outlet_id'");
-                  $outlet = mysqli_fetch_assoc($result);
-                  ?>
-                    <tbody>
-                      <tr>
-                        <th>Nama Outlet</th>
-                        <td><?= $outlet['name'] ?></td>
-                      </tr>
-                      <tr>
-                        <th>Id Kasir</th>
-                        <td><?= $outlet['kasir_id'] ?></td>
-                      <tr>
-                      <tr>
-                        <th>Alamat</th>
-                        <td><?= $outlet['address'] ?></td>
-                      </tr>
-                      <tr>
-                        <th>Telp</th>
-                        <td><?= $outlet['phone'] ?></td>
-                      <tr>
-                    </tbody>
-                  </table>
-                </div>
-                </div>
+                <form action="proseskasir.php" method="post">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="namaoutlet">Nama Outlet *</label>
+                      <input type="text" name="namaoutlet" class="form-control" id="#" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="idkasir">Id Kasir *</label>
+                      <input type="text" name="idkasir" class="form-control" id="#" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="alamat">Alamat</label>
+                      <input type="text" name="alamat" class="form-control" id="#">
+                    </div>
+                    <div class="form-group">
+                      <label for="phone">No Telepon</label>
+                      <input type="text" name="phone" class="form-control" id="#">
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+
+                  <div class="card-footer">
+                    <a href="setting.php" name="cancel" class="btn btn-secondary">Batal</a>
+                    <button type="submit" name="simpanprofil" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
@@ -168,15 +157,15 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-    $tanggal = time () ;
+    $tanggal = time();
     //Untuk mengambil data waktu dan tanggal saat ini dari server 
-    $tahun= date("Y",$tanggal);
+    $tahun = date("Y", $tanggal);
     ?>
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
     </footer>
 
     <!-- Control Sidebar -->
