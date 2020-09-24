@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2020 at 04:10 PM
+-- Generation Time: Sep 24, 2020 at 07:53 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -72,13 +72,15 @@ CREATE TABLE `p_item` (
 --
 
 INSERT INTO `p_item` (`item_id`, `barcode`, `name`, `category_id`, `unit_id`, `price`, `stock`, `varian`, `created`, `updated`, `user_id`, `outlet_id`) VALUES
-(1, '', 'Lem Tikus', 1, 1, 18000, 0, NULL, '2020-09-03 09:40:46', NULL, 1, 1),
-(2, '', 'Timah solder cap pancing bsr', 2, 1, 95000, 0, NULL, '2020-09-03 09:42:02', NULL, 1, 1),
-(3, '8718699658106', 'Philips led buld 3w kecil', 3, 1, 20000, 10, NULL, '2020-09-03 11:23:18', NULL, 1, 2),
+(1, '', 'Lem Tikus', 1, 1, 18000, 19, NULL, '2020-09-03 09:40:46', NULL, 1, 1),
+(2, '', 'Timah solder cap pancing bsr', 2, 1, 95000, 46, NULL, '2020-09-03 09:42:02', NULL, 1, 1),
+(3, '8718699658106', 'Philips led buld 3w kecil', 3, 1, 20000, 6, NULL, '2020-09-03 11:23:18', NULL, 1, 2),
 (4, '12345', 'taffware', 4, 1, 50000, 0, NULL, '2020-09-17 16:31:45', NULL, 1, 1),
-(5, '1234512', 'das', 1, 1, 15000, 2, NULL, '2020-09-17 17:10:25', '2020-09-21 13:23:51', 1, 2),
-(6, '8992222050258', 'Gatsby telaga', 4, 1, 15000, 42, NULL, '2020-09-18 08:57:58', NULL, 1, 1),
-(7, '8992222050258', 'Gatsby hidayat', 4, 1, 15000, 24, NULL, '2020-09-18 09:00:22', NULL, 1, 2);
+(5, '1234512', 'das', 1, 1, 15000, 1, NULL, '2020-09-17 17:10:25', '2020-09-21 13:23:51', 1, 2),
+(6, '8992222050258', 'Gatsby telaga', 4, 1, 15000, 37, NULL, '2020-09-18 08:57:58', NULL, 1, 1),
+(7, '8992222050258', 'Gatsby hidayat', 4, 1, 15000, 21, NULL, '2020-09-18 09:00:22', NULL, 1, 2),
+(8, '543212345', 'risalah', 4, 1, 20000, 50, NULL, '2020-09-24 11:08:45', NULL, 1, 1),
+(9, '9999', 'fadda', 3, 3, 500002, 0, NULL, '2020-09-24 18:25:53', NULL, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -159,14 +161,6 @@ CREATE TABLE `t_cart` (
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `t_cart`
---
-
-INSERT INTO `t_cart` (`cart_id`, `item_id`, `price`, `qty`, `discount_item`, `total`, `user_id`) VALUES
-(3, 7, 15000, 3, 1000, 45000, 1),
-(4, 6, 15000, 4, 0, 60000, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -219,7 +213,12 @@ INSERT INTO `t_sale` (`sale_id`, `invoice`, `customer_id`, `total_price`, `disco
 (23, 'T22009210002', 0, 16000, 0, 16000, 20000, 4000, '', '2020-09-21', 5, 2, '2020-09-21 13:21:33'),
 (24, 'T22009210003', 0, 30000, 0, 30000, 30000, 0, '', '2020-09-21', 5, 2, '2020-09-21 13:24:20'),
 (25, 'T22009210004', 0, 30000, 0, 30000, 30000, 0, '', '2020-09-21', 5, 2, '2020-09-21 13:25:22'),
-(26, 'T22009210005', 0, 36000, 0, 36000, 36000, 0, '', '2020-09-21', 5, 2, '2020-09-21 15:10:06');
+(26, 'T22009210005', 0, 36000, 0, 36000, 36000, 0, '', '2020-09-21', 5, 2, '2020-09-21 15:10:06'),
+(27, 'T22009230001', 0, 40000, 0, 40000, 50000, 10000, '', '2020-09-23', 5, 2, '2020-09-23 14:16:26'),
+(28, 'TP2009230002', 0, 155000, 0, 155000, 1000000, 845000, '', '2020-09-23', 1, 0, '2020-09-23 15:05:33'),
+(29, 'TP2009230003', 0, 15000, 0, 15000, 15000, 0, '', '2020-09-23', 1, 0, '2020-09-23 15:13:42'),
+(30, 'T12009230001', 0, 15000, 0, 15000, 120000, 105000, '', '2020-09-23', 4, 1, '2020-09-23 15:14:16'),
+(31, 'T12009240001', 0, 450000, 0, 450000, 1200000, 750000, '', '2020-09-24', 4, 1, '2020-09-24 14:13:44');
 
 -- --------------------------------------------------------
 
@@ -271,7 +270,14 @@ INSERT INTO `t_sale_detail` (`detail_id`, `sale_id`, `item_id`, `price`, `qty`, 
 (26, 24, 7, 15000, 2, 0, 30000, 5),
 (27, 25, 5, 15000, 2, 0, 30000, 5),
 (28, 26, 5, 15000, 1, 5000, 10000, 5),
-(29, 26, 7, 15000, 2, 2000, 26000, 5);
+(29, 26, 7, 15000, 2, 2000, 26000, 5),
+(30, 27, 3, 20000, 4, 10000, 40000, 5),
+(31, 28, 7, 15000, 3, 1000, 45000, 1),
+(32, 28, 6, 15000, 4, 0, 60000, 1),
+(33, 28, 4, 50000, 1, 0, 50000, 1),
+(34, 29, 5, 15000, 1, 0, 15000, 1),
+(35, 30, 6, 15000, 1, 0, 15000, 4),
+(36, 31, 4, 50000, 9, 0, 450000, 4);
 
 --
 -- Triggers `t_sale_detail`
@@ -316,7 +322,13 @@ INSERT INTO `t_stock` (`stock_id`, `item_id`, `type`, `detail`, `supplier_id`, `
 (5, 3, 'in', 'Barang awal', NULL, 5, 5000, '2020-09-21', '2020-09-21 10:57:10', 1, NULL),
 (6, 3, 'in', 'dari gudang', NULL, 2, 20000, '2020-09-21', '2020-09-21 11:08:48', 1, NULL),
 (7, 5, 'in', 'Barang awal', NULL, 10, 50000, '2020-09-21', '2020-09-21 13:13:01', 1, NULL),
-(8, 3, 'in', 'tambahan', NULL, 10, 10000, '2020-09-21', '2020-09-21 15:41:14', 1, NULL);
+(8, 3, 'in', 'tambahan', NULL, 10, 10000, '2020-09-21', '2020-09-21 15:41:14', 1, NULL),
+(9, 4, 'in', 'Barang awal', NULL, 5, 75000, '2020-09-23', '2020-09-23 14:08:26', 1, NULL),
+(10, 4, 'in', 'Barang awal', NULL, 5, 75000, '2020-09-23', '2020-09-23 14:08:27', 1, NULL),
+(11, 1, 'in', 'Barang awal', NULL, 19, 380000, '2020-09-24', '2020-09-24 13:17:29', 1, NULL),
+(12, 2, 'in', 'tambahan', NULL, 23, 460000, '2020-09-24', '2020-09-24 13:25:03', 1, NULL),
+(13, 2, 'in', 'tambahan', NULL, 23, 460000, '2020-09-24', '2020-09-24 13:25:03', 1, NULL),
+(14, 8, 'in', 'dari gudang', NULL, 50, 1000000, '2020-09-24', '2020-09-24 13:33:46', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -434,7 +446,7 @@ ALTER TABLE `outlet`
 -- AUTO_INCREMENT for table `p_item`
 --
 ALTER TABLE `p_item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `p_kategori`
@@ -458,19 +470,19 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `t_sale`
 --
 ALTER TABLE `t_sale`
-  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `t_sale_detail`
 --
 ALTER TABLE `t_sale_detail`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `t_stock`
 --
 ALTER TABLE `t_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user`

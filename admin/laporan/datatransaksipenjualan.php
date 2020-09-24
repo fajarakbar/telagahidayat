@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../../koneksi.php";//cek apakah sudah login
+session_start();
+include "../../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../../index.php");
+  exit;
+}
 ?>
 
 
@@ -32,6 +32,9 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css"/> -->
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -56,8 +59,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -133,20 +135,20 @@
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <a href="stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                  <a href="labaproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Harian</p>
@@ -253,30 +255,53 @@
                   <h3 style="padding-top:6px" class="card-title">Daftar Produk</h3>
                   <table style="float:right">
                     <td>
-                      <a href="buatprodukbaru.php"><button type="button"
-                          class="btn btn-block btn-primary btn-sm">Ekspor</button></a>
+                      <a href="buatprodukbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Ekspor</button></a>
                     </td>
                   </table>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                  <!-- <div class="margin" style="padding-bottom:5px">
-                    <div class="btn-group">
-                      <button style="width:60px" type="button" class="btn btn-sm btn-success">Print</button>
+                  <div class="row" style="padding-bottom: 10px;">
+                    <div class="col-md-2">
+                      <input type="text" name="From" id="From" class="form-control form-control-sm" placeholder="From Date" />
                     </div>
-                    <div class="btn-group">
-                      <button style="width:60px" type="button" class="btn btn-sm btn-info">Pdf</button>
+                    <div class="col-md-2">
+                      <input type="text" name="to" id="to" class="form-control form-control-sm" placeholder="To Date" />
                     </div>
-                  </div> -->
-
+                    <div class="col-md-8">
+                      <input type="button" name="range" id="range" value="Range" class="btn btn-success btn-sm" />
+                    </div>
+                    <!-- Date and time range -->
+                    <!-- <div class="form-group">
+                      <label>Tanggal</label>
+                      <div class="input-group">
+                        <button type="button" class="btn btn-default float-right" id="daterange-btn">
+                          <i class="far fa-calendar-alt"></i>
+                          <i class="fas fa-caret-down"></i>
+                        </button>
+                      </div>
+                    </div> -->
+                  </div>
+                  <?php
+                  $no = 1;
+                  $query = "SELECT *, user.name AS user_name FROM t_sale INNER JOIN user ON user.user_id=t_sale.user_id ORDER BY sale_id ASC";
+                  $result = mysqli_query($koneksi, $query);
+                  $query1 = "SELECT *, 
+                              SUM(total_price) AS total,
+                              SUM(discount) AS diskon,
+                              SUM(final_price) AS grand_total
+                              FROM t_sale";
+                  $result1 = mysqli_query($koneksi, $query1);
+                  $data1 = mysqli_fetch_assoc($result1);
+                  ?>
                   <!-- <div> -->
-                  <table id="" class="table table-hover table-nowrap">
+                  <table id="empTable" class="table table-hover table-nowrap">
                     <thead>
                       <tr>
                         <th>#</th>
                         <th>Invoice</th>
                         <th>Tanggal</th>
-                        <th>Costumer</th>
+                        <th>Kasir</th>
                         <th>Total</th>
                         <th>Discount</th>
                         <th>Grand Total</th>
@@ -286,53 +311,42 @@
                     <tbody>
                       <tr>
                         <?php
-                        function rupiah($angka){
-                          $hasil_rupiah = "Rp. " . number_format($angka,0,'','.');
+                        function rupiah($angka)
+                        {
+                          $hasil_rupiah = "Rp. " . number_format($angka, 0, '', '.');
                           return $hasil_rupiah;
                         }
-                        $no = 1;
-
-                        $query = "SELECT *, user.name AS user_name FROM t_sale INNER JOIN user ON user.user_id=t_sale.user_id";
-
-                        $result = mysqli_query($koneksi, $query);
                         while ($data = mysqli_fetch_assoc($result)) { ?>
-                        <td><?php echo $no++; ?></td>
-                        <td><?php echo "$data[invoice]"; ?></td>
-                        <td><?php echo date('d-m-Y', strtotime($data['date'])); ?>
-                        <td><?php $customer = "$data[customer_id]" == NULL ? "Umum":"Umum"; echo($customer); ?></td>
-                        <td><?php echo rupiah("$data[total_price]"); ?></td>
-                        <td><?php echo rupiah("$data[discount]"); ?></td>
-                        <td><?php echo rupiah("$data[final_price]"); ?></td>
-                        <td style="width:10%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a href="" id="set_detail" class="dropdown-item" data-toggle="modal"
-                                data-target="#modal-detail" data-invoice="<?php echo $data['invoice'];?>"
-                                data-date="<?php echo date('d-m-Y', strtotime($data['date'])); ?>"
-                                data-time="<?php echo substr($data['created'], 11, 5);?>"
-                                data-cutomer="<?php $customer = "$data[customer_id]" == NULL ? "Umum":"Umum"; echo($customer); ?>"
-                                data-total="<?php rupiah("$data[total_price]");?>"
-                                data-discount="<?php echo rupiah("$data[discount]");?>"
-                                data-grandtotal="<?php echo rupiah("$data[final_price]");?>"
-                                data-cash="<?php echo rupiah("$data[cash]");?>"
-                                data-remaining="<?php echo rupiah("$data[remaining]");?>"
-                                data-note="<?php echo "$data[note]";?>"
-                                data-cashier="<?php echo "$data[user_name]";?>"
-                                data-saleid="<?php echo "$data[sale_id]";?>">Detail</a>
-                              <a class="dropdown-item"
-                                href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Print</a>
-                              <a class="dropdown-item"
-                                href="hapusproduk.php?id=<?php echo $produk['item_id']?>">Hapus</a>
+                          <td><?php echo $no++; ?></td>
+                          <td><?php echo "$data[invoice]"; ?></td>
+                          <td><?php echo date('d-m-Y', strtotime($data['date'])); ?>
+                          <td><?php echo "$data[user_name]"; ?></td>
+                          <td><?php echo rupiah("$data[total_price]"); ?></td>
+                          <td><?php echo rupiah("$data[discount]"); ?></td>
+                          <td><?php echo rupiah("$data[final_price]"); ?></td>
+                          <td style="width:10%">
+                            <div class="dropdown">
+                              <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a href="" id="set_detail" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-invoice="<?php echo $data['invoice']; ?>" data-date="<?php echo date('d-m-Y', strtotime($data['date'])); ?>" data-time="<?php echo substr($data['created'], 11, 5); ?>" data-cutomer="<?php $customer = "$data[customer_id]" == NULL ? "Umum" : "Umum";
+                                                                                                                                                                                                                                                                                                                            echo ($customer); ?>" data-total="<?php rupiah("$data[total_price]"); ?>" data-discount="<?php echo rupiah("$data[discount]"); ?>" data-grandtotal="<?php echo rupiah("$data[final_price]"); ?>" data-cash="<?php echo rupiah("$data[cash]"); ?>" data-remaining="<?php echo rupiah("$data[remaining]"); ?>" data-note="<?php echo "$data[note]"; ?>" data-cashier="<?php echo "$data[user_name]"; ?>" data-saleid="<?php echo "$data[sale_id]"; ?>">Detail</a>
+                                <a class="dropdown-item" href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Print</a>
+                                <a class="dropdown-item" href="hapusproduk.php?id=<?php echo $produk['item_id'] ?>">Hapus</a>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-
+                          </td>
                       </tr>
-                      <?php } ?>
+                    <?php } ?>
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <td style="text-align: center;" colspan="4"><b>Grand Total</b></td>
+                        <td><b><?php echo rupiah("$data1[total]"); ?></b></td>
+                        <td><b><?php echo rupiah("$data1[diskon]"); ?></b></td>
+                        <td><b><?php echo rupiah("$data1[grand_total]"); ?></b></td>
+                      </tr>
+                    </tfoot>
                   </table>
                   <!-- </div> -->
                 </div>
@@ -369,7 +383,7 @@
                       </tr>
                       <tr>
                         <th>Total
-                        
+
                         </th>
                         <td><span id="detail"></span></td>
                       <tr>
@@ -399,9 +413,9 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-    $tanggal = time () ;  
+    $tanggal = time();
     //Untuk mengambil data waktu dan tanggal saat ini dari server 
-    $tahun= date("Y",$tanggal);
+    $tahun = date("Y", $tanggal);
     ?>
     <footer class="main-footer">
       <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
@@ -432,21 +446,27 @@
   <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-
+    // $(function() {
+    //   $("#empTable").DataTable({
+    //     "responsive": true,
+    //     "autoWidth": false,
+    //   });
+    // });
+    $(document).ready(function() {
+      var table = $('#empTable').DataTable({
+        fixedHeader: {
+          header: true,
+          footer: true
+        }
       });
-
-      var table = $('#example1').DataTable();
-
-      // #myInput is a <input type="text"> element
-      $('#myInput').on('keyup', function () {
-        table.search(this.value).draw();
+      $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd'
+      });
+      $(function() {
+        $("#From").datepicker();
+        $("#to").datepicker();
       });
     });
-
   </script>
 </body>
 

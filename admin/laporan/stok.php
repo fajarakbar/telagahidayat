@@ -1,13 +1,13 @@
 <?php
 session_start();
-include "../koneksi.php"; //cek apakah sudah login
+include "../../koneksi.php"; //cek apakah sudah login
 
 if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-  header("Location: ../index.php");
+  header("Location: ../../index.php");
   exit;
 }
 if ($_SESSION['level'] != '1') {
-  header("Location: ../index.php");
+  header("Location: ../../index.php");
   exit;
 }
 ?>
@@ -24,14 +24,14 @@ if ($_SESSION['level'] != '1') {
   <title>Telaga</title>
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -46,7 +46,7 @@ if ($_SESSION['level'] != '1') {
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="index.php" class="nav-link">Home</a>
+          <a href="../index.php" class="nav-link">Home</a>
         </li>
       </ul>
     </nav>
@@ -56,7 +56,7 @@ if ($_SESSION['level'] != '1') {
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -65,7 +65,7 @@ if ($_SESSION['level'] != '1') {
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
             <!-- nama yang login diambil dari database -->
@@ -79,7 +79,7 @@ if ($_SESSION['level'] != '1') {
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item has-treeview">
-              <a href="index.php" class="nav-link">
+              <a href="../index.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
@@ -87,15 +87,15 @@ if ($_SESSION['level'] != '1') {
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="suppliers.php" class="nav-link active">
+              <a href="suppliers.php" class="nav-link">
                 <i class="nav-icon fas fa-address-book"></i>
                 <p>
                   Suppliers
                 </p>
               </a>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-copy"></i>
                 <p>
                   Laporan
@@ -110,18 +110,18 @@ if ($_SESSION['level'] != '1') {
                   </a>
                 </li> -->
                 <li class="nav-item">
-                  <a href="laporan/datatransaksipenjualan.php" class="nav-link">
+                  <a href="datatransaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Data Transaksi Penjualan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="laporan/penjualanproduk.php" class="nav-link">
+                  <a href="penjualanproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Produk</p>
                   </a>
                 </li>
-                <!--<li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="pages/layout/fixed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Rekap Kas</p>
@@ -134,13 +134,13 @@ if ($_SESSION['level'] != '1') {
                   </a>
                 </li>-->
                 <li class="nav-item">
-                  <a href="laporan/stok.php" class="nav-link">
+                  <a href="stok.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="laporan/labaproduk.php" class="nav-link">
+                  <a href="labaproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Produk</p>
                   </a>
@@ -224,15 +224,7 @@ if ($_SESSION['level'] != '1') {
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="daftaroutlet.php" class="nav-link">
-                <i class="nav-icon fas fa-store-alt"></i>
-                <p>
-                  Outlet
-                </p>
-              </a>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
+              <a href="../../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>
                   Log Out
@@ -257,52 +249,87 @@ if ($_SESSION['level'] != '1') {
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Daftar Supplier</h3>
+                  <h3 style="padding-top:6px" class="card-title">Daftar Produk</h3>
                   <table style="float:right">
                     <td>
-                      <a href="buatsupplierbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Tambah</button></a>
+                      <a href="buatprodukbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Ekspor</button></a>
                     </td>
                   </table>
                 </div>
                 <!-- /.card-header -->
-                <?php
-                $no = 1;
-                $query = "SELECT * FROM supplier";
-                $result = mysqli_query($koneksi, $query); ?>
                 <div class="card-body">
-                  <table class="table table-hover text-nowrap" id="example1">
+                  <!-- <div class="margin" style="padding-bottom:5px">
+                    <div class="btn-group">
+                      <button style="width:60px" type="button" class="btn btn-sm btn-success">Print</button>
+                    </div>
+                    <div class="btn-group">
+                      <button style="width:60px" type="button" class="btn btn-sm btn-info">Pdf</button>
+                    </div>
+                  </div> -->
+
+                  <!-- <div> -->
+                  <table id="empTable" class="table table-hover table-nowrap">
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Nama</th>
-                        <th>Kontak</th>
-                        <th>Alamat</th>
-                        <th>Keterangan</th>
+                        <th>Produk</th>
+                        <th>Barcode</th>
+                        <th>Stok</th>
+                        <th>Satuan</th>
+                        <th>Nilai Stok</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php while ($supplier = mysqli_fetch_assoc($result)) { ?>
-                        <tr>
+                      <tr>
+                        <?php
+                        function rupiah($angka)
+                        {
+                          $hasil_rupiah = "Rp. " . number_format($angka, 0, '', '.');
+                          return $hasil_rupiah;
+                        }
+                        $no = 1;
+                        $query = "SELECT p_item.name AS produk_name, p_item.barcode, p_item.stock, p_item.stock * p_item.price AS nilai_stok, p_satuanbarang.name AS unit_name
+                                  FROM p_item
+                                  INNER JOIN p_satuanbarang ON p_satuanbarang.unit_id=p_item.unit_id";
+                        $result = mysqli_query($koneksi, $query);
+                        while ($data = mysqli_fetch_assoc($result)) { ?>
                           <td><?php echo $no++; ?></td>
-                          <td><?php echo "$supplier[name]"; ?></td>
-                          <td><?php echo "$supplier[phone]"; ?></td>
-                          <td><?php echo "$supplier[address]"; ?></td>
-                          <td><?php echo "$supplier[description]"; ?></td>
-                          <td>
+                          <td><?php echo "$data[produk_name]"; ?></td>
+                          <td><?php echo "$data[barcode]"; ?></td>
+                          <td><?php echo "$data[stock]"; ?></td>
+                          <td><?php echo "$data[unit_name]"; ?></td>
+                          <td><?php echo rupiah("$data[nilai_stok]"); ?></td>
+                          <td style="width:10%">
                             <div class="dropdown">
                               <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </a>
                               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="ubahsupplier.php?id=<?php echo $supplier['supplier_id']; ?>">Ubah</a>
-                                <a class="dropdown-item" href="hapussupplier.php?id=<?php echo $supplier['supplier_id']; ?>">Hapus</a>
+                                <a href="" id="set_detail" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-invoice="<?php echo $data['invoice']; ?>" data-date="<?php echo date('d-m-Y', strtotime($data['date'])); ?>" data-time="<?php echo substr($data['created'], 11, 5); ?>" data-cutomer="<?php $customer = "$data[customer_id]" == NULL ? "Umum" : "Umum";
+                                                                                                                                                                                                                                                                                                                            echo ($customer); ?>" data-total="<?php rupiah("$data[total_price]"); ?>" data-discount="<?php echo rupiah("$data[discount]"); ?>" data-grandtotal="<?php echo rupiah("$data[final_price]"); ?>" data-cash="<?php echo rupiah("$data[cash]"); ?>" data-remaining="<?php echo rupiah("$data[remaining]"); ?>" data-note="<?php echo "$data[note]"; ?>" data-cashier="<?php echo "$data[user_name]"; ?>" data-saleid="<?php echo "$data[sale_id]"; ?>">Detail</a>
+                                <a class="dropdown-item" href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Print</a>
+                                <a class="dropdown-item" href="hapusproduk.php?id=<?php echo $produk['item_id'] ?>">Hapus</a>
                               </div>
                             </div>
                           </td>
-                        </tr>
-                      <?php } ?>
+                      </tr>
+                    <?php } ?>
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <?php
+                        $query1 = "SELECT *, SUM(stock) AS total_stok, SUM(price*stock) AS total_nilai_stok FROM p_item";
+                        $result1 = mysqli_query($koneksi, $query1);
+                        $data1 = mysqli_fetch_assoc($result1);
+                        ?>
+                        <td style="text-align: center;" colspan="3"><b>Grand Total</b></td>
+                        <td><b><?php echo "$data1[total_stok]"; ?></b></td>
+                        <td></td>
+                        <td><b><?php echo rupiah("$data1[total_nilai_stok]"); ?></b></td>
+                      </tr>
+                    </tfoot>
                   </table>
+                  <!-- </div> -->
                 </div>
                 <!-- /.card-body -->
               </div>
@@ -310,52 +337,108 @@ if ($_SESSION['level'] != '1') {
             </div>
             <!-- /.row -->
           </div><!-- /.container-fluid -->
+          <div class="modal fade" id="modal-detail">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Detail Laporan Penjualan</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <tbody>
+                      <tr>
+                        <th style="width:20%">Invoice</th>
+                        <td style="width:30%"><span id="barcode"></span></td>
+                        <th style="width:20%">Customer</th>
+                        <td style="width:30%"><span id="cust"></span></td>
+                      </tr>
+                      <tr>
+                        <th>Date TIme</th>
+                        <td><span id="datetime"></span></td>
+                        <th>Cashier</th>
+                        <td><span id="cashier"></span></td>
+                      </tr>
+                      <tr>
+                        <th>Total
+
+                        </th>
+                        <td><span id="detail"></span></td>
+                      <tr>
+                      <tr>
+                        <th>Supplier</th>
+                        <td><span id="supplier"></span></td>
+                      <tr>
+                        <th>Jumlah</th>
+                        <td><span id="qty"></span></td>
+                      </tr>
+                      <tr>
+                        <th>Tanggal</th>
+                        <td><span id="date"></span></td>
+                      </tr>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- /.modal -->
       </section>
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    <?php
+    $tanggal = time();
+    //Untuk mengambil data waktu dan tanggal saat ini dari server 
+    $tahun = date("Y", $tanggal);
+    ?>
+    <footer class="main-footer">
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
+    </footer>
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
     </aside>
     <!-- /.control-sidebar -->
-    <?php
-    $tanggal = time();
-    //Untuk mengambil data waktu dan tanggal saat ini dari server 
-    $tahun = date("Y", $tanggal);
-    ?>
-    <!-- Main Footer -->
-    <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
-    </footer>
   </div>
   <!-- ./wrapper -->
 
-  <!-- REQUIRED SCRIPTS -->
   <!-- jQuery -->
-  <script src="../plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- overlayScrollbars -->
-  <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="../dist/js/adminlte.js"></script>
-  <!-- OPTIONAL SCRIPTS -->
-  <script src="../dist/js/demo.js"></script>
+  <script src="../../dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../dist/js/demo.js"></script>
   <!-- DataTables -->
-  <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-  <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-  <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $(function() {
-      $("#example1").DataTable({
-        "responsive": true,
-        "autoWidth": false,
+    // $(function() {
+    //   $("#empTable").DataTable({
+    //     "responsive": true,
+    //     "autoWidth": false,
+    //   });
+    // });
+    $(document).ready(function() {
+      var table = $('#empTable').DataTable({
+        fixedHeader: {
+          header: true,
+          footer: true
+        }
       });
     });
   </script>

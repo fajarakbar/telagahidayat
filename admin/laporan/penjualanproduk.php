@@ -132,20 +132,20 @@ if ($_SESSION['level'] != '1') {
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <a href="stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                  <a href="labaproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Harian</p>
@@ -268,7 +268,7 @@ if ($_SESSION['level'] != '1') {
                   </div> -->
 
                   <!-- <div> -->
-                  <table id="" class="table table-hover table-nowrap">
+                  <table id="empTable" class="table table-hover table-nowrap">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -289,7 +289,7 @@ if ($_SESSION['level'] != '1') {
                           return $hasil_rupiah;
                         }
                         $no = 1;
-                        $query1 = mysqli_fetch_assoc(mysqli_query($koneksi,"SELECT price, qty FROM t_sale_detail "));
+                        $query1 = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT price, qty FROM t_sale_detail "));
                         $query = "SELECT p_item.name AS nama_produk, 
                                   SUM(t_sale_detail.qty) AS terjual, 
                                   SUM(t_sale_detail.price * t_sale_detail.qty) AS penjualan_kotor, 
@@ -322,6 +322,25 @@ if ($_SESSION['level'] != '1') {
                       </tr>
                     <?php } ?>
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <?php
+                        $query1 = "SELECT *, 
+                                    SUM(qty) AS total_terjual,
+                                    SUM(price * qty) AS total_penjualan_kotor,
+                                    SUM(discount_item * qty) AS total_diskon_produk,
+                                    SUM(qty * price - discount_item * qty) AS total_total
+                                    FROM t_sale_detail";
+                        $result1 = mysqli_query($koneksi, $query1);
+                        $data1 = mysqli_fetch_assoc($result1);
+                        ?>
+                        <td style="text-align: center;" colspan="2"><b>Grand Total</b></td>
+                        <td><b><?php echo "$data1[total_terjual]"; ?></b></td>
+                        <td><b><?php echo rupiah("$data1[total_penjualan_kotor]"); ?></b></td>
+                        <td><b><?php echo rupiah("$data1[total_diskon_produk]"); ?></b></td>
+                        <td><b><?php echo rupiah("$data1[total_total]"); ?></b></td>
+                      </tr>
+                    </tfoot>
                   </table>
                   <!-- </div> -->
                 </div>
@@ -421,18 +440,18 @@ if ($_SESSION['level'] != '1') {
   <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $(function() {
-      $("#example1").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-
-      });
-
-      var table = $('#example1').DataTable();
-
-      // #myInput is a <input type="text"> element
-      $('#myInput').on('keyup', function() {
-        table.search(this.value).draw();
+    // $(function() {
+    //   $("#empTable").DataTable({
+    //     "responsive": true,
+    //     "autoWidth": false,
+    //   });
+    // });
+    $(document).ready(function() {
+      var table = $('#empTable').DataTable({
+        fixedHeader: {
+          header: true,
+          footer: true
+        }
       });
     });
   </script>

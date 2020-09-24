@@ -278,8 +278,6 @@ with font-awesome or any other icon font library -->
                 ?>
                 <!-- /.card-header -->
                 <div class="card-body">
-                  <div class="form-group col-sm-2">
-                  </div>
                   <table id="empTable" class="table table-hover table-nowrap">
                     <thead>
                       <tr>

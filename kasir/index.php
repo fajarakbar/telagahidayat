@@ -750,12 +750,14 @@ if ($_SESSION['level'] != '2') {
 
       $(document).on('keyup', '#barcode', function() {
         var barkode = $('#barcode').val()
+        // var outlet_id = $outlet_id
         $.ajax({
           type: 'POST',
           url: 'proseskasir.php',
           data: {
             'barcode': true,
             'barcode': barkode
+            // 'outlet_id' : outlet_id
           },
           dataType: 'json',
           success: function(data) {

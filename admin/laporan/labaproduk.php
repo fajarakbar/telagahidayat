@@ -131,16 +131,16 @@ if ($_SESSION['level'] != '1') {
                   <a href="pages/layout/fixed-topnav.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
-                  </a>
+                  </a>-->
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <a href="stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
-                </li>-->
+                </li>
                 <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link active">
+                  <a href="labaproduk.php" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Produk</p>
                   </a>
@@ -268,7 +268,7 @@ if ($_SESSION['level'] != '1') {
                   </div> -->
 
                   <!-- <div> -->
-                  <table id="" class="table table-hover table-nowrap">
+                  <table id="empTable" class="table table-hover table-nowrap">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -423,18 +423,18 @@ if ($_SESSION['level'] != '1') {
   <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $(function() {
-      $("#example1").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-
-      });
-
-      var table = $('#example1').DataTable();
-
-      // #myInput is a <input type="text"> element
-      $('#myInput').on('keyup', function() {
-        table.search(this.value).draw();
+    // $(function() {
+    //   $("#empTable").DataTable({
+    //     "responsive": true,
+    //     "autoWidth": false,
+    //   });
+    // });
+    $(document).ready(function() {
+      var table = $('#empTable').DataTable({
+        fixedHeader: {
+          header: true,
+          footer: true
+        }
       });
     });
   </script>

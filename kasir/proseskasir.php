@@ -121,7 +121,8 @@ if (isset($_POST['add_cart'])) {
     echo json_encode($params);
 } elseif (isset($_POST['barcode'])) {
     $barcode = $_POST['barcode'];
-    $query = mysqli_query($koneksi, "SELECT * FROM p_item WHERE barcode='$barcode'");
+    $outlet_id = $_SESSION['outlet_id'];
+    $query = mysqli_query($koneksi, "SELECT * FROM p_item WHERE barcode='$barcode' AND outlet_id='$outlet_id'");
     $data1 = mysqli_fetch_array($query);
     $data = array(
         'item_id' => $data1['item_id'],

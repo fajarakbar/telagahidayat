@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job version="12.41">
+<syncjob>
+<fkcheck check="yes" />
+<passwords isencoded="yes" />
+<source>
+<host>localhost</host>
+<user>root</user>
+<pwd></pwd>
+<port>3306</port>
+<compressed>1</compressed><readonly>0</readonly>
+<ssl>0</ssl>
+<sslauth>0</sslauth>
+<clientkey></clientkey>
+<clientcert></clientcert>
+<cacert></cacert>
+<cipher></cipher>
+<charset></charset>
+<database>db_tokoretail</database>
+</source>
+<target>
+<host>localhost</host>
+<user>root</user>
+<pwd></pwd>
+<port>3306</port>
+<compressed>1</compressed><readonly>0</readonly>
+<ssl>0</ssl>
+<sslauth>0</sslauth>
+<clientkey></clientkey>
+<clientcert></clientcert>
+<cacert></cacert>
+<cipher></cipher>
+<charset></charset>
+<database>db_tokoretail_host</database>
+</target>
+<tables all="yes" />
+<sync_action type="directsync" />
+<abortonerror abort="yes" />
+<sendreport send="no" /></syncjob>
+</job>

@@ -215,13 +215,13 @@ if ($_SESSION['level'] != '1') {
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <a href="laporan/stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
-                </li>-->
+                </li>
                 <li class="nav-item">
                   <a href="laporan/labaproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -403,7 +403,12 @@ if ($_SESSION['level'] != '1') {
 
                 <div class="info-box-content">
                   <span class="info-box-text">Outlet</span>
-                  <span class="info-box-number">3 Outlet</span>
+                  <?php
+                  $result = mysqli_query($koneksi, "SELECT COUNT(*) AS outlet FROM outlet");
+                  if (mysqli_num_rows($result) > 0) {
+                    $row = mysqli_fetch_assoc($result); ?>
+                    <span class="info-box-number"><?php echo $row['outlet']; ?> Outlet</span>
+                  <?php } ?>
                 </div>
                 <!-- /.info-box-content -->
               </div>
@@ -442,12 +447,12 @@ if ($_SESSION['level'] != '1') {
                     <tbody>
                       <?php
                       $no = 1;
-                      $result = mysqli_query($koneksi, "SELECT * FROM p_item WHERE stock < 3");
+                      $result = mysqli_query($koneksi, "SELECT *,p_item.name AS produk_name, outlet.name AS outlet_name FROM p_item INNER JOIN outlet ON outlet.outlet_id=p_item.outlet_id WHERE stock < 4");
                       while ($stokhabis = mysqli_fetch_assoc($result)) { ?>
                         <tr>
                           <td><?php echo $no++; ?></td>
-                          <td><?php echo "$stokhabis[barcode]"; ?></td>
-                          <td><?php echo "$stokhabis[name]"; ?></td>
+                          <td><?php echo "$stokhabis[outlet_name]"; ?></td>
+                          <td><?php echo "$stokhabis[produk_name]"; ?></td>
                           <td><?php echo "$stokhabis[stock]"; ?></td>
                         </tr>
                       <?php } ?>
@@ -483,7 +488,7 @@ if ($_SESSION['level'] != '1') {
     ?>
     <!-- Main Footer -->
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
       <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1
       </div>

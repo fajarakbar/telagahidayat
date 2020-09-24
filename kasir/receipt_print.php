@@ -66,9 +66,10 @@ if ($_SESSION['level'] != '2') {
 <body onload="window.print()">
   <div class="content">
     <div class="title">
-      <b>Telaga Hidayat</b>
+      <?php $toko = mysqli_fetch_assoc(mysqli_query($koneksi,"SELECT * FROM outlet WHERE outlet_id='$outlet_id'")); ?>
+      <b>Toko <?= $toko['name'];?></b>
       <br>
-      Jl.....
+      <?=$toko['address'];?>
     </div>
     <?php
     $sale_id = $_GET['sale_id'];
