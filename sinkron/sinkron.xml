@@ -2,6 +2,7 @@
 <job version="12.41">
 <syncjob>
 <fkcheck check="yes" />
+<twowaysync twoway="yes" />
 <passwords isencoded="yes" />
 <source>
 <host>localhost</host>
