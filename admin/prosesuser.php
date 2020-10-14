@@ -9,7 +9,11 @@ if (isset($_POST['simpanuser'])) {
     $level          = $_POST['level'];
     $outlet         = $_POST['outlet'];
     $user_id        = 10 . str_shuffle(date('dmyhis'));
-    $query = "INSERT INTO user(user_id,name,telp,address,username,password,level,outlet_id) VALUES ('$user_id','$namalengkap','$telp','$alamat','$username','$pass','$level','$outlet')";
+    if ($level == "1") {
+        $query = "INSERT INTO user(user_id,name,telp,address,username,password,level) VALUES ('$user_id','$namalengkap','$telp','$alamat','$username','$pass','$level')";
+    } else {
+        $query = "INSERT INTO user(user_id,name,telp,address,username,password,level,outlet_id) VALUES ('$user_id','$namalengkap','$telp','$alamat','$username','$pass','$level','$outlet')";
+    }
     $cek_user_id = mysqli_num_rows(mysqli_query($koneksi, "SELECT user_id FROM user WHERE user_id='$user_id'"));
     $cek_username = mysqli_num_rows(mysqli_query($koneksi, "SELECT username FROM user WHERE username='$username'"));
     if ($cek_user_id > 0) {
@@ -25,7 +29,12 @@ if (isset($_POST['simpanuser'])) {
                 window.location = 'buatuserbaru.php';</script>
                 ";
         } else {
-            $query1 = "INSERT INTO user(user_id,name,telp,address,username,password,level,outlet_id) VALUES ('$user_id','$namalengkap','$telp','$alamat','$username','$pass','$level','$outlet')";
+            if ($level == "1") {
+                $query1 = "INSERT INTO user(user_id,name,telp,address,username,password,level) VALUES ('$user_id_baru','$namalengkap','$telp','$alamat','$username','$pass','$level')";
+            } else {
+                $query1 = "INSERT INTO user(user_id,name,telp,address,username,password,level,outlet_id) VALUES ('$user_id_baru','$namalengkap','$telp','$alamat','$username','$pass','$level','$outlet')";
+            }
+
             $result1 = mysqli_query($koneksi, $query1);
             echo "
                 <script>alert('Data Berhasil Ditambahkan');
@@ -64,19 +73,16 @@ if (isset($_POST['simpanuser'])) {
     $level          = $_POST['level'];
     $updated        = date('Y-m-d H:i:s');
     $outlet         = $_POST['outlet'];
-    $query = "UPDATE user SET name = '$namalengkap', telp = '$telp', address = '$alamat', password = '$pass', level = $level, updated = '$updated', outlet_id = $outlet WHERE user_id = $id";
-    if (mysqli_query($koneksi, $query)) {
-        echo "
-            <script>alert('Data Berhasil Diubah');
-            window.location = 'daftaruser.php';</script>
-            ";
+    if ($level == "1") {
+        $query = "UPDATE user SET name = '$namalengkap', telp = '$telp', address = '$alamat', password = '$pass', level = $level, updated = '$updated' WHERE user_id = $id";
     } else {
-        die('Query Error : ' . mysqli_error($query));
-        echo "
-            <script>alert('Data Gagal Diubah');
-            window.location = 'ubahuser.php';</script>
-            ";
+        $query = "UPDATE user SET name = '$namalengkap', telp = '$telp', address = '$alamat', password = '$pass', level = $level, updated = '$updated', outlet_id = $outlet WHERE user_id = $id";
     }
+    mysqli_query($koneksi, $query);
+    echo "
+        <script>alert('Data Berhasil Diubah');
+        window.location = 'daftaruser.php';</script>
+        ";
 } elseif (isset(($_POST['hapususer']))) {
     $id = $_POST['id'];
     $query = "DELETE FROM user WHERE user_id = '$id'";

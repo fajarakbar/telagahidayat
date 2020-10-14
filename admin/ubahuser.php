@@ -31,6 +31,8 @@ if ($_SESSION['level'] != '1') {
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- form validation -->
+  <link rel="stylesheet" href="../plugins/parsleyjs/dist/error.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -264,32 +266,32 @@ if ($_SESSION['level'] != '1') {
                 $result = mysqli_query($koneksi, $query);
                 while ($user = mysqli_fetch_assoc($result)) { ?>
                   <!-- form start -->
-                  <form action="prosesuser.php" method="post">
+                  <form action="prosesuser.php" method="post" id="form">
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="namalengkap">Nama Lengkap *</label>
-                        <input type="hidden" name="user_id" class="form-control" id="#" value="<?php echo $user['user_id']; ?>">
-                        <input type="text" name="namalengkap" class="form-control" id="#" value="<?php echo $user['name']; ?>" required>
+                        <label for="namalengkap">Nama Lengkap</label>
+                        <input type="hidden" name="user_id" class="form-control" id="user_id" value="<?php echo $user['user_id']; ?>">
+                        <input type="text" name="namalengkap" class="form-control" id="namalengkap" value="<?php echo $user['name']; ?>" required data-parsley-pattern="^[a-zA-Z0-9 ]+$">
                       </div>
                       <div class="form-group">
-                        <label for="telp">No HP *</label>
-                        <input type="text" name="telp" class="form-control" id="#" value="<?php echo $user['telp']; ?>" required>
+                        <label for="telp">No HP</label>
+                        <input type="text" name="telp" class="form-control" id="telp" value="<?php echo $user['telp']; ?>" required data-parsley-type="number">
                       </div>
                       <div class="form-group">
                         <label for="alamat">Alamat</label>
-                        <textarea type="text" name="alamat" class="form-control" id="#"><?php echo $user['address']; ?></textarea>
+                        <textarea type="text" name="alamat" class="form-control" id="alamat"><?php echo $user['address']; ?></textarea>
                       </div>
                       <div class="form-group">
-                        <label for="username">Username *</label>
-                        <input type="text" name="username" class="form-control" id="#" value="<?php echo $user['username']; ?>" disabled>
+                        <label for="username">Username</label>
+                        <input type="text" name="username" class="form-control" id="username" value="<?php echo $user['username']; ?>" disabled>
                       </div>
                       <div class="form-group">
-                        <label for="pass">Password *</label>
-                        <input type="password" name="pass" class="form-control" id="#" placeholder="Ketik Ulang Password" required>
+                        <label for="pass">Password</label>
+                        <input type="password" name="pass" class="form-control" id="pass" placeholder="Ketik Ulang Password" required>
                       </div>
                       <div class="form-group">
-                        <label for="level">Hak Akses *</label>
-                        <select value="<?php echo $user['level']; ?>" name="level" class="form-control">
+                        <label for="level">Hak Akses</label>
+                        <select value="<?php echo $user['level']; ?>" name="level" class="form-control" required>
                           <option selected="selected" value="<?php echo "$user[level]"; ?>">
                             <?php $hakakses = $user['level'] == 1 ? "Administrator" : "Kasir";
                             echo strval($hakakses); ?>
@@ -299,7 +301,7 @@ if ($_SESSION['level'] != '1') {
                         </select>
                       </div>
                       <div class="form-group">
-                        <label for="outlet">Outlet *</label>
+                        <label for="outlet">Outlet</label>
                         <select value="<?php echo $user['outlet_id']; ?>" name="outlet" class="form-control" required>
                           <option selected="selected" value="<?php echo "$user[outlet_id]"; ?>"><?php echo "$user[outlet_name]"; ?></option>
                           <?php
@@ -359,6 +361,14 @@ if ($_SESSION['level'] != '1') {
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <!-- form validation -->
+  <script src="../plugins/parsleyjs/dist/parsley.min.js"></script>
+  <script src="../plugins/parsleyjs/dist/i18n/id.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#form').parsley();
+    });
+  </script>
 </body>
 
 </html>
