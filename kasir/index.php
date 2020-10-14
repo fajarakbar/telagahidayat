@@ -90,10 +90,10 @@ if ($_SESSION['level'] != '2') {
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="setting.php" class="nav-link">
+              <a href="profil.php" class="nav-link">
                 <i class="nav-icon fas fa-cog"></i>
                 <p>
-                  Setting
+                  Profil
                 </p>
               </a>
             </li>
@@ -733,7 +733,7 @@ if ($_SESSION['level'] != '2') {
               success: function(result) {
                 if (result.success) {
                   // alert('Transaksi Berhasil')
-                  window.open('<?= 'receipt_print.php?sale_id= ' ?>' + result.sale_id, '_blank')
+                  window.open('<?= 'receipt_print.php?sale_id=' ?>' + result.sale_id, '_blank')
                 } else {
                   alert('Transaksi Gagal');
                 }

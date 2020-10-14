@@ -5,4 +5,3 @@
 		echo (date('d-m-Y', strtotime($row['date']))) . "/" . $row['total']. "/" ;
 		}
 	mysqli_close($koneksi);
-?>

@@ -6,7 +6,7 @@ if (isset($_POST['login'])) {
 
     $query  = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
     $result = mysqli_query($koneksi, $query);
-
+    $cek_outlet = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM outlet"));
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             session_start();
@@ -16,38 +16,28 @@ if (isset($_POST['login'])) {
             $_SESSION['outlet_id'] = $row['outlet_id'];
         }
         if ($_SESSION['level'] == '1') {
-            echo "
-                <script>
-                // alert('Selamat, login berhasil');
-                window.location = 'admin/index.php';
-                </script>                
-                ";
+            if ($cek_outlet == 0) {
+                echo "
+                    <script>
+                    window.location = 'admin/buatoutletbaru.php';
+                    </script>                
+                    ";
+            } else {
+                echo "
+                    <script>
+                    window.location = 'admin/index.php';
+                    </script>                
+                    ";
+            }
         } elseif ($_SESSION['level'] == '2') {
             echo "
                     <script>
-                    // alert('Selamat, login berhasil');
                     window.location = 'kasir/index.php';
                     </script>
                     ";
-            // if ($_SESSION['outlet_id'] == '1') {
-            //     echo "
-            //         <script>
-            //         // alert('Selamat, login berhasil');
-            //         window.location = 'kasir/kasiroutlet1/index.php';
-            //         </script>
-            //         ";
-            // } elseif ($_SESSION['outlet_id'] == '2') {
-            //     echo "
-            //         <script>
-            //         // alert('Selamat, login berhasil');
-            //         window.location = 'kasir/kasiroutlet2/index.php';
-            //         </script>
-            //         ";
-            // }
         } else {
             echo "
                 <script>
-                // alert('Selamat, login berhasil');
                 window.location = 'index.php';
                 </script>
                 ";

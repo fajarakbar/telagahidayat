@@ -32,9 +32,10 @@ if ($_SESSION['level'] != '1') {
   <!-- DataTables -->
   <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- form validation -->
+  <link rel="stylesheet" href="../plugins/parsleyjs/dist/error.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -104,55 +105,54 @@ if ($_SESSION['level'] != '1') {
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="ringkasan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ringkasan</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                  <a href="laporan/transaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Data Transaksi Penjualan</p>
+                    <p>Transaksi Penjualan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/boxed.html" class="nav-link">
+                  <a href="laporan/penjualanproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="pages/layout/fixed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Rekap Kas</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                  <a href="laporan/labaharian.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <a href="laporan/stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                  <a href="laporan/labaproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Harian</p>
                   </a>
-                </li>
-
+                </li> -->
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -192,14 +192,6 @@ if ($_SESSION['level'] != '1') {
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="kasir.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kasir</p>
-                  </a>
-                </li>
-              </ul>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="stokmasuk.php" class="nav-link active">
@@ -266,14 +258,14 @@ if ($_SESSION['level'] != '1') {
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="prosesstokmasuk.php" method="post">
+                <form action="prosesstokmasuk.php" method="post" id="form">
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="tanggal">Date *</label>
+                      <label for="tanggal">Date</label>
                       <input type="date" name="date" value="<?= date('Y-m-d') ?>" class="form-control" required>
                     </div>
                     <div class="form-group">
-                      <label for="outlet">Outlet *</label>
+                      <label for="outlet">Outlet</label>
                       <select name="outlet" value="" id="outlet" class="form-control" style="width: 100%;" required>
                         <option disabled selected="selected">- Pilih -</option>
                         <?php
@@ -288,7 +280,7 @@ if ($_SESSION['level'] != '1') {
                       </select>
                     </div>
                     <div>
-                      <label for="barcode">Barcode *</label>
+                      <label for="barcode">Barcode</label>
                     </div>
                     <div class="form-group input-group">
                       <input type="hidden" name="item_id" id="item_id">
@@ -300,16 +292,16 @@ if ($_SESSION['level'] != '1') {
                       </span>
                     </div>
                     <div class="form-group">
-                      <label for="item_name">Nama Produk *</label>
-                      <input type="text" name="item_name" id="item_name" class="form-control">
+                      <label for="item_name">Nama Produk</label>
+                      <input type="text" name="item_name" id="item_name" class="form-control" required readonly>
                     </div>
                     <div class="row form-group">
                       <div class="col-md-8">
-                        <label for="unit_name">Satuan Barang *</label>
+                        <label for="unit_name">Satuan Barang</label>
                         <input type="text" name="unit_name" id="unit_name" value="-" class="form-control" readonly>
                       </div>
                       <div class="col-md-4">
-                        <label for="stock">Stok Awal *</label>
+                        <label for="stock">Stok Awal</label>
                         <input type="text" name="stock" id="stock" value="-" class="form-control" readonly>
                       </div>
                     </div>
@@ -330,12 +322,12 @@ if ($_SESSION['level'] != '1') {
                       </select>
                     </div> -->
                     <div class="form-group">
-                      <label for="qty">Qty *</label>
+                      <label for="qty">Qty</label>
                       <input type="number" name="qty" class="form-control" required>
                     </div>
                     <div class="form-group">
-                      <label for="qty">Harga Beli *</label>
-                      <input type="number" name="harga" class="form-control" required>
+                      <label for="qty">Harga Beli</label>
+                      <input type="number" name="harga" class="form-control" required data-parsley-type="number">
                     </div>
                     <!-- /.card-body -->
 
@@ -377,14 +369,14 @@ if ($_SESSION['level'] != '1') {
               </thead>
               <tbody>
                 <?php $query = "SELECT outlet.name AS outlet_name, p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
-            FROM p_item 
-            INNER JOIN p_kategori
-            ON p_kategori.category_id=p_item.category_id
-            INNER JOIN p_satuanbarang
-            ON p_satuanbarang.unit_id=p_item.unit_id
-            INNER JOIN outlet
-            ON outlet.outlet_id=p_item.outlet_id";
-            // WHERE p_item.outlet_id='$outlet'";
+                                FROM p_item 
+                                INNER JOIN p_kategori
+                                ON p_kategori.category_id=p_item.category_id
+                                INNER JOIN p_satuanbarang
+                                ON p_satuanbarang.unit_id=p_item.unit_id
+                                INNER JOIN outlet
+                                ON outlet.outlet_id=p_item.outlet_id";
+                // WHERE p_item.outlet_id='$outlet'";
                 $result = mysqli_query($koneksi, $query);
                 function rupiah($angka)
                 {
@@ -453,13 +445,15 @@ if ($_SESSION['level'] != '1') {
   <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+  <!-- form validation -->
+  <script src="../plugins/parsleyjs/dist/parsley.min.js"></script>
+  <script src="../plugins/parsleyjs/dist/i18n/id.js"></script>
 
   <script>
     $(document).ready(function() {
+      $('#form').parsley();
       $(function() {
         $("#example1").DataTable({
           "responsive": true,
@@ -479,7 +473,6 @@ if ($_SESSION['level'] != '1') {
         $('#stock').val(stock);
         $('#modal-item').modal('hide');
       })
-
       $(document).on('keyup', '#barcode', function() {
         var barkode = $('#barcode').val()
         var outlet = $('#outlet').val()

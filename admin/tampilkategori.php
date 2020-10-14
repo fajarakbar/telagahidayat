@@ -9,12 +9,11 @@ include '../koneksi.php';
             <select name="kategori" class="form-control" style="width: 100%;" required>
                 <option disabled selected="selected">- Pilih -</option>
                 <?php
-                        $query = "SELECT * FROM p_kategori";
-                        $result = mysqli_query($koneksi, $query);
-                        while ($kategori = mysqli_fetch_assoc($result)) 
-                        { ?>
-                <option value="<?php echo "$kategori[category_id]"; ?>"><?php echo "$kategori[name]"; ?>
-                </option>
+                $query = "SELECT * FROM p_kategori";
+                $result = mysqli_query($koneksi, $query);
+                while ($kategori = mysqli_fetch_assoc($result)) { ?>
+                    <option value="<?php echo "$kategori[category_id]"; ?>"><?php echo "$kategori[name]"; ?>
+                    </option>
                 <?php } ?>
             </select>
         </div>

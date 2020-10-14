@@ -193,9 +193,9 @@ if ($_SESSION['level'] != '1') {
                   </a>
                 </li> -->
                 <li class="nav-item">
-                  <a href="laporan/datatransaksipenjualan.php" class="nav-link">
+                  <a href="laporan/transaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Data Transaksi Penjualan</p>
+                    <p>Transaksi Penjualan</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -204,18 +204,18 @@ if ($_SESSION['level'] != '1') {
                     <p>Penjualan Produk</p>
                   </a>
                 </li>
-                <!--<li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="pages/layout/fixed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Rekap Kas</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                  <a href="laporan/labaharian.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
                   </a>
-                </li>-->
+                </li>
                 <li class="nav-item">
                   <a href="laporan/stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -273,14 +273,6 @@ if ($_SESSION['level'] != '1') {
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="kasir.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kasir</p>
-                  </a>
-                </li>
-              </ul>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="stokmasuk.php" class="nav-link">
@@ -489,9 +481,9 @@ if ($_SESSION['level'] != '1') {
     <!-- Main Footer -->
     <footer class="main-footer">
       <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
     </footer>
   </div>
   <!-- ./wrapper -->

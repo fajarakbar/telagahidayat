@@ -1,15 +1,15 @@
 <?php
-  session_start();
-  include"../koneksi.php";//cek apakah sudah login
+session_start();
+include "../koneksi.php"; //cek apakah sudah login
 
-  if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
-    header("Location: ../index.php");
-    exit;
-  }
-  if ($_SESSION['level'] != '1') {
-    header("Location: ../index.php");
-    exit;
-  }
+if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
+  header("Location: ../index.php");
+  exit;
+}
+if ($_SESSION['level'] != '1') {
+  header("Location: ../index.php");
+  exit;
+}
 ?>
 
 
@@ -56,8 +56,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
+        <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
 
@@ -104,55 +103,54 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="ringkasan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ringkasan</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                  <a href="laporan/transaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Data Transaksi Penjualan</p>
+                    <p>Transaksi Penjualan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/boxed.html" class="nav-link">
+                  <a href="laporan/penjualanproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="pages/layout/fixed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Rekap Kas</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                  <a href="laporan/labaharian.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <a href="laporan/stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                  <a href="laporan/labaproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Harian</p>
                   </a>
-                </li>
-
+                </li> -->
               </ul>
             </li>
             <li class="nav-item has-treeview menu-open">
@@ -194,14 +192,6 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="kasir.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kasir</p>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
                   <a href="stokmasuk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Masuk</p>
@@ -222,6 +212,14 @@
                 <i class="nav-icon fas fa-user"></i>
                 <p>
                   User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="daftaroutlet.php" class="nav-link">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  Outlet
                 </p>
               </a>
             </li>
@@ -261,9 +259,9 @@
                 </div>
                 <!-- /.card-header -->
                 <?php
-                  $no = 1;
-                  $query = "SELECT * FROM p_kategori";
-                  $result = mysqli_query($koneksi, $query);?>
+                $no = 1;
+                $query = "SELECT * FROM p_kategori";
+                $result = mysqli_query($koneksi, $query); ?>
                 <div class="card-body">
                   <table class="table table-hover text-nowrap" id="example1">
                     <thead>
@@ -275,23 +273,20 @@
                     </thead>
                     <tbody>
                       <?php while ($kategori = mysqli_fetch_assoc($result)) { ?>
-                      <tr>
-                        <td style="width:10%"><?php echo $no++; ?></td>
-                        <td><?php echo "$kategori[name]"; ?></td>
-                        <td style="width:15%">
-                          <div class="dropdown">
-                            <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                              id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a class="dropdown-item"
-                                href="ubahkategori.php?id=<?php echo $kategori['category_id']; ?>">Ubah</a>
-                              <a class="dropdown-item"
-                                href="hapuskategori.php?id=<?php echo $kategori['category_id']?>">Hapus</a>
+                        <tr>
+                          <td style="width:10%"><?php echo $no++; ?></td>
+                          <td><?php echo "$kategori[name]"; ?></td>
+                          <td style="width:15%">
+                            <div class="dropdown">
+                              <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="ubahkategori.php?id=<?php echo $kategori['category_id']; ?>">Ubah</a>
+                                <a class="dropdown-item" href="hapuskategori.php?id=<?php echo $kategori['category_id']; ?>">Hapus</a>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
                       <?php } ?>
                     </tbody>
                   </table>
@@ -307,19 +302,15 @@
     </div>
     <!-- /.content-wrapper -->
     <?php
-$tanggal = time () ;
-//Untuk mengambil data waktu dan tanggal saat ini dari server 
-$tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
-?>
+    $tanggal = time();
+    //Untuk mengambil data waktu dan tanggal saat ini dari server 
+    $tahun = date("Y", $tanggal);
+    ?>
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
     </footer>
 
     <!-- Control Sidebar -->
@@ -344,7 +335,7 @@ Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
   <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $(function () {
+    $(function() {
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,

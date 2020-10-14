@@ -101,55 +101,54 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="ringkasan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ringkasan</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                  <a href="laporan/transaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Data Transaksi Penjualan</p>
+                    <p>Transaksi Penjualan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/boxed.html" class="nav-link">
+                  <a href="laporan/penjualanproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="pages/layout/fixed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Rekap Kas</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                  <a href="laporan/labaharian.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <a href="laporan/stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                  <a href="laporan/labaproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Harian</p>
                   </a>
-                </li>
-
+                </li> -->
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -191,14 +190,6 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="kasir.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kasir</p>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
                   <a href="stokmasuk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Masuk</p>
@@ -222,6 +213,14 @@
                 </p>
               </a>
             </li>
+              <li class="nav-item has-treeview">
+                <a href="daftaroutlet.php" class="nav-link">
+                  <i class="nav-icon fas fa-store-alt"></i>
+                  <p>
+                    Outlet
+                  </p>
+                </a>
+              </li>
             <li class="nav-item has-treeview">
               <a href="../logout.php" class="nav-link" onclick=" return confirm('Yakin mau keluar?');">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
@@ -284,13 +283,9 @@
 $tanggal = time () ;
 //Untuk mengambil data waktu dan tanggal saat ini dari server 
 $tahun= date("Y",$tanggal);
-//Memformat agar hanya menampilkan tahun 4 digit angka dengan Y (kapital)
-echo "Copyright @ 2011 - " . $tahun;
-/* baris ini mencetak rentang copyright,
-Anda perlu mengganti 2011 dengan tahun pertama kali website Anda diluncurkan */
 ?>
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
       <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1
       </div>

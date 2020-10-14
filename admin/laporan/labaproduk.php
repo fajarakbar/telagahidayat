@@ -55,7 +55,7 @@ if ($_SESSION['level'] != '1') {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index.php" class="brand-link">
+      <a href="../index.php" class="brand-link">
         <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Telaga P.O.S</span>
       </a>
@@ -87,7 +87,7 @@ if ($_SESSION['level'] != '1') {
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="suppliers.php" class="nav-link">
+              <a href="../suppliers.php" class="nav-link">
                 <i class="nav-icon fas fa-address-book"></i>
                 <p>
                   Suppliers
@@ -110,9 +110,9 @@ if ($_SESSION['level'] != '1') {
                   </a>
                 </li> -->
                 <li class="nav-item">
-                  <a href="datatransaksipenjualan.php" class="nav-link">
+                  <a href="transaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Data Transaksi Penjualan</p>
+                    <p>Transaksi Penjualan</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -126,12 +126,12 @@ if ($_SESSION['level'] != '1') {
                     <i class="far fa-circle nav-icon"></i>
                     <p>Rekap Kas</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                  <a href="labaharian.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
-                  </a>-->
+                  </a>
                 </li>
                 <li class="nav-item">
                   <a href="stok.php" class="nav-link">
@@ -163,19 +163,19 @@ if ($_SESSION['level'] != '1') {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="daftarproduk.php" class="nav-link">
+                  <a href="../daftarproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Daftar Produk</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="kategori.php" class="nav-link">
+                  <a href="../kategori.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="satuanbarang.php" class="nav-link">
+                  <a href="../satuanbarang.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Satuan Barang</p>
                   </a>
@@ -192,15 +192,7 @@ if ($_SESSION['level'] != '1') {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="kasir.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kasir</p>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="stokmasuk.php" class="nav-link">
+                  <a href="../stokmasuk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Masuk</p>
                   </a>
@@ -208,7 +200,7 @@ if ($_SESSION['level'] != '1') {
               </ul>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="stokkeluar.php" class="nav-link">
+                  <a href="../stokkeluar.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Keluar</p>
                   </a>
@@ -216,10 +208,18 @@ if ($_SESSION['level'] != '1') {
               </ul>
             </li>
             <li class="nav-item has-treeview">
-              <a href="daftaruser.php" class="nav-link">
+              <a href="../daftaruser.php" class="nav-link">
                 <i class="nav-icon fas fa-user"></i>
                 <p>
                   User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="../daftaroutlet.php" class="nav-link">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  Outlet
                 </p>
               </a>
             </li>
@@ -249,26 +249,11 @@ if ($_SESSION['level'] != '1') {
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 style="padding-top:6px" class="card-title">Daftar Produk</h3>
-                  <table style="float:right">
-                    <td>
-                      <a href="buatprodukbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Ekspor</button></a>
-                    </td>
-                  </table>
+                  <h3 style="padding-top:6px" class="card-title">Laba Produk</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                  <!-- <div class="margin" style="padding-bottom:5px">
-                    <div class="btn-group">
-                      <button style="width:60px" type="button" class="btn btn-sm btn-success">Print</button>
-                    </div>
-                    <div class="btn-group">
-                      <button style="width:60px" type="button" class="btn btn-sm btn-info">Pdf</button>
-                    </div>
-                  </div> -->
-
-                  <!-- <div> -->
-                  <table id="empTable" class="table table-hover table-nowrap">
+                  <table id="records" class="table table-hover table-nowrap" style="width:100%">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -278,10 +263,9 @@ if ($_SESSION['level'] != '1') {
                         <th>Diskon Produk</th>
                         <th>Pembelian</th>
                         <th>Laba Produk</th>
-                        <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <!-- <tbody>
                       <tr>
                         <?php
                         function rupiah($angka)
@@ -294,10 +278,11 @@ if ($_SESSION['level'] != '1') {
                         $query = "SELECT p_item.name AS nama_produk, 
                                   SUM(t_sale_detail.qty) AS terjual, 
                                   SUM(t_sale_detail.price * t_sale_detail.qty) AS penjualan_kotor, 
-                                  SUM(t_sale_detail.discount_item * t_sale_detail.qty) AS diskon_produk, 
-                                  t_stock.
+                                  SUM(t_sale_detail.discount_item * t_sale_detail.qty) AS diskon_produk,
+                                  SUM(t_stock.harga / t_stock.qty) AS pembelian 
                         FROM t_sale_detail 
                         INNER JOIN p_item ON p_item.item_id=t_sale_detail.item_id
+                        INNER JOIN t_stock ON t_stock.item_id=t_sale_detail.item_id
                         GROUP BY t_sale_detail.item_id";
                         $result = mysqli_query($koneksi, $query);
                         while ($data = mysqli_fetch_assoc($result)) { ?>
@@ -306,8 +291,9 @@ if ($_SESSION['level'] != '1') {
                           <td><?php echo "$data[terjual]"; ?></td>
                           <td><?php echo rupiah("$data[penjualan_kotor]"); ?></td>
                           <td><?php echo rupiah("$data[diskon_produk]"); ?></td>
-                          <td><?php echo "$data[pembelian]"; ?></td>
-                          <td><?php echo "$data[laba_produk]"; ?></td>
+                          <td><?php echo rupiah("$data[pembelian]"); ?></td>
+                          <td><?php $labaproduk = ("$data[penjualan_kotor]" - "$data[diskon_produk]" - "$data[pembelian]");
+                              echo rupiah($labaproduk); ?></td>
                           <td style="width:10%">
                             <div class="dropdown">
                               <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -323,7 +309,35 @@ if ($_SESSION['level'] != '1') {
 
                       </tr>
                     <?php } ?>
-                    </tbody>
+                    </tbody> -->
+                    <tfoot>
+                      <tr>
+                        <!-- <?php
+                              $query1 = "SELECT SUM(t_sale_detail.qty) AS total_terjual,
+                                          SUM(t_sale_detail.price * t_sale_detail.qty) AS total_penjualan_kotor,
+                                          SUM(t_sale_detail.discount_item * t_sale_detail.qty) AS total_diskon_produk,
+                                          SUM(t_stock.harga / t_stock.qty) AS total_pembelian  
+                                  FROM t_sale_detail 
+                                  INNER JOIN p_item ON p_item.item_id=t_sale_detail.item_id
+                                  INNER JOIN t_stock ON t_stock.item_id=t_sale_detail.item_id";
+                              $result1 = mysqli_query($koneksi, $query1);
+                              $data1 = mysqli_fetch_assoc($result1);
+                              ?>
+                        <td style="text-align: center;" colspan="2"><b>Grand Total</b></td>
+                        <td><b><?php echo "$data1[total_terjual]"; ?></b></td>
+                        <td><b><?php echo rupiah("$data1[total_penjualan_kotor]"); ?></b></td>
+                        <td><b><?php echo rupiah("$data1[total_diskon_produk]"); ?></b></td>
+                        <td><b><?php echo rupiah("$data1[total_pembelian]"); ?></b></td>
+                        <td><b><?php echo rupiah("$data1[total_penjualan_kotor]" - "$data1[total_diskon_produk]" - "$data1[total_pembelian]"); ?></b></td> -->
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
                   </table>
                   <!-- </div> -->
                 </div>
@@ -422,21 +436,183 @@ if ($_SESSION['level'] != '1') {
   <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/r-2.2.3/datatables.min.js"></script>
   <script>
-    // $(function() {
-    //   $("#empTable").DataTable({
-    //     "responsive": true,
-    //     "autoWidth": false,
-    //   });
-    // });
-    $(document).ready(function() {
-      var table = $('#empTable').DataTable({
-        fixedHeader: {
-          header: true,
-          footer: true
+    // Fetch records
+    function fetch() {
+      $.ajax({
+        url: "data.php",
+        type: "POST",
+        data: {
+          labaproduk: true
+        },
+        dataType: "json",
+        success: function(data) {
+          // Datatables
+          var t = "1";
+          $('#records').DataTable({
+            "footerCallback": function(row, data, start, end, display) {
+              var api = this.api(),
+                data;
+
+              // Remove the formatting to get integer data for summation
+              var intVal = function(i) {
+                return typeof i === 'string' ?
+                  i.replace(/[\$,]/g, '') * 1 :
+                  typeof i === 'number' ?
+                  i : 0;
+              };
+              // Total over all pages
+              terjual = api
+                .column(2)
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              penjualankotor = api
+                .column(3)
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              diskonproduk = api
+                .column(4)
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              pembelian = api
+                .column(5)
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              labaproduk = api
+                .column(6)
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+
+              // Total over this page
+              pageterjual = api
+                .column(2, {
+                  page: 'current'
+                })
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              pagepenjualankotor = api
+                .column(3, {
+                  page: 'current'
+                })
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              pagediskonproduk = api
+                .column(4, {
+                  page: 'current'
+                })
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              pagepembelian = api
+                .column(5, {
+                  page: 'current'
+                })
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              pagelabaproduk = api
+                .column(6, {
+                  page: 'current'
+                })
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+
+              // Update footer
+              $(api.column(1).footer()).html('<b>Total</b>');
+              $(api.column(2).footer()).html(
+                '<b>' + pageterjual + ' (' + terjual + ')</b>'
+              );
+              $(api.column(3).footer()).html(
+                '<b>Rp. ' + pagepenjualankotor + ' ( Rp. ' + penjualankotor + ')</b>'
+              );
+              $(api.column(4).footer()).html(
+                '<b>Rp. ' + pagediskonproduk + ' ( Rp. ' + diskonproduk + ')</b>'
+              );
+              $(api.column(5).footer()).html(
+                '<b>Rp. ' + pagepembelian + ' ( Rp. ' + pembelian + ')</b>'
+              );
+              $(api.column(6).footer()).html(
+                '<b>Rp. ' + pagelabaproduk + ' ( Rp. ' + labaproduk + ')</b>'
+              );
+            },
+            "data": data,
+            // buttons
+            "dom": "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+              "<'row'<'col-sm-12'tr>>" +
+              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            "buttons": [
+              'excel', 'pdf', 'print'
+            ],
+            // responsive
+            "responsive": true,
+            "header": true,
+            "footer": true,
+            "columns": [{
+                "data": "",
+                "render": function(data, type, row, meta) {
+                  return t++;
+                }
+              },
+              {
+                "data": "nama_produk"
+              },
+              {
+                "data": "terjual",
+                "render": function(data, type, row, meta) {
+                  return (row.terjual);
+                }
+              },
+              {
+                "data": "penjualan_kotor",
+                "render": function(data, type, row, meta) {
+                  return (row.penjualan_kotor);
+                }
+              },
+              {
+                "data": "diskon_produk",
+                "render": function(data, type, row, meta) {
+                  return (row.diskon_produk);
+                }
+              },
+              {
+                "data": "pembelian",
+                "render": function(data, type, row, meta) {
+                  return parseInt(row.pembelian);
+                }
+              },
+              {
+                "data": "laba_produk",
+                "render": function(data, type, row, meta) {
+                  return parseInt(row.laba_produk);
+                }
+              }
+            ]
+          });
         }
       });
-    });
+    }
+    fetch();
   </script>
 </body>
 

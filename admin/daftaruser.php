@@ -103,55 +103,54 @@ if ($_SESSION['level'] != '1') {
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="ringkasan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ringkasan</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                  <a href="laporan/transaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Data Transaksi Penjualan</p>
+                    <p>Transaksi Penjualan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/boxed.html" class="nav-link">
+                  <a href="laporan/penjualanproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="pages/layout/fixed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Rekap Kas</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                  <a href="laporan/labaharian.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <a href="laporan/stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                  <a href="laporan/labaproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Harian</p>
                   </a>
-                </li>
-
+                </li> -->
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -193,14 +192,6 @@ if ($_SESSION['level'] != '1') {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="kasir.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kasir</p>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
                   <a href="stokmasuk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Masuk</p>
@@ -221,6 +212,14 @@ if ($_SESSION['level'] != '1') {
                 <i class="nav-icon fas fa-user"></i>
                 <p>
                   User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="daftaroutlet.php" class="nav-link">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  Outlet
                 </p>
               </a>
             </li>
@@ -292,8 +291,8 @@ if ($_SESSION['level'] != '1') {
                               <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </a>
                               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="ubahuser.php?id=<?php echo $user['user_id'] ?>;">Edit</a>
-                                <a class="dropdown-item" href="hapususer.php?id=<?php echo $user['user_id'] ?>;">Hapus</a>
+                                <a class="dropdown-item" href="ubahuser.php?id=<?php echo $user['user_id']; ?>">Edit</a>
+                                <a class="dropdown-item" href="hapususer.php?id=<?php echo $user['user_id']; ?>">Hapus</a>
                               </div>
                             </div>
                           </td>

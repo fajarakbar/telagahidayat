@@ -1,7 +1,6 @@
 <?php
 include '../koneksi.php';
 session_start();
-
 if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
   header("Location: ../index.php");
   exit;
@@ -20,32 +19,74 @@ if (isset($_POST['simpanstokmasuk'])) {
   $harga        = $_POST['harga'] * $_POST['qty'];
   $date         = $_POST['date'];
   $user_id      = $_SESSION['userid'];
-  // var_dump($item_id,$type,$detail,$supplier_id,$qty,$date,$user_id);
-  $query = "INSERT INTO t_stock (item_id, type, detail, qty, harga, date, user_id) VALUES (
+  $outlet_id    = $_SESSION['outlet_id'];
+  $stok_id      = 9 . str_shuffle(date('dmyhis'));
+  $query = "INSERT INTO t_stock (stock_id, item_id, type, detail, qty, harga, date, user_id, outlet_id) VALUES (
+    '$stok_id',
     '$item_id', 
     '$type', 
     '$detail', 
     '$qty',
     '$harga',
     '$date',
-    '$user_id')";
-  if (empty($item_id) || empty($type) || empty($qty) || empty($date) || empty($user_id)) {
+    '$user_id',
+    '$outlet_id')";
+  $cek_stok_id = mysqli_num_rows(mysqli_query($koneksi, "SELECT stock_id FROM t_stock WHERE stock_id='$stok_id'"));
+  if ($cek_stok_id > 0) {
+    $stok_id_baru = 9 . str_shuffle(date('dmyhis'));
+    $query1 = "INSERT INTO t_stock ('stock_id, item_id, type, detail, qty, harga, date, user_id, outlet_id) VALUES (
+      '$stok_id_baru',
+      '$item_id', 
+      '$type', 
+      '$detail', 
+      '$qty',
+      '$harga',
+      '$date',
+      '$user_id',
+      '$outlet_id')";
+    if (empty($item_id) || empty($type) || empty($qty) || empty($date) || empty($user_id)) {
+      echo "
+      <script>alert('Form Wajib di Isi');
+      window.location = 'buatstokmasukbaru.php';
+      </script>
+      ";
+    } elseif (mysqli_query($koneksi, $query1)) {
+      $query2 = "UPDATE p_item SET stock = stock + '$qty', beli = '$harga' / '$qty' WHERE item_id = '$item_id'";
+      $result2 = mysqli_query($koneksi, $query2);
+      echo "
+      <script>alert('Data Berhasil Ditambahkan1');
+      window.location = 'stokmasuk.php';
+      </script>
+      ";
+    } else {
+      mysqli_error($query);
+      echo "
+        <script>alert('Kondisi error');
+        window.location = 'stokmasuk.php';
+        </script>
+        ";
+    }
+  } elseif (empty($item_id) || empty($type) || empty($qty) || empty($date) || empty($user_id)) {
     echo "
     <script>alert('Data Gagal Ditambahkan');
     window.location = 'buatstokmasukbaru.php';
     </script>
     ";
   } elseif (mysqli_query($koneksi, $query)) {
-    $query1 = "UPDATE p_item SET stock = stock + '$qty' WHERE item_id = '$item_id'";
-    mysqli_query($koneksi, $query1);
-    // var_dump ($query1);
+    $query3 = "UPDATE p_item SET stock = stock + '$qty', beli = '$harga' / '$qty' WHERE item_id = '$item_id'";
+    $result3 = mysqli_query($koneksi, $query3);
     echo "
     <script>alert('Data Berhasil Ditambahkan');
     window.location = 'stokmasuk.php';
     </script>
     ";
   } else {
-    mysqli_query($koneksi, $query);
+    mysqli_error($query);
+    echo "
+        <script>alert('Kondisi error2');
+        window.location = 'stokmasuk.php';
+        </script>
+        ";
   }
 } elseif (isset(($_POST['hapusstokmasuk']))) {
   $id = $_POST['id'];
@@ -68,7 +109,6 @@ if (isset($_POST['simpanstokmasuk'])) {
           ";
   }
 } elseif (isset(($_POST['barcode']))) {
-  // include '../koneksi.php';
   $barcode  = $_POST['barcode'];  //menangkap id yang disubmit
   $outlet   = $_POST['outlet'];
   //memilih semua data di tabel buku sesuai dengan id yang disubmit
@@ -83,7 +123,6 @@ if (isset($_POST['simpanstokmasuk'])) {
   );
   echo json_encode($data); //menampilkan data json
 } elseif (isset(($_POST['item_name']))) {
-  // include '../koneksi.php';
   $item_name  = $_POST['item_name'];  //menangkap id yang disubmit
   $outlet   = $_POST['outlet'];
   //memilih semua data di tabel buku sesuai dengan id yang disubmittuanbarang ON p_satuanbarang.unit_id = p_item.unit_id                                                                  WHERE p_item.name LIKE \'%gat%\' AND outlet_id=\'2\'";

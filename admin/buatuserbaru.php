@@ -31,6 +31,8 @@ if ($_SESSION['level'] != '1') {
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- form validation -->
+  <link rel="stylesheet" href="../plugins/parsleyjs/dist/error.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -100,55 +102,54 @@ if ($_SESSION['level'] != '1') {
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="ringkasan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Ringkasan</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                  <a href="laporan/transaksipenjualan.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Data Transaksi Penjualan</p>
+                    <p>Transaksi Penjualan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/boxed.html" class="nav-link">
+                  <a href="laporan/penjualanproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="pages/layout/fixed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Rekap Kas</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                  <a href="laporan/labaharian.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Harian</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <a href="laporan/stok.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                  <a href="laporan/labaproduk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laba Produk</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penjualan Harian</p>
                   </a>
-                </li>
-
+                </li> -->
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -190,14 +191,6 @@ if ($_SESSION['level'] != '1') {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="kasir.php" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kasir</p>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
                   <a href="stokmasuk.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Stok Masuk</p>
@@ -218,6 +211,14 @@ if ($_SESSION['level'] != '1') {
                 <i class="nav-icon fas fa-user"></i>
                 <p>
                   User
+                </p>
+              </a>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="daftaroutlet.php" class="nav-link">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  Outlet
                 </p>
               </a>
             </li>
@@ -254,30 +255,30 @@ if ($_SESSION['level'] != '1') {
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="prosesuser.php" method="post">
+                <form action="prosesuser.php" method="post" id="form">
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="namalengkap">Nama Lengkap *</label>
-                      <input type="text" name="namalengkap" class="form-control" id="#" required>
+                      <label for="namalengkap">Nama Lengkap</label>
+                      <input type="text" name="namalengkap" class="form-control" id="namalengkap" required data-parsley-pattern="^[a-zA-Z ]+$">
                     </div>
                     <div class="form-group">
-                      <label for="telp">No HP *</label>
-                      <input type="text" name="telp" class="form-control" id="#" required>
+                      <label for="telp">No HP</label>
+                      <input type="text" name="telp" class="form-control" id="telp" data-parsley-type="number">
                     </div>
                     <div class="form-group">
                       <label for="alamat">Alamat</label>
-                      <textarea type="text" name="alamat" class="form-control" id="#"></textarea>
+                      <textarea type="text" name="alamat" class="form-control" id="alamat"></textarea>
                     </div>
                     <div class="form-group">
-                      <label for="username">Username *</label>
-                      <input type="text" name="username" class="form-control" id="#" required>
+                      <label for="username">Username</label>
+                      <input type="text" name="username" class="form-control" id="user" required required data-parsley-pattern="^[a-zA-Z0-9 ]+$">
                     </div>
                     <div class="form-group">
-                      <label for="pass">Password *</label>
-                      <input type="password" name="pass" class="form-control" id="#" required>
+                      <label for="pass">Password</label>
+                      <input type="password" name="pass" class="form-control" id="pass" required>
                     </div>
                     <div class="form-group">
-                      <label for="level">Hak Akses *</label>
+                      <label for="level">Hak Akses</label>
                       <select value="" name="level" class="form-control" required>
                         <option value="">- Pilih -</option>
                         <option value="1">Administrator</option>
@@ -285,7 +286,7 @@ if ($_SESSION['level'] != '1') {
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="outlet">Outlet *</label>
+                      <label for="outlet">Outlet</label>
                       <select value="" name="outlet" class="form-control" required>
                         <option disabled selected="selected">- Pilih -</option>
                         <?php
@@ -321,10 +322,10 @@ if ($_SESSION['level'] != '1') {
     $tahun = date("Y", $tanggal);
     ?>
     <footer class="main-footer">
-      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1
-      </div>
+      <strong> <?php echo "Copyright &copy; 2020-" . $tahun; ?>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1
+        </div>
     </footer>
 
     <!-- Control Sidebar -->
@@ -343,6 +344,14 @@ if ($_SESSION['level'] != '1') {
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
+  <!-- form validation -->
+  <script src="../plugins/parsleyjs/dist/parsley.min.js"></script>
+  <script src="../plugins/parsleyjs/dist/i18n/id.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#form').parsley();
+    });
+  </script>
 </body>
 
 </html>
