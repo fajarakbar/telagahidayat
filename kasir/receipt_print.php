@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 include "../koneksi.php"; //cek apakah sudah login
 $outlet_id = $_SESSION['outlet_id'];
@@ -19,7 +19,7 @@ use Mike42\Escpos\Printer;
 
 try {
   // $connector = null; //untuk printer usb
-  $connector = new NetworkPrintConnector("192.168.43.26", 9100); //untuk printer jaringan
+  $connector = new NetworkPrintConnector("192.168.137.201", 9100); //untuk printer jaringan
   // $connector = new WindowsPrintConnector("Receipt Printer");//untuk printer usb
   $printer = new Printer($connector);
   $printer->setJustification(Printer::JUSTIFY_CENTER);

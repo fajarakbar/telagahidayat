@@ -171,7 +171,7 @@ if ($_SESSION['level'] != '1') {
             </li>
             <li class="nav-item has-treeview">
               <a href="suppliers.php" class="nav-link">
-                <i class="nav-icon fas fa-address-book"></i>
+                <i class="nav-icon fas fa-truck"></i>
                 <p>
                   Suppliers
                 </p>
@@ -439,7 +439,7 @@ if ($_SESSION['level'] != '1') {
                     <tbody>
                       <?php
                       $no = 1;
-                      $result = mysqli_query($koneksi, "SELECT *,p_item.name AS produk_name, outlet.name AS outlet_name FROM p_item INNER JOIN outlet ON outlet.outlet_id=p_item.outlet_id WHERE stock < 4");
+                      $result = mysqli_query($koneksi, "SELECT *,p_item.name AS produk_name, outlet.name AS outlet_name FROM p_item INNER JOIN outlet ON outlet.outlet_id=p_item.outlet_id WHERE stock < 13");
                       while ($stokhabis = mysqli_fetch_assoc($result)) { ?>
                         <tr>
                           <td><?php echo $no++; ?></td>
