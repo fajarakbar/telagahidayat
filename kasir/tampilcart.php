@@ -27,7 +27,7 @@ while ($data = mysqli_fetch_assoc($result)) {?>
             data-stock="<?= $data['stock']; ?>" 
             data-price="<?= $data['cart_price']; ?>"
             data-qty="<?= $data['qty']; ?>" 
-            data-discount="<?= $data['discount_item']; ?>"
+            data-discount="<?= $data['discount_item'] == 0 ? null : $data['discount_item']; ?>"
             data-total="<?= $data['total']; ?>" 
             class="btn btn-xs btn-primary">
             <i class="fa fa-pencil"></i> Update

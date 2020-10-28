@@ -169,11 +169,11 @@ if ($_SESSION['level'] != '2') {
                       </td>
                       <td>
                         <div class="form-group input-group">
-                          <input type="hidden" id="item_id">
-                          <input type="hidden" id="price">
-                          <input type="hidden" id="stock">
-                          <input type="hidden" id="qty_cart">
-                          <input type="text" id="barcode" class="form-control" autofocus>
+                          <input type="hidden" id="item_id" placeholder="item_id">
+                          <input type="hidden" id="price" placeholder="price">
+                          <input type="hidden" id="stock" placeholder="stock">
+                          <input type="hidden" id="qty_cart" placeholder="qty_cart">
+                          <input type="text" id="barcode" placeholder="barcode" class="form-control" autofocus>
                           <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-item">
                               <i class="fas fa-search"></i>
@@ -182,7 +182,7 @@ if ($_SESSION['level'] != '2') {
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <td style="vertical-align:top">
                         <label for="qty">Qty</label>
                       </td>
@@ -191,14 +191,14 @@ if ($_SESSION['level'] != '2') {
                           <input type="number" id="qty" value="1" mim="1" class="form-control">
                         </div>
                       </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                       <td></td>
                       <td>
                         <div>
-                          <button type="button" id="add_cart" class="btn btn-primary">
+                          <!-- <button type="button" id="add_cart" class="btn btn-primary">
                             <i class="fa fa-cart-plus"></i> Add
-                          </button>
+                          </button> -->
                         </div>
                       </td>
                     </tr>
@@ -233,8 +233,10 @@ if ($_SESSION['level'] != '2') {
                         <th>Produk</th>
                         <th>Harga</th>
                         <th>Jumlah</th>
-                        <th width="10%">Diskon</th>
-                        <th width="15%">Total</th>
+                        <th width="10%">Diskon (Rp.)</th>
+                        <!-- <th width="10%">Diskon (%)</th>
+                        <th width="10%">Jumlah</th> -->
+                        <th width="10%">Total</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -449,17 +451,31 @@ if ($_SESSION['level'] != '2') {
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="form-group">
-                    <label for="qty_item">Jumlah</label>
-                    <input type="number" id="qty_item" min="1" class="form-control">
-                  </div> -->
                   <div class="form-group">
                     <label for="total_before">Total Sebelum Diskon</label>
                     <input type="number" id="total_before" class="form-control" readonly>
                   </div>
                   <div class="form-group">
-                    <label for="discount_item">Diskon per Produk</label>
-                    <input type="number" id="discount_item" min="0" class="form-control">
+                    <div class="row">
+                      <div class="col-md-4 input-group">
+                        <label for="discount_item_rp">Diskon (Rp)</label>
+                        <div class="input-group-append">
+                          <span class="input-group-text"><img src="../plugins/rp/favicon-32x32.png" width="19px"></span>
+                          <input type="number" id="discount_item_rp" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4 input-group">
+                        <label for="discount_item_persen">Diskon (%)</label>
+                        <div class="input-group-append">
+                          <input type="number" id="discount_item_persen" class="form-control">
+                          <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <label for="discount_item">Jumlah Diskon</label>
+                        <input type="number" id="jml_discount_item" class="form-control">
+                      </div>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="total_item">Total Setelah Diskon</label>
@@ -546,27 +562,30 @@ if ($_SESSION['level'] != '2') {
         $('#stock').val($(this).data('stock'))
         $('#modal-item').modal('hide')
         get_cart_qty($(this).data('barcode'))
-        $('#qty').focus()
+        $('#barcode').focus()
       })
 
-      $(document).on('click', '#add_cart', function() {
-        var item_id = $('#item_id').val()
-        var price = $('#price').val()
-        var stock = $('#stock').val()
-        var qty = $('#qty').val()
-        var qty_cart = $('#qty_cart').val()
-        if (item_id == '') {
-          alert('Produk belum dipilih')
-          $('#barcode').focus()
-        } else if (parseInt(stock) < 1) {
-          alert('Stock tidak mencukupi')
-          $('#item_id').val('')
-          $('#barcode').val('')
-          $('#barcode').focus()
-        } else if (parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))) {
-          alert('Stock tidak mencukupi')
-          $('#qty').focus()
-        } else {
+      $(document).on('focus', '#barcode', function() {
+        var barc = $('#barcode').val()
+        if (barcode != '') {
+          var item_id = $('#item_id').val()
+          var price = $('#price').val()
+          var stock = $('#stock').val()
+          var qty = 1;
+          var qty_cart = $('#qty_cart').val()
+          // if (item_id == '') {
+          //   // alert('Produk belum dipilih')
+          //   $('#barcode').focus()
+          // } else
+          //  if (parseInt(stock) < 1) {
+          //   alert('Stock tidak mencukupi')
+          //   $('#item_id').val('')
+          //   $('#barcode').val('')
+          //   $('#barcode').focus()
+          // } else if (parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))) {
+          //   alert('Stock tidak mencukupi')
+          //   $('#qty').focus()
+          // } else {
           $.ajax({
             type: 'POST',
             url: 'proseskasir.php',
@@ -586,24 +605,48 @@ if ($_SESSION['level'] != '2') {
                 })
                 $('#item_id').val('');
                 $('#barcode').val('');
-                $('#qty').val(1);
-                $('#barcode').focus();
-              } else {
-                alert('Gagal tambah item cart')
+                // $('#qty').val(1);
+                // $('#barcode').focus();
               }
-            },
-            error: function(xhr, status, error) {
-              alert(xhr.responseText);
             }
           })
+          // }
+        } else {
+
+          // $('#barcode').focus();
         }
+      })
+
+      $(document).on('input', '#barcode', function() {
+        var barkode = $('#barcode').val()
+        $.ajax({
+          type: 'POST',
+          url: 'proseskasir.php',
+          data: {
+            'barcode': true,
+            'barcode': barkode
+          },
+          dataType: 'json',
+          success: function(data) {
+            $('#item_id').val(data.item_id);
+            $('#price').val(data.price);
+            $('#stock').val(data.stock);
+            $('#barcode').val('')
+            $('#barcode').focus()
+          },
+          error: function(xhr, status, error) {
+            alert(xhr.responseText);
+          }
+        })
       })
 
       $(document).on('click', '#edit_cart', function() {
         var cart_id = $('#cartid_item').val()
         var price = $('#price_item').val()
         var qty = $('#qty_item').val()
-        var discount = $('#discount_item').val()
+        var discount_rp = $('#discount_item_rp').val()
+        var discount_persen = $('#discount_item_persen').val()
+        var jml_discount_item = $('#jml_discount_item').val()
         var total = $('#total_item').val()
         var stock = $('#stock_item').val()
         if (price == '' || price < 1) {
@@ -615,6 +658,12 @@ if ($_SESSION['level'] != '2') {
         } else if (parseInt(qty) > parseInt(stock)) {
           alert('Stock tidak mencukupi')
           $('#qty_item').focus()
+        } else if (total < 1) {
+          alert('Total tidak boleh minus')
+          $('#jml_discount_item').focus()
+        } else if (parseInt(jml_discount_item) > parseInt(qty)) {
+          alert('Jumlah Diskon Item kebanyakan')
+          $('#jml_discount_item').focus()
         } else {
           $.ajax({
             type: 'POST',
@@ -624,7 +673,8 @@ if ($_SESSION['level'] != '2') {
               'cart_id': cart_id,
               'price': price,
               'qty': qty,
-              'discount': discount,
+              'discount_rp': discount_rp,
+              'discount_persen': discount_persen,
               'total': total
             },
             dataType: 'json',
@@ -681,11 +731,14 @@ if ($_SESSION['level'] != '2') {
         $('#price_item').val($(this).data('price'))
         $('#qty_item').val($(this).data('qty'))
         $('#total_before').val($(this).data('price') * $(this).data('qty'))
-        $('#discount_item').val($(this).data('discount'))
+        $('#discount_item_rp').val($(this).data('discount_rp'))
+        $('#discount_item_persen').val($(this).data('discount_persen'))
+        $('#jml_discount_item').val($(this).data('item_diskon'))
         $('#total_item').val($(this).data('total'))
       })
 
-      $(document).on('keyup mouseup', '#price_item, #qty_item, #discount_item', function() {
+      //untuk update pada item_cart
+      $(document).on('keyup mouseup', '#price_item, #qty_item, #discount_item_rp, #discount_item_persen, #jml_discount_item', function() {
         count_edit_modal()
       })
       $(document).on('keyup mouseup', '#discount, #cash', function() {
@@ -748,29 +801,7 @@ if ($_SESSION['level'] != '2') {
         }
       })
 
-      $(document).on('keyup', '#barcode', function() {
-        var barkode = $('#barcode').val()
-        // var outlet_id = $outlet_id
-        $.ajax({
-          type: 'POST',
-          url: 'proseskasir.php',
-          data: {
-            'barcode': true,
-            'barcode': barkode
-            // 'outlet_id' : outlet_id
-          },
-          dataType: 'json',
-          success: function(data) {
-            $('#item_id').val(data.item_id);
-            $('#price').val(data.price);
-            $('#stock').val(data.stock);
-          },
-          error: function(xhr, status, error) {
-            alert(xhr.responseText);
-          }
-        })
 
-      })
 
       $(document).on('click', '#cancel_payment', function() {
         if (confirm('Apakah Anda Yakin ?')) {
@@ -841,15 +872,26 @@ if ($_SESSION['level'] != '2') {
     function count_edit_modal() {
       var price = $('#price_item').val()
       var qty = $('#qty_item').val()
-      var discount = $('#discount_item').val()
-
+      var discount_rp = $('#discount_item_rp').val()
+      var discount_persen = $('#discount_item_persen').val()
+      var jml_discount_item = $('#jml_discount_item').val()
       total_before = price * qty
       $('#total_before').val(total_before)
-
-      total = (price - discount) * qty
-      $('#total_item').val(total)
-      if (discount == '') {
-        $('#discount_item').val(0)
+      if (discount_rp != '' & discount_persen != '') {
+        alert('Isi salah satu diskon saja')
+        $('#discount_item_persen').val('')
+        $('#discount_item_rp').focus()
+      } else if (discount_persen < 0 || discount_persen > 100) {
+        alert('Diskon kurang dari 0% atau lebih dari 100%')
+        $('#discount_item_persen').val('')
+        $('#discount_item_persen').focus()
+      } else if (discount_rp != '' & discount_persen == '') {
+        total = (qty * price) - (jml_discount_item * discount_rp)
+        $('#total_item').val(total)
+      } else if (discount_rp == '' & discount_persen != '') {
+        var nilai_diskon = (discount_persen / 100) * price
+        total = (qty * price) - (jml_discount_item * nilai_diskon)
+        $('#total_item').val(total)
       }
     }
 

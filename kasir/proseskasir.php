@@ -8,7 +8,7 @@ if (isset($_POST['add_cart'])) {
     $user_id    = $_SESSION['userid'];
     $outlet_id  = $_SESSION['outlet_id'];
     $cart_id    = 6 . str_shuffle(date('dmyhis'));
-
+    // var_dump($item_id,$price);
     $iditem = mysqli_query($koneksi, "SELECT * FROM t_cart WHERE item_id = '$item_id' AND user_id = '$user_id'");
     $id = mysqli_fetch_assoc($iditem);
     $itemid = $id['item_id'];
@@ -55,9 +55,8 @@ if (isset($_POST['add_cart'])) {
     $cart_id = $_POST['cart_id'];
     $price = $_POST['price'];
     $qty = $_POST['qty'];
-    $discount_item = $_POST['discount'];
+    $discount_item = $_POST['discount_rp'] == '' ? $_POST['discount_persen'] : $_POST['discount_rp'];
     $total = $_POST['total'];
-    // $total_discount_item = $discount_item * $qty;
 
     $query = "UPDATE t_cart SET price = '$price', qty = '$qty', discount_item = '$discount_item', total = '$total' WHERE cart_id = '$cart_id'";
     $result = mysqli_query($koneksi, $query);
