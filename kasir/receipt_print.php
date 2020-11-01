@@ -19,7 +19,7 @@ use Mike42\Escpos\Printer;
 
 try {
   // $connector = null; //untuk printer usb
-  $connector = new NetworkPrintConnector("192.168.137.201", 9100); //untuk printer jaringan
+  $connector = new NetworkPrintConnector("127.0.0.1", 9100); //untuk printer jaringan
   // $connector = new WindowsPrintConnector("Receipt Printer");//untuk printer usb
   $printer = new Printer($connector);
   $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -28,9 +28,9 @@ try {
   function buatBaris4Kolom($kolom1, $kolom2, $kolom3, $kolom4)
   {
     // Mengatur lebar setiap kolom (dalam satuan karakter)
-    $lebar_kolom_1 = 12;
-    $lebar_kolom_2 = 8;
-    $lebar_kolom_3 = 8;
+    $lebar_kolom_1 = 9;
+    $lebar_kolom_2 = 9;
+    $lebar_kolom_3 = 15;
     $lebar_kolom_4 = 9;
 
     // Melakukan wordwrap(), jadi jika karakter teks melebihi lebar kolom, ditambahkan \n 
@@ -109,9 +109,23 @@ try {
   // $printer->text(buatBaris5Kolom("Barang", "qty", "Harga", "Disc.", "Subtotal"));
   $printer->text("-----------------------------------------\n");
   while ($data1 = mysqli_fetch_assoc($result1)) {
-    $printer->text($data1['name'] . "\n");
-    $printer->text(buatBaris4Kolom($data1['qty'] . " X", $data1['price'] . " -", $data1['discount_item'] . " =", ($data1['qty'] * $data1['price'] - $data1['discount_item'])));
+    if ($data1['discount_item_rp'] != 0) {
+      $printer->text($data1['name'] . "\n");
+      $printer->text(buatBaris4Kolom($data1['qty'] . " X", $data1['price'] . " -", "(" . $data1['item_diskon'] . ")" . $data1['discount_item_rp']  . " =", ($data1['qty'] * $data1['price'] - $data1['discount_item_rp'])));
+    } elseif ($data1['discount_item_persen'] != 0) {
+      $printer->text($data1['name'] . "\n");
+      $printer->text(buatBaris4Kolom($data1['qty'] . " X", $data1['price'] . " -", "(" . $data1['item_diskon'] . ")" . $data1['discount_item_persen'] . "%" . " =", ($data1['qty'] * $data1['price'] - (($data1['discount_item_persen'] / 100) * $data1['price']))));
+    } else {
+      $printer->text($data1['name'] . "\n");
+      $printer->text(buatBaris4Kolom($data1['qty'] . " X", $data1['price'] . " -", "0" . " =", ($data1['qty'] * $data1['price'] - 0)));
+    }
   }
+
+
+  // while ($data1 = mysqli_fetch_assoc($result1)) {
+  //   $printer->text($data1['name'] . "\n");
+  //   $printer->text(buatBaris4Kolom($data1['qty'] . " X", $data1['price'] . " -", $data1['discount_item_rp'] . " =", ($data1['qty'] * $data1['price'] - $data1['discount_item_rp'])));
+  // }
   $printer->text("-----------------------------------------\n");
   $printer->text(buatBaris4Kolom('', '', "Total", $data['total_price']));
   $printer->text(buatBaris4Kolom('', '', "Disc.", $data['discount']));

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2020 at 03:18 PM
+-- Generation Time: Nov 01, 2020 at 08:38 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -111,7 +111,9 @@ CREATE TABLE `t_cart` (
   `item_id` varchar(100) NOT NULL,
   `price` int(11) NOT NULL,
   `qty` int(10) NOT NULL,
-  `discount_item` int(11) NOT NULL DEFAULT '0',
+  `discount_item_rp` int(11) DEFAULT '0',
+  `discount_item_persen` int(11) DEFAULT '0',
+  `item_diskon` int(11) DEFAULT '0',
   `total` int(11) NOT NULL,
   `user_id` varchar(100) NOT NULL,
   `outlet_id` varchar(100) NOT NULL
@@ -151,7 +153,9 @@ CREATE TABLE `t_sale_detail` (
   `item_id` varchar(100) NOT NULL,
   `price` int(11) NOT NULL,
   `qty` int(11) NOT NULL,
-  `discount_item` int(11) NOT NULL,
+  `discount_item_rp` int(11) NOT NULL DEFAULT '0',
+  `discount_item_persen` int(11) DEFAULT '0',
+  `item_diskon` int(11) DEFAULT '0',
   `total` int(11) NOT NULL,
   `date` date NOT NULL,
   `user_id` varchar(100) NOT NULL,
@@ -207,13 +211,6 @@ CREATE TABLE `user` (
   `updated` datetime DEFAULT NULL,
   `outlet_id` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`user_id`, `name`, `telp`, `address`, `username`, `password`, `level`, `created`, `updated`, `outlet_id`) VALUES
-('10291552005073', 'Fajar Ramadhan Akbar', '085156358218', 'Kuala Kapuas', 'admin', '356a192b7913b04c54574d18c28d46e6395428ab', 1, '2020-09-25 13:58:19', NULL, '0');
 
 --
 -- Indexes for dumped tables

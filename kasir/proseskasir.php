@@ -8,22 +8,38 @@ if (isset($_POST['add_cart'])) {
     $user_id    = $_SESSION['userid'];
     $outlet_id  = $_SESSION['outlet_id'];
     $cart_id    = 6 . str_shuffle(date('dmyhis'));
-    // var_dump($item_id,$price);
-    $iditem = mysqli_query($koneksi, "SELECT * FROM t_cart WHERE item_id = '$item_id' AND user_id = '$user_id'");
-    $id = mysqli_fetch_assoc($iditem);
-    $itemid = $id['item_id'];
-    $userid = $id['user_id'];
+    $item = mysqli_query($koneksi, "SELECT * FROM t_cart WHERE item_id = '$item_id' AND user_id = '$user_id'");
+    $data = mysqli_fetch_assoc($item);
+    $itemid = $data['item_id'];
+    $userid = $data['user_id'];
+    $discount_rp = $data['discount_item_rp'];
+    $discount_persen = $data['discount_item_persen'];
+    $item_diskon = $data['item_diskon'];
     if (($item_id == $itemid) & ($user_id == $userid)) {
-        //update qty dan total
-        $query1 = "UPDATE t_cart SET price = '$price', qty = qty + '$qty', total = ('$price' * qty-(discount_item * qty)) WHERE item_id = '$item_id' AND user_id = '$user_id'AND outlet_id = '$outlet_id'";
-    } else {
-        //untuk menambahkan ke database t_cart
+        if ($discount_rp != 0 & $discount_persen == 0) {
+            $query = "UPDATE t_cart SET price = '$price', qty = qty + '$qty', total = (('$price' * qty) - ('$discount_rp' * item_diskon)) WHERE user_id = '$user_id' AND item_id =  '$item_id' AND outlet_id = '$outlet_id'";
+            // $query = "UPDATE t_cart SET price = '$price', qty = qty + '$qty', total = (('$price' * qty) - ('$discount_rp' * '$item_diskon')) WHERE item_id = '$item_id' AND user_id = '$user_id'AND outlet_id = '$outlet_id'";
+            // $result = mysqli_query($koneksi, $query);
+            // var_dump('untuk update discount rp');
+        } elseif ($discount_rp == 0 & $discount_persen != 0) {
+            $nilai_diskon_persen = ($discount_persen / 100) * $price;
+            $query = "UPDATE t_cart SET price = '$price', qty = qty + '$qty', total = (('$price' * qty) - ('$nilai_diskon_persen' * item_diskon)) WHERE user_id = '$user_id' AND item_id =  '$item_id' AND outlet_id = '$outlet_id'";
+            // $query = "UPDATE t_cart SET price = '$price', qty = qty + '$qty', total = (('$price' * qty) - ('$discount_persen' * item_diskon)) WHERE user_id = '$user_id' AND item_id =  '$item_id' AND outlet_id = '$outlet_id'";
+            // var_dump('untuk update discount persen');
+        } else {
+            //update qty dan total
+            $query = "UPDATE t_cart SET price = '$price', qty = qty + '$qty', total = ('$price' * qty) WHERE item_id = '$item_id' AND user_id = '$user_id' AND outlet_id = '$outlet_id'";
+            // var_dump('untuk update');
+        }
+    } elseif (($item_id != $itemid) & ($user_id != $userid)) {
+        // var_dump('untuk insert');
+        //     // untuk menambahkan ke database t_cart
         $total = $price * $qty;
-        $query1 = ("INSERT INTO t_cart VALUES('$cart_id','$item_id','$price','$qty','','$total','$user_id','$outlet_id')");
+        $query = ("INSERT INTO t_cart VALUES('$cart_id','$item_id','$price','$qty','','','', '$total','$user_id','$outlet_id')");
     }
-    $result = mysqli_query($koneksi, $query1);
-    $data = mysqli_affected_rows($koneksi);
-    if ($data > 0) {
+    $result = mysqli_query($koneksi, $query);
+    $data1 = mysqli_affected_rows($koneksi);
+    if ($data1 > 0) {
         $params = array("success" => true);
     } else {
         $params = array("success" => false);
@@ -55,10 +71,19 @@ if (isset($_POST['add_cart'])) {
     $cart_id = $_POST['cart_id'];
     $price = $_POST['price'];
     $qty = $_POST['qty'];
-    $discount_item = $_POST['discount_rp'] == '' ? $_POST['discount_persen'] : $_POST['discount_rp'];
+    $discount_rp = $_POST['discount_rp'];
+    $discount_persen = $_POST['discount_persen'];
+    $item_diskon = $_POST['item_diskon'];
     $total = $_POST['total'];
-
-    $query = "UPDATE t_cart SET price = '$price', qty = '$qty', discount_item = '$discount_item', total = '$total' WHERE cart_id = '$cart_id'";
+    if ($discount_rp != 0 & $discount_persen == 0) {
+        // var_dump('untuk diskon rp');
+        $query = "UPDATE t_cart SET price = '$price', qty = '$qty', discount_item_rp = '$discount_rp', item_diskon = '$item_diskon', total = '$total' WHERE cart_id = '$cart_id'";
+    } elseif ($discount_persen != 0 & $discount_rp == 0) {
+        $query = "UPDATE t_cart SET price = '$price', qty = '$qty', discount_item_persen = '$discount_persen', item_diskon = '$item_diskon', total = '$total' WHERE cart_id = '$cart_id'";
+        // var_dump('untuk diskon persen');
+    } else {
+        $query = "UPDATE t_cart SET price = '$price', qty = '$qty', discount_item_rp = 0, discount_item_persen = 0, item_diskon = 0, total = '$total' WHERE cart_id = '$cart_id'";
+    }
     $result = mysqli_query($koneksi, $query);
     $data = mysqli_affected_rows($koneksi);
     if ($data > 0) {
@@ -81,41 +106,41 @@ if (isset($_POST['add_cart'])) {
     $user_id = $_SESSION['userid'];
     $sale_id    = 7 . str_shuffle(date('dmyhis'));
     $query = "INSERT INTO t_sale (sale_id, invoice, customer_id, total_price, discount, final_price, cash, remaining, note, date, outlet_id, user_id) VALUES (
-        '$sale_id',
-        '$invoice', 
-        '$customer_id', 
-        '$total_price', 
-        '$discount', 
-        '$final_price',
-        '$cash', 
-        '$remaining', 
-        '$note', 
-        '$date',
-        '$outlet_id',
-        '$user_id')";
+         '$sale_id',
+         '$invoice', 
+         '$customer_id', 
+         '$total_price', 
+         '$discount', 
+         '$final_price',
+         '$cash', 
+         '$remaining', 
+         '$note', 
+         '$date',
+         '$outlet_id',
+         '$user_id')";
     $cek_sale_id = mysqli_num_rows(mysqli_query($koneksi, "SELECT sale_id FROM t_sale WHERE sale_id='$sale_id'"));
     if ($cek_sale_id > 0) {
         $sale_id_baru    = 7 . str_shuffle(date('dmyhis'));
         $query1 = "INSERT INTO t_sale (sale_id, invoice, customer_id, total_price, discount, final_price, cash, remaining, note, date, outlet_id, user_id) VALUES (
-            '$sale_id_baru',
-            '$invoice', 
-            '$customer_id', 
-            '$total_price', 
-            '$discount', 
-            '$final_price',
-            '$cash', 
-            '$remaining', 
-            '$note', 
-            '$date',
-            '$outlet_id',
-            '$user_id')";
+                '$sale_id_baru',
+                '$invoice', 
+                '$customer_id', 
+                '$total_price', 
+                '$discount', 
+                '$final_price',
+                '$cash', 
+                '$remaining', 
+                '$note', 
+                '$date',
+                '$outlet_id',
+                '$user_id')";
         $result1 = mysqli_query($koneksi, $query1);
         $result2 = mysqli_query($koneksi, "SELECT * FROM t_cart WHERE user_id = '$user_id'");
         $detail_id = 8 . str_shuffle(date('dmyhis'));
-        $sql = "INSERT INTO t_sale_detail (detail_id,sale_id,item_id,price,qty,discount_item,total,date,user_id,outlet_id) VALUES ";
+        $sql = "INSERT INTO t_sale_detail (detail_id,sale_id,item_id,price,qty,discount_item_rp,discount_item_persen,item_diskon,total,date,user_id,outlet_id) VALUES ";
         while ($data1 = mysqli_fetch_assoc($result2)) {
             $detail_id = 8 . str_shuffle(date('dmyhis'));
-            $sql .= "('" . $detail_id . "','" . $sale_id_baru . "','" . $data1['item_id'] . "','" . $data1['price'] . "','" . $data1['qty'] . "','" . $data1['discount_item'] . "','" . $data1['total'] . "','" . $date . "','" . $data1['user_id'] . "','" . $data1['outlet_id'] . "'), ";
+            $sql .= "('" . $detail_id . "','" . $sale_id_baru . "','" . $data1['item_id'] . "','" . $data1['price'] . "','" . $data1['qty'] . "','" . $data1['discount_item_rp'] . "','" . $data1['discount_item_persen'] . "','" . $data1['item_diskon'] .  "','" . $data1['total'] . "','" . $date . "','" . $data1['user_id'] . "','" . $data1['outlet_id'] . "'), ";
         }
         $sql = rtrim($sql, ', ');
         mysqli_query($koneksi, $sql);
@@ -129,15 +154,11 @@ if (isset($_POST['add_cart'])) {
         }
     } else {
         $result4 = mysqli_query($koneksi, $query);
-        // $sale_id = mysqli_insert_id($koneksi);
-
         $result5 = mysqli_query($koneksi, "SELECT * FROM t_cart WHERE user_id = '$user_id'");
-        // $jumlah = mysqli_query($koneksi,"UPDATE p_item SET stock = ");
-
-        $sql1 = "INSERT INTO t_sale_detail (detail_id,sale_id,item_id,price,qty,discount_item,total,date,user_id,outlet_id) VALUES ";
+        $sql1 = "INSERT INTO t_sale_detail (detail_id,sale_id,item_id,price,qty,discount_item_rp,discount_item_persen,item_diskon,total,date,user_id,outlet_id) VALUES ";
         while ($data2 = mysqli_fetch_assoc($result5)) {
             $detail_id = 8 . str_shuffle(date('dmyhis'));
-            $sql1 .= "('" . $detail_id . "','" . $sale_id . "','" . $data2['item_id'] . "','" . $data2['price'] . "','" . $data2['qty'] . "','" . $data2['discount_item'] . "','" . $data2['total'] . "','" . $date . "','" . $data2['user_id'] . "','" . $data2['outlet_id'] . "'), ";
+            $sql1 .= "('" . $detail_id . "','" . $sale_id . "','" . $data2['item_id'] . "','" . $data2['price'] . "','" . $data2['qty'] . "','" . $data2['discount_item_rp'] . "','" . $data2['discount_item_persen'] . "','" . $data2['item_diskon'] .  "','" . $data2['total'] . "','" . $date . "','" . $data2['user_id'] . "','" . $data2['outlet_id'] . "'), ";
         }
         $sql1 = rtrim($sql1, ', ');
         mysqli_query($koneksi, $sql1);
