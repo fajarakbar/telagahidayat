@@ -32,10 +32,13 @@ if ($_SESSION['level'] != '1') {
   <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../plugins/bootstrap-toggle/bootstrap-toggle.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- form validation -->
   <link rel="stylesheet" href="../plugins/parsleyjs/dist/error.css">
+  <!-- tagsinput -->
+  <link rel="stylesheet" href="../plugins/bootstrap-tag-input/tagsinput.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -290,7 +293,10 @@ if ($_SESSION['level'] != '1') {
                       <label for="harga">Harga</label>
                       <input type="text" name="harga" id="rupiah" class="form-control" id="#" required>
                     </div>
-
+                    <div class="form-group">
+                      <label for="varian">Varian Produk</label><br>
+                      <input id="toggle-event" type="checkbox" data-toggle="toggle" data-on="Ya" data-off="Tidak" data-width="85" data-height="5">
+                    </div>
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer">
@@ -353,6 +359,37 @@ if ($_SESSION['level'] != '1') {
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
+        <!-- /.modal-dialog -->
+        <div class="modal fade" id="modal-varian">
+          <div class="modal-dialog modal-default">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Varian Produk</h3>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="group_varian">Group Varian *</label>
+                  <input type="text" name="group_varian" class="form-control" id="group_varian" required>
+                </div>
+                <div class="form-group">
+                  <label for="pilihan_varian">Pilihan Varian *</label>
+                  <input type="text" data-role="tagsinput" name="pilihan_varian" id="pilihan_varian" required>
+                </div>
+                <div class="form-group" id="detail_varian">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="cancel-varian" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="button" id="simpan-varian" class="btn btn-primary">Simpan</button>
+              </div>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
       </section>
       <!-- /.content -->
     </div>
@@ -391,12 +428,37 @@ if ($_SESSION['level'] != '1') {
   <!-- form validation -->
   <script src="../plugins/parsleyjs/dist/parsley.min.js"></script>
   <script src="../plugins/parsleyjs/dist/i18n/id.js"></script>
-
+  <!-- Bootstrap Switch -->
+  <script src="../plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+  <!-- tagsinput -->
+  <script src="../plugins/bootstrap-tag-input/tagsinput.js"></script>
   <script>
     $(document).ready(function() {
       loadData();
       $('#form').parsley();
+      mvarian()
+
     })
+
+    // $(document).on('input', '#pilihan_varian', function() {
+    //   $("input").tagsinput('items')
+    //   // console.log(a)
+    // })
+
+    $(document).on('change', '#toggle-event', function() {
+      var a = $('#modal-varian').modal('show')
+    })
+
+    $(document, window).on('click', '#cancel-varian, #close', function(event) {
+      var modal = $('#modal-varian').modal('show')
+      if (event.target == modal) {
+        modal.style.display = "block";
+      } else {
+        $('#modal-varian').modal('hide')
+        $('#toggle-event').bootstrapToggle('off')
+      }
+    })
+
     $(document).on('click', '#simpankategori', function() {
       var namakategori = $('#nama_kategori').val()
       if (namakategori == '') {
@@ -424,6 +486,7 @@ if ($_SESSION['level'] != '1') {
         })
       }
     })
+
     $(document).on('click', '#simpansatuanbarang', function() {
       var namasatuanbarang = $('#nama_satuanbarang').val()
       if (namasatuanbarang == '') {
@@ -454,6 +517,13 @@ if ($_SESSION['level'] != '1') {
     function loadData() {
       $('#kategori').load('tampilkategori.php')
       $('#satuanbarang').load('tampilsatuanbarang.php')
+    }
+
+    function mvarian() {
+      $("#modal-varian").modal({
+        show: false,
+        backdrop: 'static'
+      });
     }
   </script>
 </body>

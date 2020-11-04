@@ -176,15 +176,24 @@ if (isset($_POST['add_cart'])) {
     $barcode = $_POST['barcode'];
     $outlet_id = $_SESSION['outlet_id'];
     $query = mysqli_query($koneksi, "SELECT * FROM p_item WHERE barcode='$barcode' AND outlet_id='$outlet_id'");
-    $data1 = mysqli_fetch_array($query);
-    $data = array(
-        'item_id' => $data1['item_id'],
-        'barcode' => $data1['barcode'],
-        'name' => $data1['name'],
-        'price' => $data1['price'],
-        'satuan' => $data1['unit_id'],
-        'stock' => $data1['stock'],
-    );
+    $jmldata = mysqli_num_rows($query);
+    if ($jmldata > 1) {
+        $data1 = mysqli_fetch_array($query);
+        $data = array(
+            'success' => true,
+            'barcode' => $data1['barcode'],
+        );
+    } else {
+        $data1 = mysqli_fetch_array($query);
+        $data = array(
+            'item_id' => $data1['item_id'],
+            'barcode' => $data1['barcode'],
+            'name' => $data1['name'],
+            'price' => $data1['price'],
+            'satuan' => $data1['unit_id'],
+            'stock' => $data1['stock'],
+        );
+    }
     echo json_encode($data);
 } elseif (isset($_POST['simpanprofil'])) {
     $namaoutlet = $_POST['namaoutlet'];

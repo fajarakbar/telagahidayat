@@ -410,6 +410,61 @@ if ($_SESSION['level'] != '2') {
           </div>
           <!--/modal add item-->
 
+          <!--modal double item-->
+          <div class="modal fade" id="modal-double-item">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Pilih Produk</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <?php
+                $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category_id, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                        FROM p_item 
+                        INNER JOIN p_satuanbarang
+                        ON p_satuanbarang.unit_id=p_item.unit_id WHERE outlet_id = '$outlet_id'";
+
+                $result = mysqli_query($koneksi, $query); ?>
+                <div class="modal-body">
+                  <table class="table table-bordered table-striped" id="example2">
+                    <thead col-sm-4>
+                      <tr>
+                        <th>Barcode</th>
+                        <th>Nama</th>
+                        <th>Satuan</th>
+                        <th>Harga</th>
+                        <th>Stok</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="isi_modal">
+                      <?php
+                      while ($produk = mysqli_fetch_assoc($result)) { ?>
+                        <tr>
+                          <td><?php echo "$produk[barcode]"; ?></td>
+                          <td><?php echo "$produk[name]"; ?></td>
+                          <td><?php echo "$produk[unit_name]"; ?></td>
+                          <td><?php echo rupiah("$produk[price]"); ?></td>
+                          <td><?php echo "$produk[stock]"; ?></td>
+                          <td>
+                            <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]"; ?>" data-barcode="<?= "$produk[barcode]"; ?>" data-price="<?= "$produk[price]"; ?>" data-stock="<?= "$produk[stock]"; ?>">
+                              <i type="button" class="fa fa-check"></i> Select
+                            </button>
+                          </td>
+                        </tr>
+                      <?php } ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!--/modal double item-->
+
           <!--modal edit item-->
           <div class="modal fade" id="modal-item-edit">
             <div class="modal-dialog modal-lg">
@@ -560,7 +615,9 @@ if ($_SESSION['level'] != '2') {
         $('#price').val($(this).data('price'))
         $('#stock').val($(this).data('stock'))
         $('#modal-item').modal('hide')
+        $('#modal-double-item').modal('hide')
         // get_cart_qty($(this).data('barcode'))
+        $('#barcode').val('')
         $('#barcode').focus()
       })
 
@@ -610,14 +667,19 @@ if ($_SESSION['level'] != '2') {
           },
           dataType: 'json',
           success: function(data) {
-            $('#item_id').val(data.item_id);
-            $('#price').val(data.price);
-            $('#stock').val(data.stock);
-            $('#barcode').val('')
-            $('#barcode').focus()
+            if (data.success == true) {
+              $('#modal-double-item').modal('show')
+              cari(barkode)
+            } else {
+              $('#item_id').val(data.item_id)
+              $('#price').val(data.price)
+              $('#stock').val(data.stock)
+              $('#barcode').val('')
+              $('#barcode').focus()
+            }
           },
           error: function(xhr, status, error) {
-            alert(xhr.responseText);
+            alert(error.responseText);
           }
         })
       })
@@ -903,12 +965,13 @@ if ($_SESSION['level'] != '2') {
       });
     }
 
-    function modal() {
-      $.ajax({
-        url: 'modal-item.php',
-        type: 'get',
-        success: function(data) {
-          $('#isi_modal').html(data);
+    function cari(barkode) {
+      $("#example2").DataTable({
+        "destroy": true,
+        "responsive": true,
+        "autoWidth": false,
+        "oSearch": {
+          "sSearch": barkode,
         }
       });
     }

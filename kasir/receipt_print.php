@@ -19,7 +19,7 @@ use Mike42\Escpos\Printer;
 
 try {
   // $connector = null; //untuk printer usb
-  $connector = new NetworkPrintConnector("127.0.0.1", 9100); //untuk printer jaringan
+  $connector = new NetworkPrintConnector("192.168.43.26", 9100); //untuk printer jaringan
   // $connector = new WindowsPrintConnector("Receipt Printer");//untuk printer usb
   $printer = new Printer($connector);
   $printer->setJustification(Printer::JUSTIFY_CENTER);

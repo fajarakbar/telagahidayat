@@ -408,6 +408,65 @@ if ($_SESSION['level'] != '1') {
       <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
+    <!--modal double item-->
+    <div class="modal fade" id="modal-double-item">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Pilih Produk</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered table-striped" id="example2">
+              <thead col-sm-4>
+                <tr>
+                  <th>Outlet</th>
+                  <th>Barcode</th>
+                  <th>Nama</th>
+                  <th>Satuan</th>
+                  <th>Harga</th>
+                  <th>Stok</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $query = "SELECT outlet.name AS outlet_name, p_item.item_id, p_item.barcode, p_item.name, p_kategori.name AS category_name, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
+                                FROM p_item 
+                                INNER JOIN p_kategori
+                                ON p_kategori.category_id=p_item.category_id
+                                INNER JOIN p_satuanbarang
+                                ON p_satuanbarang.unit_id=p_item.unit_id
+                                INNER JOIN outlet
+                                ON outlet.outlet_id=p_item.outlet_id";
+                // WHERE p_item.outlet_id='$outlet'";
+                $result = mysqli_query($koneksi, $query);
+
+                while ($produk = mysqli_fetch_assoc($result)) { ?>
+                  <tr>
+                    <td><?php echo "$produk[outlet_name]"; ?></td>
+                    <td><?php echo "$produk[barcode]"; ?></td>
+                    <td><?php echo "$produk[name]"; ?></td>
+                    <td><?php echo "$produk[unit_name]"; ?></td>
+                    <td><?php echo rupiah("$produk[price]"); ?></td>
+                    <td><?php echo "$produk[stock]"; ?></td>
+                    <td>
+                      <button class="btn btn-info btn-sm" id="select" data-id="<?= "$produk[item_id]"; ?>" data-barcode="<?= "$produk[barcode]"; ?>" data-name="<?= "$produk[name]"; ?>" data-unit="<?= "$produk[unit_name]"; ?>" data-stock="<?= "$produk[stock]"; ?>">
+                        <i type="button" class="fa fa-check"></i> Select
+                      </button>
+                    </td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!--/modal double item-->
     </section>
     <!-- /.content -->
 
@@ -472,29 +531,42 @@ if ($_SESSION['level'] != '1') {
         $('#unit_name').val(unit_name);
         $('#stock').val(stock);
         $('#modal-item').modal('hide');
+        $('#modal-double-item').modal('hide');
       })
       $(document).on('keyup', '#barcode', function() {
         var barkode = $('#barcode').val()
-        var outlet = $('#outlet').val()
-        $.ajax({
-          type: 'POST',
-          url: 'prosesstokmasuk.php',
-          data: {
-            'barcode': true,
-            'barcode': barkode,
-            'outlet': outlet
-          },
-          dataType: 'json',
-          success: function(data) {
-            $('#item_id').val(data.item_id);
-            $('#item_name').val(data.name);
-            $('#unit_name').val(data.satuan);
-            $('#stock').val(data.stock);
-          },
-          error: function(xhr, status, error) {
-            alert(xhr.responseText);
-          }
-        })
+        if (barkode != '') {
+          var outlet = $('#outlet').val()
+          $.ajax({
+            type: 'POST',
+            url: 'prosesstokmasuk.php',
+            data: {
+              'barcode': true,
+              'barcode': barkode,
+              'outlet': outlet
+            },
+            dataType: 'json',
+            success: function(data) {
+              if (data.success == true) {
+                $('#modal-double-item').modal('show')
+                cari(barkode)
+              } else {
+                $('#item_id').val(data.item_id);
+                $('#item_name').val(data.name);
+                $('#unit_name').val(data.satuan);
+                $('#stock').val(data.stock);
+              }
+            },
+            error: function(xhr, status, error) {
+              alert(xhr.responseText);
+            }
+          })
+        } else {
+          $('#item_id').val('');
+          $('#item_name').val('');
+          $('#unit_name').val('');
+          $('#stock').val('');
+        }
       })
       $(document).on('keyup', '#item_name', function() {
         var item_name = $('#item_name').val()
@@ -521,6 +593,17 @@ if ($_SESSION['level'] != '1') {
         })
       })
     })
+
+    function cari(barkode) {
+      $("#example2").DataTable({
+        "destroy": true,
+        "responsive": true,
+        "autoWidth": false,
+        "oSearch": {
+          "sSearch": barkode,
+        }
+      });
+    }
   </script>
 
 </body>

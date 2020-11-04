@@ -113,14 +113,22 @@ if (isset($_POST['simpanstokmasuk'])) {
   $outlet   = $_POST['outlet'];
   //memilih semua data di tabel buku sesuai dengan id yang disubmit
   $query = mysqli_query($koneksi, "SELECT *, p_item.name AS name_item, p_satuanbarang.name AS name_unit  FROM p_item INNER JOIN p_satuanbarang ON p_satuanbarang.unit_id = p_item.unit_id WHERE barcode='$barcode' AND outlet_id='$outlet'");
-  $data1 = mysqli_fetch_array($query);
-  $data = array(
-    'item_id' => $data1['item_id'],
-    'barcode' => $data1['barcode'],
-    'name' => $data1['name_item'],
-    'satuan' => $data1['name_unit'],
-    'stock' => $data1['stock'],
-  );
+  $jmldata = mysqli_num_rows($query);
+  if ($jmldata > 1) {
+    $data1 = mysqli_fetch_array($query);
+    $data = array(
+      'success' => true,
+    );
+  } else {
+    $data1 = mysqli_fetch_array($query);
+    $data = array(
+      'item_id' => $data1['item_id'],
+      'barcode' => $data1['barcode'],
+      'name' => $data1['name_item'],
+      'satuan' => $data1['name_unit'],
+      'stock' => $data1['stock'],
+    );
+  }
   echo json_encode($data); //menampilkan data json
 } elseif (isset(($_POST['item_name']))) {
   $item_name  = $_POST['item_name'];  //menangkap id yang disubmit
