@@ -250,6 +250,12 @@ with font-awesome or any other icon font library -->
                   <h3 style="padding-top:6px" class="card-title">Daftar Produk</h3>
                   <table style="float:right">
                     <td>
+                      <a href="" data-toggle="modal" data-target="#modal-impor"><button type="button" class="btn btn-block btn-success btn-sm">Impor</button></a>
+                    </td>
+                    <td>
+                      <a href="export_excel.php" target="_blank"><button type="button" class="btn btn-block btn-secondary btn-sm">Ekspor</button></a>
+                    </td>
+                    <td>
                       <a href="buatprodukbaru.php"><button type="button" class="btn btn-block btn-primary btn-sm">Tambah</button></a>
                     </td>
                   </table>
@@ -263,7 +269,7 @@ with font-awesome or any other icon font library -->
                 INNER JOIN p_satuanbarang
                 ON p_satuanbarang.unit_id=p_item.unit_id
                 INNER JOIN outlet
-                ON outlet.outlet_id=p_item.outlet_id";
+                ON outlet.outlet_id=p_item.outlet_id ORDER BY p_item.name";
 
                 $result = mysqli_query($koneksi, $query);
                 ?>
@@ -322,6 +328,49 @@ with font-awesome or any other icon font library -->
             </div>
             <!-- /.row -->
           </div><!-- /.container-fluid -->
+          <div class="modal fade" id="modal-impor">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Impor Produk</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form method="post" enctype="multipart/form-data" action="impor-excel.php">
+                    <div class="form-group">
+                      <label for="outlet">1. Outlet</label>
+                      <select name="outlet" class="form-control" style="width: 100%;" required>
+                        <option disabled selected="selected">- Pilih -</option>
+                        <?php
+                        $query = "SELECT * FROM outlet";
+                        $result = mysqli_query($koneksi, $query);
+                        while ($outlet = mysqli_fetch_assoc($result)) { ?>
+                          <option value="<?php echo "$outlet[outlet_id]"; ?>"><?php echo "$outlet[name]"; ?>
+                          </option>
+                        <?php
+                        }
+                        ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputFile">Gunakan template file XLS ini untuk input data</label>
+                      <a href="../dist/daftar_produk.xlsx" target="_blank"><button type="button" class="btn btn-block btn-success">Download Template (.xlsx)</button></a>
+                      <!-- <button type="button" class="btn btn-success"></button> -->
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputFile">2. File Upload</label>
+                      <input type="file" name="berkas_excel" class="form-control" id="exampleInputFile">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Impor</button>
+                  </form>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
       </section>
       <!-- /.content -->
     </div>

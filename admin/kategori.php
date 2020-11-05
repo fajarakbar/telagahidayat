@@ -260,7 +260,7 @@ if ($_SESSION['level'] != '1') {
                 <!-- /.card-header -->
                 <?php
                 $no = 1;
-                $query = "SELECT * FROM p_kategori";
+                $query = "SELECT * FROM p_kategori ORDER BY name";
                 $result = mysqli_query($koneksi, $query); ?>
                 <div class="card-body">
                   <table class="table table-hover text-nowrap" id="example1">

@@ -31,6 +31,10 @@ if ($_SESSION['level'] != '1') {
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
 
   <!-- REQUIRED SCRIPTS -->
   <!-- jQuery -->
@@ -47,10 +51,19 @@ if ($_SESSION['level'] != '1') {
   <script src="../plugins/charts/jquery.min.js"></script>
   <script src="../plugins/charts/highcharts.js"></script>
   <script src="../plugins/charts/exporting.js"></script>
+
+  <!-- DataTables -->
+  <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script>
     $(function() {
       //Highcharts with mysqli and PHP - Ajax101.com
-
+      $("#example1").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+      });
       var months = [];
       var transaksi = [];
       var switch1 = true;
@@ -439,7 +452,7 @@ if ($_SESSION['level'] != '1') {
                     <tbody>
                       <?php
                       $no = 1;
-                      $result = mysqli_query($koneksi, "SELECT *,p_item.name AS produk_name, outlet.name AS outlet_name FROM p_item INNER JOIN outlet ON outlet.outlet_id=p_item.outlet_id WHERE stock < 13");
+                      $result = mysqli_query($koneksi, "SELECT *,p_item.name AS produk_name, outlet.name AS outlet_name FROM p_item INNER JOIN outlet ON outlet.outlet_id=p_item.outlet_id WHERE stock < 13 ORDER BY p_item.name");
                       while ($stokhabis = mysqli_fetch_assoc($result)) { ?>
                         <tr>
                           <td><?php echo $no++; ?></td>

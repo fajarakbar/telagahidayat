@@ -1,6 +1,7 @@
 <?php
 include '../koneksi.php';
 session_start();
+require '../vendor/autoload.php';
 
 if (!isset($_SESSION['level'])) { //apakh status tdk bernilai true
     header("Location: ../index.php");
@@ -135,6 +136,6 @@ if (isset($_POST['simpanproduk'])) {
             window.location = 'daftarproduk.php';</script>
             ";
     }
-} else {
+}  else {
     header('location: daftarproduk.php');
 }
