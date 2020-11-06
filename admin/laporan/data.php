@@ -30,14 +30,17 @@ if (isset($_POST['transaksipenjualan'])) {
         echo json_encode($data);
     }
 } elseif (isset($_POST['penjualanproduk'])) {
-    $query = "SELECT p_item.name AS nama_produk, 
-            SUM(t_sale_detail.qty) AS terjual, 
-            SUM(t_sale_detail.price * t_sale_detail.qty) AS penjualan_kotor, 
-            SUM(t_sale_detail.discount_item * t_sale_detail.qty) AS diskon_produk, 
-            SUM((t_sale_detail.price * t_sale_detail.qty) - (t_sale_detail.discount_item * t_sale_detail.qty)) AS total
-            FROM t_sale_detail 
-            INNER JOIN p_item ON p_item.item_id=t_sale_detail.item_id
-            GROUP BY t_sale_detail.item_id";
+    $query = "SELECT SUM(t_sale_detail.discount_item_rp) AS discount_item_rp,
+                SUM((t_sale_detail.discount_item_persen/100)*t_sale_detail.price) AS discount_item_nilaipersen,
+                p_item.name AS nama_produk, 
+                SUM(t_sale_detail.qty) AS terjual, 
+                SUM(t_sale_detail.price * t_sale_detail.qty) AS penjualan_kotor, 
+                SUM(t_sale_detail.item_diskon) AS diskon_item_produk,
+                ROUND(SUM((t_sale_detail.discount_item_rp + ((t_sale_detail.discount_item_persen/100)*t_sale_detail.price)) * t_sale_detail.item_diskon)) AS diskon_produk, 
+                ROUND(SUM((t_sale_detail.price * t_sale_detail.qty) - ((t_sale_detail.discount_item_rp + ((t_sale_detail.discount_item_persen/100)*t_sale_detail.price)) * t_sale_detail.item_diskon))) AS total
+                FROM t_sale_detail 
+                INNER JOIN p_item ON p_item.item_id=t_sale_detail.item_id
+                GROUP BY t_sale_detail.item_id";
     if ($result = mysqli_query($koneksi, $query)) {
         while ($row = mysqli_fetch_assoc($result)) {
             $data[] = $row;
@@ -55,16 +58,18 @@ if (isset($_POST['transaksipenjualan'])) {
     }
     echo json_encode($data);
 } elseif (isset($_POST['labaproduk'])) {
-    $query = "SELECT p_item.name AS nama_produk, 
-                    SUM(t_sale_detail.qty) AS terjual, 
-                    SUM(t_sale_detail.price * t_sale_detail.qty) AS penjualan_kotor, 
-                    SUM(t_sale_detail.discount_item * t_sale_detail.qty) AS diskon_produk,
-                    p_item.beli * SUM(t_sale_detail.qty) AS pembelian,
-                    (SUM(t_sale_detail.price * t_sale_detail.qty) - SUM(t_sale_detail.discount_item * t_sale_detail.qty) - (p_item.beli * SUM(t_sale_detail.qty))) AS laba_produk 
-            FROM t_sale_detail 
-            INNER JOIN p_item ON p_item.item_id=t_sale_detail.item_id
-            -- INNER JOIN t_stock ON t_stock.item_id=t_sale_detail.item_id
-            GROUP BY t_sale_detail.item_id";
+    $query = "SELECT SUM(t_sale_detail.discount_item_rp) AS discount_item_rp,
+    ROUND(SUM((t_sale_detail.discount_item_persen/100)*t_sale_detail.price)) AS discount_item_nilaipersen,
+    p_item.name AS nama_produk, 
+    SUM(t_sale_detail.qty) AS terjual, 
+    SUM(t_sale_detail.price * t_sale_detail.qty) AS penjualan_kotor, 
+    SUM(t_sale_detail.item_diskon) AS diskon_item_produk,
+    ROUND(SUM((t_sale_detail.discount_item_rp + ((t_sale_detail.discount_item_persen/100)*t_sale_detail.price)) * t_sale_detail.item_diskon)) AS diskon_produk, 
+    p_item.beli * SUM(t_sale_detail.qty) AS pembelian,
+    ROUND(SUM(t_sale_detail.price * t_sale_detail.qty) - SUM((t_sale_detail.discount_item_rp + ((t_sale_detail.discount_item_persen/100)*t_sale_detail.price)) * t_sale_detail.item_diskon) - (p_item.beli * SUM(t_sale_detail.qty))) AS laba_produk 
+    FROM t_sale_detail 
+    INNER JOIN p_item ON p_item.item_id=t_sale_detail.item_id
+    GROUP BY t_sale_detail.item_id";
     if ($result = mysqli_query($koneksi, $query)) {
         while ($row = mysqli_fetch_assoc($result)) {
             $data[] = $row;

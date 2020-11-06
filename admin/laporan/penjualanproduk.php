@@ -260,70 +260,16 @@ if ($_SESSION['level'] != '1') {
                         <th>#</th>
                         <th>Produk</th>
                         <th>Terjual</th>
-                        <th>Penjualan Kotor</th>
+                        <th>Penjualan</th>
                         <th>Diskon Produk</th>
+                        <th>Total Diskon</th>
                         <th>Total</th>
                       </tr>
                     </thead>
-                    <!-- <tbody>
-                      <tr>
-                        <?php
-                        function rupiah($angka)
-                        {
-                          $hasil_rupiah = "Rp. " . number_format($angka, 0, '', '.');
-                          return $hasil_rupiah;
-                        }
-                        $no = 1;
-                        $query1 = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT price, qty FROM t_sale_detail "));
-                        $query = "SELECT p_item.name AS nama_produk, 
-                                  SUM(t_sale_detail.qty) AS terjual, 
-                                  SUM(t_sale_detail.price * t_sale_detail.qty) AS penjualan_kotor, 
-                                  SUM(t_sale_detail.discount_item * t_sale_detail.qty) AS diskon_produk, 
-                                  SUM(t_sale_detail.qty * t_sale_detail.price - t_sale_detail.discount_item * t_sale_detail.qty) AS total
-                        FROM t_sale_detail 
-                        INNER JOIN p_item ON p_item.item_id=t_sale_detail.item_id
-                        GROUP BY t_sale_detail.item_id";
-                        $result = mysqli_query($koneksi, $query);
-                        while ($data = mysqli_fetch_assoc($result)) { ?>
-                          <td><?php echo $no++; ?></td>
-                          <td><?php echo "$data[nama_produk]"; ?></td>
-                          <td><?php echo "$data[terjual]"; ?></td>
-                          <td><?php echo rupiah("$data[penjualan_kotor]"); ?></td>
-                          <td><?php echo rupiah("$data[diskon_produk]"); ?></td>
-                          <td><?php echo rupiah("$data[total]"); ?></td>
-                          <td style="width:10%">
-                            <div class="dropdown">
-                              <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              </a>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a href="" id="set_detail" class="dropdown-item" data-toggle="modal" data-target="#modal-detail" data-invoice="<?php echo $data['invoice']; ?>" data-date="<?php echo date('d-m-Y', strtotime($data['date'])); ?>" data-time="<?php echo substr($data['created'], 11, 5); ?>" data-cutomer="<?php $customer = "$data[customer_id]" == NULL ? "Umum" : "Umum";
-                                                                                                                                                                                                                                                                                                                            echo ($customer); ?>" data-total="<?php rupiah("$data[total_price]"); ?>" data-discount="<?php echo rupiah("$data[discount]"); ?>" data-grandtotal="<?php echo rupiah("$data[final_price]"); ?>" data-cash="<?php echo rupiah("$data[cash]"); ?>" data-remaining="<?php echo rupiah("$data[remaining]"); ?>" data-note="<?php echo "$data[note]"; ?>" data-cashier="<?php echo "$data[user_name]"; ?>" data-saleid="<?php echo "$data[sale_id]"; ?>">Detail</a>
-                                <a class="dropdown-item" href="ubahproduk.php?id=<?php echo "$produk[item_id]"; ?>">Print</a>
-                                <a class="dropdown-item" href="hapusproduk.php?id=<?php echo $produk['item_id'] ?>">Hapus</a>
-                              </div>
-                            </div>
-                          </td>
 
-                      </tr>
-                    <?php } ?>
-                    </tbody> -->
                     <tfoot>
                       <tr>
-                        <!-- <?php
-                              $query1 = "SELECT *, 
-                                    SUM(qty) AS total_terjual,
-                                    SUM(price * qty) AS total_penjualan_kotor,
-                                    SUM(discount_item * qty) AS total_diskon_produk,
-                                    SUM(qty * price - discount_item * qty) AS total_total
-                                    FROM t_sale_detail";
-                              $result1 = mysqli_query($koneksi, $query1);
-                              $data1 = mysqli_fetch_assoc($result1);
-                              ?>
-                        <td style="text-align: center;" colspan="2"><b>Grand Total</b></td>
-                        <td><b><?php echo "$data1[total_terjual]"; ?></b></td>
-                        <td><b><?php echo rupiah("$data1[total_penjualan_kotor]"); ?></b></td>
-                        <td><b><?php echo rupiah("$data1[total_diskon_produk]"); ?></b></td>
-                        <td><b><?php echo rupiah("$data1[total_total]"); ?></b></td> -->
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -431,9 +377,12 @@ if ($_SESSION['level'] != '1') {
   <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/r-2.2.3/datatables.min.js"></script>
+  <script type="text/javascript" src="../../plugins/pdfmake/pdfmake.min.js"></script>
+  <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script> -->
+  <script type="text/javascript" src="../../plugins/pdfmake/vfs_fonts.js"></script>
+  <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script> -->
+  <script type="text/javascript" src="../../plugins/r-2.2.3/datatables.min.js"></script>
+  <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/r-2.2.3/datatables.min.js"></script> -->
   <script>
     // Fetch records
     function fetch() {
@@ -472,14 +421,20 @@ if ($_SESSION['level'] != '1') {
                 .reduce(function(a, b) {
                   return intVal(a) + intVal(b);
                 }, 0);
-              diskonproduk = api
+              diskonitemproduk = api
                 .column(4)
                 .data()
                 .reduce(function(a, b) {
                   return intVal(a) + intVal(b);
                 }, 0);
-              total = api
+              diskonproduk = api
                 .column(5)
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              total = api
+                .column(6)
                 .data()
                 .reduce(function(a, b) {
                   return intVal(a) + intVal(b);
@@ -502,7 +457,7 @@ if ($_SESSION['level'] != '1') {
                 .reduce(function(a, b) {
                   return intVal(a) + intVal(b);
                 }, 0);
-              pagediskonproduk = api
+              pagediskonitemproduk = api
                 .column(4, {
                   page: 'current'
                 })
@@ -510,8 +465,16 @@ if ($_SESSION['level'] != '1') {
                 .reduce(function(a, b) {
                   return intVal(a) + intVal(b);
                 }, 0);
-              pagetotal = api
+              pagediskonproduk = api
                 .column(5, {
+                  page: 'current'
+                })
+                .data()
+                .reduce(function(a, b) {
+                  return intVal(a) + intVal(b);
+                }, 0);
+              pagetotal = api
+                .column(6, {
                   page: 'current'
                 })
                 .data()
@@ -528,9 +491,12 @@ if ($_SESSION['level'] != '1') {
                 '<b>Rp. ' + pagepenjualankotor + ' ( Rp. ' + penjualankotor + ')</b>'
               );
               $(api.column(4).footer()).html(
-                '<b>Rp. ' + pagediskonproduk + ' ( Rp. ' + diskonproduk + ')</b>'
+                '<b>' + pagediskonitemproduk + ' (' + diskonitemproduk + ')</b>'
               );
               $(api.column(5).footer()).html(
+                '<b>Rp. ' + pagediskonproduk + ' ( Rp. ' + diskonproduk + ')</b>'
+              );
+              $(api.column(6).footer()).html(
                 '<b>Rp. ' + pagetotal + ' ( Rp. ' + total + ')</b>'
               );
             },
@@ -565,6 +531,12 @@ if ($_SESSION['level'] != '1') {
                 "data": "penjualan_kotor",
                 "render": function(data, type, row, meta) {
                   return (row.penjualan_kotor);
+                }
+              },
+              {
+                "data": "diskon_item_produk",
+                "render": function(data, type, row, meta) {
+                  return (row.diskon_item_produk);
                 }
               },
               {

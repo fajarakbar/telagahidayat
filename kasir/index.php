@@ -364,8 +364,7 @@ if ($_SESSION['level'] != '2') {
                 $query = "SELECT p_item.item_id, p_item.barcode, p_item.name, p_item.category_id, p_satuanbarang.name AS unit_name, p_item.price, p_item.stock 
                         FROM p_item 
                         INNER JOIN p_satuanbarang
-                        ON p_satuanbarang.unit_id=p_item.unit_id WHERE outlet_id = '$outlet_id'";
-
+                        ON p_satuanbarang.unit_id=p_item.unit_id WHERE outlet_id = '$outlet_id' ORDER BY p_item.stock DESC";
                 $result = mysqli_query($koneksi, $query); ?>
                 <div class="modal-body">
                   <table class="table table-bordered table-striped" id="example1">

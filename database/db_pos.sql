@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2020 at 09:31 PM
+-- Generation Time: Nov 06, 2020 at 06:51 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -469,7 +469,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `name`, `telp`, `address`, `username`, `password`, `level`, `created`, `updated`, `outlet_id`) VALUES
-('10052301040163', 'Fajar Ramadhan Akbar', '085156351862', 'Kapuas', 'admin', '356a192b7913b04c54574d18c28d46e6395428ab', 1, '2020-10-14 15:56:30', NULL, NULL);
+('10052301040163', 'Fajar Ramadhan Akbar', '085156351862', 'Kapuas', 'admin', '356a192b7913b04c54574d18c28d46e6395428ab', 1, '2020-10-14 15:56:30', NULL, NULL),
+('10166301002109', 'kasir', '0852', 'kapuas', 'kasir', '356a192b7913b04c54574d18c28d46e6395428ab', 2, '2020-11-06 09:36:01', NULL, '1802010340510');
 
 --
 -- Indexes for dumped tables
