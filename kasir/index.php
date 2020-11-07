@@ -268,7 +268,8 @@ if ($_SESSION['level'] != '2') {
                       </td>
                       <td>
                         <div class="form-group">
-                          <input type="number" id="discount" value="0" min="0" class="form-control">
+                          <input type="number" id="discount" class="form-control">
+                          <!-- <input type="number" id="discount" value="0" min="0" class="form-control"> -->
                         </div>
                       </td>
                     </tr>
@@ -871,8 +872,8 @@ if ($_SESSION['level'] != '2') {
               }
             }
           })
-          $('#discount').val(0)
-          $('#cash').val(0)
+          $('#discount').val('')
+          $('#cash').val('')
           // $('#qty').val(1)
           $('#customer').val('').change()
           $('#barcode').val('')
@@ -915,7 +916,7 @@ if ($_SESSION['level'] != '2') {
       var cash = $('#cash').val();
       cash != 0 ? $('#change').val(cash - grand_total) : $('#change').val(0)
       if (discount == '') {
-        $('#discount').val(0)
+        $('#discount').val('')
       }
     }
 
@@ -935,8 +936,8 @@ if ($_SESSION['level'] != '2') {
         total = total - (jml_discount_item * nilai_diskon_persen)
       } else if (discount_persen != 0 & discount_rp != 0) {
         alert('Isi salah satu diskon saja')
-        $('#discount_rp').val(0)
-        $('#discount_persen').val(0)
+        $('#discount_rp').val('')
+        $('#discount_persen').val('')
         $('#discount_rp').focus()
       }
       $('#total_item').val(total)

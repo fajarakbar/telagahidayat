@@ -29,9 +29,9 @@ if (mysqli_num_rows($result) > 0) {
                     data-stock="<?= $data['stock']; ?>" 
                     data-price="<?= $data['cart_price']; ?>"
                     data-qty="<?= $data['qty']; ?>" 
-                    data-discount_item_rp="<?= $data['discount_item_rp']; ?>"
-                    data-discount_item_persen="<?= $data['discount_item_persen']; ?>"
-                    data-item_diskon="<?= $data['item_diskon']; ?>"
+                    data-discount_item_rp="<?= $data['discount_item_rp'] == 0 ? null : $data['discount_item_rp'] ; ?>"
+                    data-discount_item_persen="<?= $data['discount_item_persen'] == 0 ? null : $data['discount_item_persen'] ; ?>"
+                    data-item_diskon="<?= $data['item_diskon'] == 0 ? null : $data['item_diskon'] ; ?>"
                     data-total="<?= $data['total']; ?>" 
                     class="btn btn-xs btn-primary">
                     <i class="fa fa-pencil"></i> Update
